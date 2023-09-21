@@ -1,0 +1,9 @@
+*~
+~$*
+.Rhistory
+.Rapp.history
+.Rdata
+.Rproj.user/**
+.DS_Store
+.DS_STore?
+.Rproj.user

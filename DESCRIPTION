@@ -2,10 +2,10 @@ Package: countmaskr
 Type: Package
 Title: Small cell masking tool for one- two- and three- way tabular reports
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Sahal Master
+Maintainer: The package maintainer <sahalmaster@outlook.com>
+Description: Masking primary small cells and secondary non-small cells for privacy protection in aggregated tabular reports
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.3
