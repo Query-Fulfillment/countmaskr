@@ -1,0 +1,52 @@
+
+
+#' Function to perform threshold based cell masking
+#'
+#' @param x vector of length N
+#' @param threshold threshold below with the values must be suppressed
+#'
+#' @return a character vector with primary and/or secondary masked cell
+#' @export
+#'
+#' @examples
+#' x = c(5, 11, 43, 55, 65, 121, 1213,0,NA)
+#' threshold_suppressor(x)
+get_masked_counts <- function(x, threshold = 11) {
+  .extract_digits <- function(x) {
+    x <- as.numeric(gsub("[^0-9.]", "", x))
+
+    return(x)
+
+  }
+
+  if (sum(grepl("<", x)) == 0) {
+    if (!is.numeric(x)) {
+      x <- .extract_digits(x)
+    } else
+      x <-
+        ifelse(x > 0 &
+                 x < threshold,
+               paste0("<", threshold),
+               gsub(" ", "", paste0(format(
+                 x, digits = 1 , big.mark = ","
+               ))))
+  }
+
+
+  if (sum(grepl("<", x)) == 1 &
+      length(.extract_digits(x)[!grepl("<", x) &
+                                .extract_digits(x) != 0]) != 0) {
+    min_value <-
+      min(.extract_digits(x)[!grepl("<", x) &
+                               .extract_digits(x) != 0], na.rm = T)
+
+    x[which(min_value == x)] <-  gsub(" ", "", paste0("<", format(
+      10 * ceiling((.extract_digits(min_value) + 1) / 10), digits = 1, big.mark = ","
+    )))
+    return(x)
+  } else {
+    return(gsub(" ", "", paste0(format(
+      x, digits = 1 , big.mark = ","
+    ))))
+  }
+}
