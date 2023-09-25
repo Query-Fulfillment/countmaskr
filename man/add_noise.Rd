@@ -23,17 +23,19 @@ Function to add noise to a vector with small cells
 #' add_noise(x = c(102,74,30,30,4,NA))
 
 df <- tibble::tribble(
-~block,                      ~Characterstics, ~col1, ~col2,
-"sex",                               "Male",   190,  1407,
-"sex",                             "Female",    17,    20,
-"sex",                        "Sex - Other",    15,     7,
-"race",                              "White",   102,  1385,
-"race",           "African American / Black",    75,    20,
-"race",                              "Asian",    20,    19,
-"race", "Native American / Pacific Islander",    15,    10,
-"race",                       "Race - Other",    10,     0,
-"total",                     "Patient Totals",   222,  1434,
-"Presence of Diabetes","Presence of Diabetes",   215,     6
+  ~block, ~Characterstics, ~col1, ~col2,
+  "sex", "Male", 190, 1407,
+  "sex", "Female", 17, 20,
+  "sex", "Sex - Other", 15, 7,
+  "race", "White", 102, 1385,
+  "race", "African American / Black", 75, 20,
+  "race", "Asian", 20, 19,
+  "race", "Native American / Pacific Islander", 15, 10,
+  "race", "Race - Other", 10, 0,
+  "total", "Patient Totals", 222, 1434,
+  "Presence of Diabetes", "Presence of Diabetes", 215, 6
 )
-df \%>\% group_by(block) \%>\% mutate(across(starts_with('col'), ~add_noise(.)))
+df \%>\%
+  group_by(block) \%>\%
+  mutate(across(starts_with("col"), ~ add_noise(.)))
 }

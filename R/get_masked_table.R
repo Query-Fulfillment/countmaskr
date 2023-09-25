@@ -9,25 +9,30 @@
 #'
 #' @examples
 #' df <- tibble::tribble(
-#'   ~block,                      ~Characteristics, ~col1, ~col2, ~col3, ~col4,
-#'   "total",                     "Patient Totals",   222,  1434,  525,    8,
-#'   "sex",                               "Male",     190,  1407,    8,    2,
-#'   "sex",                             "Female",      17,    20,  511,    2,
-#'   "sex",                        "Sex - Other",      15,     7,    6,    4,
-#'   "race",                              "White",    102,  1385,   75,    1,
-#'   "race",           "African American / Black",     75,    30,  325,    0,
-#'   "race",                              "Asian",     20,     9,  100,    2,
-#'   "race", "Native American / Pacific Islander",     15,    10,    4,    3,
-#'   "race",                       "Race - Other",     10,     0,   21,    2,
-#'   "Presence of Diabetes","Presence of Diabetes",   215,     6,  215,    0,
+#'   ~block, ~Characteristics, ~col1, ~col2, ~col3, ~col4,
+#'   "total", "Patient Totals", 222, 1434, 525, 8,
+#'   "sex", "Male", 190, 1407, 8, 2,
+#'   "sex", "Female", 17, 20, 511, 2,
+#'   "sex", "Sex - Other", 15, 7, 6, 4,
+#'   "race", "White", 102, 1385, 75, 1,
+#'   "race", "African American / Black", 75, 30, 325, 0,
+#'   "race", "Asian", 20, 9, 100, 2,
+#'   "race", "Native American / Pacific Islander", 15, 10, 4, 3,
+#'   "race", "Race - Other", 10, 0, 21, 2,
+#'   "Presence of Diabetes", "Presence of Diabetes", 215, 6, 215, 0,
 #' ) %>%
-#'   mutate(aggr_all_cols = col1 + col2 + col3 + col4,
-#'          aggr_col1_col2 = col1 + col2,
-#'          aggr_col3_col4 = col3 + col4)
-#'          mask_table(df,
-#'                     group_by = "block",
-#'                     col_groups = list(c('aggr_col1_col2', 'col1', 'col2'),
-#'                                       c('aggr_col3_col4','col3','col4')))
+#'   mutate(
+#'     aggr_all_cols = col1 + col2 + col3 + col4,
+#'     aggr_col1_col2 = col1 + col2,
+#'     aggr_col3_col4 = col3 + col4
+#'   )
+#' mask_table(df,
+#'   group_by = "block",
+#'   col_groups = list(
+#'     c("aggr_col1_col2", "col1", "col2"),
+#'     c("aggr_col3_col4", "col3", "col4")
+#'   )
+#' )
 #'
 get_masked_table <-
   function(data,
@@ -39,8 +44,9 @@ get_masked_table <-
     .extract_digits <- function(x) {
       if (is.numeric(x)) {
         return(x)
-      } else
+      } else {
         x <- as.numeric(gsub("[^0-9.]", "", x))
+      }
       return(x)
     }
     threshold <- threshold
@@ -61,9 +67,10 @@ get_masked_table <-
       repeat {
         for (group in col_groups) {
           across_column_mask <- apply(list[[block]][, group],
-                                      MARGIN = 2,
-                                      get_masked_counts,
-                                      threshold = threshold)
+            MARGIN = 2,
+            get_masked_counts,
+            threshold = threshold
+          )
 
           if (!is.matrix(across_column_mask)) {
             across_column_mask <- t(matrix(across_column_mask))
@@ -97,21 +104,23 @@ get_masked_table <-
               ) * 100, digits = 0))
 
             masked_percentages <-
-              round(sweep(if (is.vector(
-                apply(across_row_mask, 2, .extract_digits)
-              )) {
-                t(as.matrix(apply(
-                  across_row_mask, 2, .extract_digits
-                )))
-              } else  {
-                apply(across_row_mask, 2, .extract_digits)
-              },
-              2,
-              colSums(list[[block]][, group]),
-              FUN = "/") * 100, digits = 0)
+              round(sweep(
+                if (is.vector(
+                  apply(across_row_mask, 2, .extract_digits)
+                )) {
+                  t(as.matrix(apply(
+                    across_row_mask, 2, .extract_digits
+                  )))
+                } else {
+                  apply(across_row_mask, 2, .extract_digits)
+                },
+                2,
+                colSums(list[[block]][, group]),
+                FUN = "/"
+              ) * 100, digits = 0)
 
             masked_percentages[which(grepl("<", across_row_mask))] <-
-              paste0('<', masked_percentages[which(grepl("<", across_row_mask))], " %")
+              paste0("<", masked_percentages[which(grepl("<", across_row_mask))], " %")
 
             masked_percentages[which(grepl(paste0("<", threshold), across_row_mask))] <-
               paste0("masked cell")
@@ -126,15 +135,15 @@ get_masked_table <-
 
             list[[block]][, paste0(group, "_perc_masked")] <-
               masked_percentages
-
           }
         }
 
         if (nrow(across_row_mask) == 1) {
           break
         } else if (nrow(across_row_mask) > 1 &
-                   any(apply(across_row_mask, 2, function(col)
-                     sum(grepl("<", col))) != 1)) {
+          any(apply(across_row_mask, 2, function(col) {
+            sum(grepl("<", col))
+          }) != 1)) {
           break
         }
       }
@@ -143,5 +152,4 @@ get_masked_table <-
     data <- data.frame(do.call(rbind, Map(cbind, list)))
     rownames(data) <- NULL
     return(data)
-
   }

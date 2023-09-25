@@ -14,22 +14,23 @@ get_masked_percentages <-
     .extract_digits <- function(x) {
       if (is.numeric(x)) {
         return(x)
-      } else
+      } else {
         x <- as.numeric(gsub("[^0-9.]", "", x))
+      }
       return(x)
     }
 
 
-threshold <- threshold
+    threshold <- threshold
 
-if (is.null(x_masked)) {
-  x_masked <- threshold_suppressor(x, threshold = threshold)
-}
-masked_percentages <-
-  paste0(round(.extract_digits(x_masked) / sum(.extract_digits(x)) * 100), " %")
+    if (is.null(x_masked)) {
+      x_masked <- threshold_suppressor(x, threshold = threshold)
+    }
+    masked_percentages <-
+      paste0(round(.extract_digits(x_masked) / sum(.extract_digits(x)) * 100), " %")
 
-masked_percentages[which(grepl("<", x_masked))] <-
-  paste0("<", masked_percentages[which(grepl("<", x_masked))])
+    masked_percentages[which(grepl("<", x_masked))] <-
+      paste0("<", masked_percentages[which(grepl("<", x_masked))])
 
-return(masked_percentages)
-}
+    return(masked_percentages)
+  }

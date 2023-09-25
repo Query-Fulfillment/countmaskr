@@ -21,6 +21,6 @@ Small Cell Suppression function
 }
 \examples{
 
-df_row_masked <- mask_small_cells(df, cols = c('col1','col2'))
+df_row_masked <- mask_small_cells(df, cols = c("col1", "col2"))
 
 }
