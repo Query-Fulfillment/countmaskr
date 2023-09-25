@@ -18,13 +18,13 @@
 #'   "race", "African American / Black", 75, 20,
 #'   "race", "Asian", 20, 19,
 #'   "race", "Native American / Pacific Islander", 15, 10,
-#'   "race", "Race - Other", 10, 0,
-#'   "total", "Patient Totals", 222, 1434,
-#'   "Presence of Diabetes", "Presence of Diabetes", 215, 6
+#'   "race", "Race - Other", 10, 0
 #' )
-#' df %>%
-#'   group_by(block) %>%
-#'   mutate(across(starts_with("col"), ~ add_noise(.)))
+#' system.time(df %>%
+#'              group_by(block) %>%
+#'              mutate(across(contains('col'), ~add_noise(.),.names = "{col}_masked")))
+
+
 add_noise <- function(x, threshold = 10) {
   small_cells <- which(x > 0 & x < threshold)
 
