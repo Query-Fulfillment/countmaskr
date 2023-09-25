@@ -29,7 +29,10 @@ add_noise <- function(x, threshold = 10) {
   small_cells <- which(x > 0 & x < threshold)
 
   if (length(small_cells) == 0) {
-    return(x)
+    return(gsub(" ", "", paste0(format(
+      x,
+      digits = 1, big.mark = ","
+    ))))
   } else if (length(small_cells) > 1) {
     warning(
       "More than one primary cell detected. Use threshold based suppression to minimize information loss"
