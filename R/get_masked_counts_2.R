@@ -47,7 +47,7 @@ get_masked_counts_2 <- function(x, threshold = 11) {
     return(x.m)
   } else {
     return(gsub(" ", "", paste0(format(
-      x,
+      x.m,
       digits = 1, big.mark = ","
     ))))
   }
