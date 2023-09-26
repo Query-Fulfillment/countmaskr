@@ -53,7 +53,7 @@ add_noise <- function(x, threshold = 10) {
   available_counts_before_all_cells_exhaust <-
     sum(x[-small_cells], na.rm = T) - threshold * available_cells
 
-  if (abs(total_noise_counts) /available_counts_before_all_cells_exhaust >= 0.005) {
+  if (available_counts_before_all_cells_exhaust - abs(total_noise_counts) < 0) {
     warning(
       "Required counts for adding noise exceeds the available counts. Threshold-based cell suppression coerced"
     )
@@ -98,9 +98,17 @@ add_noise <- function(x, threshold = 10) {
         remaining_noise <- remaining_noise + 1
       }
     }
+    x.prop <- round(x[-small_cells] / sum(x[-small_cells], na.rm = T),digits = 0)
+    x.i.prop <- round(x.i[-small_cells] / sum(x.i[-small_cells],na.rm = T),digits = 0)
+
+   if(all(x.prop == x.i.prop,na.rm = T)) {
+     return(gsub(" ", "", paste0(format(
+       x.i,
+       digits = 1, big.mark = ","
+     ))))
+   } else {
+     x <- get_masked_counts(x)
+     return(x)
+   }
   }
-  return(gsub(" ", "", paste0(format(
-    x.i,
-    digits = 1, big.mark = ","
-  ))))
 }
