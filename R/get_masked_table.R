@@ -63,13 +63,13 @@ get_masked_table <-
       list <- list(data)
     }
 
-    for (block in names(list)) {
+    for (block in seq_along(list)) {
       repeat {
         for (group in col_groups) {
           across_column_mask <- apply(list[[block]][, group],
-            MARGIN = 2,
-            get_masked_counts,
-            threshold = threshold
+                                      MARGIN = 2,
+                                      get_masked_counts,
+                                      threshold = threshold
           )
 
           if (!is.matrix(across_column_mask)) {
@@ -141,9 +141,12 @@ get_masked_table <-
         if (nrow(across_row_mask) == 1) {
           break
         } else if (nrow(across_row_mask) > 1 &
-          any(apply(across_row_mask, 2, function(col) {
-            sum(grepl("<", col))
-          }) != 1)) {
+                   all(apply(across_row_mask, 2, function(col) {
+                     sum(grepl("<", col))
+                   }) == 0 |
+                   apply(across_row_mask, 2, function(col) {
+                     sum(grepl("<", col))
+                   }) > 1)) {
           break
         }
       }

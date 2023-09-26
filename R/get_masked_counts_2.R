@@ -19,7 +19,7 @@ get_masked_counts_2 <- function(x, threshold = 11) {
   if (sum(grepl("<", x)) == 0) {
     if (!is.numeric(x)) {
       x <- .extract_digits(x)
-    } else {
+    }
       x.m <-
         ifelse(x > 0 &
           x < threshold,
@@ -29,7 +29,8 @@ get_masked_counts_2 <- function(x, threshold = 11) {
           digits = 1, big.mark = ","
         )))
         )
-    }
+  } else{
+  x.m <- x
   }
 
 
