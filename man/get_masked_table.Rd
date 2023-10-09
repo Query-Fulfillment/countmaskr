@@ -9,7 +9,7 @@ get_masked_table(
   threshold = 11,
   col_groups,
   group_by = NULL,
-  overwrite_columns = F,
+  overwrite_columns = T,
   percentages = F
 )
 }

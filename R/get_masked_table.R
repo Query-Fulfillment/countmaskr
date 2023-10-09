@@ -39,7 +39,7 @@ get_masked_table <-
            threshold = 11,
            col_groups,
            group_by = NULL,
-           overwrite_columns = F,
+           overwrite_columns = T,
            percentages = F) {
     .extract_digits <- function(x) {
       if (is.numeric(x)) {
@@ -68,7 +68,7 @@ get_masked_table <-
         for (group in col_groups) {
           across_column_mask <- apply(list[[block]][, group],
                                       MARGIN = 2,
-                                      get_masked_counts,
+                                      mask_counts,
                                       threshold = threshold
           )
 
@@ -80,7 +80,7 @@ get_masked_table <-
             apply(
               across_column_mask,
               MARGIN = 1,
-              get_masked_counts,
+              mask_counts,
               threshold = threshold
             )
 
@@ -141,12 +141,12 @@ get_masked_table <-
         if (nrow(across_row_mask) == 1) {
           break
         } else if (nrow(across_row_mask) > 1 &
-                   all(apply(across_row_mask, 2, function(col) {
-                     sum(grepl("<", col))
-                   }) == 0 |
-                   apply(across_row_mask, 2, function(col) {
-                     sum(grepl("<", col))
-                   }) > 1)) {
+                   sum(apply(across_row_mask, 2, function(col) {
+                     grepl("<", col)
+                   })) == 0 |
+                   sum(apply(across_row_mask, 2, function(col) {
+                     grepl("<", col)
+                   })) > 1) {
           break
         }
       }

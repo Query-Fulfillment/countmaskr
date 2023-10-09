@@ -9,7 +9,7 @@
 #' @examples
 #' x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
 #' threshold_suppressor(x)
-get_masked_counts <- function(x, threshold = 11) {
+mask_counts_2 <- function(x, threshold = 11) {
   .extract_digits <- function(x) {
     x <- as.numeric(gsub("[^0-9.]", "", x))
 
@@ -20,29 +20,29 @@ get_masked_counts <- function(x, threshold = 11) {
     if (!is.numeric(x)) {
       x <- .extract_digits(x)
     }
-    x.m <-
-      ifelse(x > 0 &
-               x < threshold,
-             paste0("<", threshold),
-             gsub(" ", "", paste0(format(
-               x,
-               digits = 1, big.mark = ","
-             )))
-      )
-  } else {
-    x.m <- x
+      x.m <-
+        ifelse(x > 0 &
+          x < threshold,
+        paste0("<", threshold),
+        gsub(" ", "", paste0(format(
+          x,
+          digits = 1, big.mark = ","
+        )))
+        )
+  } else{
+  x.m <- x
   }
 
 
   if (sum(grepl("<", x.m)) == 1 &
-      length(.extract_digits(x.m)[!grepl("<", x.m) &
-                                  .extract_digits(x.m) != 0]) != 0) {
-    min_value <-
-      min(.extract_digits(x.m)[!grepl("<", x.m) &
-                                 .extract_digits(x.m) != 0], na.rm = T)
+    length(.extract_digits(x.m)[!grepl("<", x.m) &
+      .extract_digits(x.m) != 0]) != 0) {
+    max_value <-
+      max(.extract_digits(x.m)[!grepl("<", x.m) &
+        .extract_digits(x.m) != 0], na.rm = T)
 
-    x.m[which(min_value == .extract_digits(x.m) & !grepl("<", x.m))] <- gsub(" ", "", paste0("<", format(
-      10 * ceiling((.extract_digits(min_value) + 1) / 10),
+    x.m[which(max_value == .extract_digits(x.m))] <- gsub(" ", "", paste0(">", format(
+      max_value - x,
       digits = 1, big.mark = ","
     )))
     return(x.m)

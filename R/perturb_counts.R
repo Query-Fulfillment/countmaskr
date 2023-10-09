@@ -25,7 +25,7 @@
 #'              mutate(across(contains('col'), ~add_noise(.),.names = "{col}_masked")))
 
 
-add_noise <- function(x, threshold = 10) {
+perturb_counts <- function(x, threshold = 10) {
   small_cells <- which(x > 0 & x < threshold)
 
   if (length(small_cells) == 0) {
