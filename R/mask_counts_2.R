@@ -1,4 +1,4 @@
-#' Function to perform threshold based cell masking
+#' Function to perform threshold based cell masking - method 2
 #'
 #' @param x vector of length N
 #' @param threshold threshold below with the values must be suppressed

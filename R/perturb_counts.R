@@ -1,4 +1,4 @@
-#' Function to add noise to a vector with small cells
+#' Function to perturb counts in a vector with small cells
 #'
 #' @param x numeric vector of length N
 #' @param threshold threshold for small cell aka 'primary cell'

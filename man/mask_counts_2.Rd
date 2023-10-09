@@ -2,7 +2,7 @@
 % Please edit documentation in R/mask_counts_2.R
 \name{mask_counts_2}
 \alias{mask_counts_2}
-\title{Function to perform threshold based cell masking}
+\title{Function to perform threshold based cell masking - method 2}
 \usage{
 mask_counts_2(x, threshold = 11)
 }
@@ -15,7 +15,7 @@ mask_counts_2(x, threshold = 11)
 a character vector with primary and/or secondary masked cell
 }
 \description{
-Function to perform threshold based cell masking
+Function to perform threshold based cell masking - method 2
 }
 \examples{
 x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)

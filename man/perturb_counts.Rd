@@ -2,7 +2,7 @@
 % Please edit documentation in R/perturb_counts.R
 \name{perturb_counts}
 \alias{perturb_counts}
-\title{Function to add noise to a vector with small cells}
+\title{Function to perturb counts in a vector with small cells}
 \usage{
 perturb_counts(x, threshold = 10)
 }
@@ -17,7 +17,7 @@ If the non-secondary cell do not have enough room to distribute noise, the funct
 suggesting to use Threshold-based suppression.
 }
 \description{
-Function to add noise to a vector with small cells
+Function to perturb counts in a vector with small cells
 }
 \examples{
 perturb_counts(x = c(102,74,30,30,4,NA))
