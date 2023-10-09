@@ -34,7 +34,7 @@
 #'   )
 #' )
 #'
-get_masked_table <-
+mask_table <-
   function(data,
            threshold = 11,
            col_groups,

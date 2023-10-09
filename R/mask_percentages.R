@@ -7,7 +7,9 @@
 #' @return character vector of masked percentages
 #'
 #' @examples
-get_masked_percentages <-
+#' x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
+#' mask_percentages(x)
+mask_percentages <-
   function(x,
            x_masked = NULL,
            threshold = 11) {

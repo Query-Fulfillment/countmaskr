@@ -8,7 +8,32 @@
 #'
 #' @examples
 #' x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
-#' threshold_suppressor(x)
+#' mask_counts_2(x)
+#'
+#' #' #' df <- tibble::tribble(
+#'   ~block, ~Characteristics, ~col1, ~col2, ~col3, ~col4,
+#'   "total", "Patient Totals", 222, 1434, 525, 8,
+#'   "sex", "Male", 190, 1407, 8, 2,
+#'   "sex", "Female", 17, 20, 511, 2,
+#'   "sex", "Sex - Other", 15, 7, 6, 4,
+#'   "race", "White", 102, 1385, 75, 1,
+#'   "race", "African American / Black", 75, 30, 325, 0,
+#'   "race", "Asian", 20, 9, 100, 2,
+#'   "race", "Native American / Pacific Islander", 15, 10, 4, 3,
+#'   "race", "Race - Other", 10, 0, 21, 2,
+#'   "Presence of Diabetes", "Presence of Diabetes", 215, 6, 215, 0,
+#' ) %>%
+#'   mutate(
+#'     aggr_all_cols = col1 + col2 + col3 + col4,
+#'     aggr_col1_col2 = col1 + col2,
+#'     aggr_col3_col4 = col3 + col4
+#'   )
+#' )
+#' system.time(df %>%
+#'              group_by(block) %>%
+#'              mutate(across(contains('col'), ~mask_counts_2(.),.names = "{col}_masked")))
+#'
+#'
 mask_counts_2 <- function(x, threshold = 11) {
   .extract_digits <- function(x) {
     x <- as.numeric(gsub("[^0-9.]", "", x))

@@ -20,7 +20,7 @@ suggesting to use Threshold-based suppression.
 Function to add noise to a vector with small cells
 }
 \examples{
-#' add_noise(x = c(102,74,30,30,4,NA))
+perturb_counts(x = c(102,74,30,30,4,NA))
 
 df <- tibble::tribble(
   ~block, ~Characterstics, ~col1, ~col2,
@@ -35,5 +35,5 @@ df <- tibble::tribble(
 )
 system.time(df \%>\%
              group_by(block) \%>\%
-             mutate(across(contains('col'), ~add_noise(.),.names = "{col}_masked")))
+             mutate(across(contains('col'), ~perturb_counts(.),.names = "{col}_masked")))
 }

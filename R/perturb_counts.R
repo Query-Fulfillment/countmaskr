@@ -7,7 +7,8 @@
 #' If the non-secondary cell do not have enough room to distribute noise, the function will return with an error
 #' suggesting to use Threshold-based suppression.
 #'
-#' @examples #' add_noise(x = c(102,74,30,30,4,NA))
+#' @examples
+#' perturb_counts(x = c(102,74,30,30,4,NA))
 #'
 #' df <- tibble::tribble(
 #'   ~block, ~Characterstics, ~col1, ~col2,
@@ -22,7 +23,7 @@
 #' )
 #' system.time(df %>%
 #'              group_by(block) %>%
-#'              mutate(across(contains('col'), ~add_noise(.),.names = "{col}_masked")))
+#'              mutate(across(contains('col'), ~perturb_counts(.),.names = "{col}_masked")))
 
 
 perturb_counts <- function(x, threshold = 10) {
