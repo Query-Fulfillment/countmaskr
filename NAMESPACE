@@ -2,4 +2,3 @@
 
 export(mask_counts)
 export(mask_counts_2)
-export(rowwise_suppression)
