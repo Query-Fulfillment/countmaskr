@@ -141,12 +141,9 @@ mask_table <-
         if (nrow(across_row_mask) == 1) {
           break
         } else if (nrow(across_row_mask) > 1 &
-                   sum(apply(across_row_mask, 2, function(col) {
+                   !any(colSums(apply(across_row_mask, 2, function(col) {
                      grepl("<", col)
-                   })) == 0 |
-                   sum(apply(across_row_mask, 2, function(col) {
-                     grepl("<", col)
-                   })) > 1) {
+                   })) == 1)) {
           break
         }
       }
