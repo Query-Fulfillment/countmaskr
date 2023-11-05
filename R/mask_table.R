@@ -1,16 +1,22 @@
-#' Function to apply cell suppression methods on a table
+#' Function to apply cell suppression methods on a two-by-two tables
+#'
+#' @import tibble
+#' @import dplyr
 #'
 #' @param data input data with a column that has counts which need suppression
 #' @param threshold threshold value for suppression for the threshold_suppression() function. defaulted to 11
 #' @param col_groups columns that requires suppression. If two way tables. enter columns groups that require row-wise suppression as list()
-#' @param group_by variable name to group the masking by.
+#' @param group_by variable name to group the masking by
+#' @param overwrite_columns Boolean parameter to overwrite columns
+#' @param percentages Boolean parameter for generate masked percentages. naming convention will be as follows: ('{col}_perc_masked')
 #'
 #' @return a tibble with row and column wise masking. masked columns will return as character vector
 #'
+#' @export
+#'
 #' @examples
 #' df <- tibble::tribble(
-#'   ~block, ~Characteristics, ~col1, ~col2, ~col3, ~col4,
-#'   "total", "Patient Totals", 222, 1434, 525, 8,
+#'   ~block, ~Characteristics, ~group1, ~group2, ~group3, ~group4,
 #'   "sex", "Male", 190, 1407, 8, 2,
 #'   "sex", "Female", 17, 20, 511, 2,
 #'   "sex", "Sex - Other", 15, 7, 6, 4,
@@ -19,21 +25,21 @@
 #'   "race", "Asian", 20, 9, 100, 2,
 #'   "race", "Native American / Pacific Islander", 15, 10, 4, 3,
 #'   "race", "Race - Other", 10, 0, 21, 2,
-#'   "Presence of Diabetes", "Presence of Diabetes", 215, 6, 215, 0,
 #' ) %>%
-#'   mutate(
-#'     aggr_all_cols = col1 + col2 + col3 + col4,
-#'     aggr_col1_col2 = col1 + col2,
-#'     aggr_col3_col4 = col3 + col4
+#'   dplyr::mutate(
+#'     aggr_group_all = group1 + group2 + group3 + group4,
+#'     aggr_group_1_2 = group1 + group2,
+#'     aggr_group_3_4 = group3 + group4
 #'   )
 #' mask_table(df,
-#'   group_by = "block",
-#'   col_groups = list(
-#'     c("aggr_col1_col2", "col1", "col2"),
-#'     c("aggr_col3_col4", "col3", "col4")
-#'   )
-#' )
-#'
+#'            group_by = "block",
+#'            col_groups = list(
+#'              c("aggr_group_1_2", "group1", "group2"),
+#'              c("aggr_group_3_4", "group3", "group4")
+#'            ),
+#'            overwrite_columns = FALSE,
+#'            percentages = TRUE
+#')
 mask_table <-
   function(data,
            threshold = 11,

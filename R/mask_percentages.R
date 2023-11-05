@@ -1,11 +1,15 @@
 #' Function to generate masked percentage for given numeric vector
 #'
+#' @import tibble
+#' @import dplyr
+#'
 #' @param x vector of length N
 #' @param threshold threshold of defined count suppression
 #' @param x_masked masked vector of parameter x. Defaulted to NULL
 #'
 #' @return character vector of masked percentages
 #'
+#' @export
 #' @examples
 #' x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
 #' mask_percentages(x)
@@ -26,7 +30,7 @@ mask_percentages <-
     threshold <- threshold
 
     if (is.null(x_masked)) {
-      x_masked <- threshold_suppressor(x, threshold = threshold)
+      x_masked <- mask_counts(x, threshold = threshold)
     }
     masked_percentages <-
       paste0(round(.extract_digits(x_masked) / sum(.extract_digits(x)) * 100), " %")

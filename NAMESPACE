@@ -2,3 +2,8 @@
 
 export(mask_counts)
 export(mask_counts_2)
+export(mask_percentages)
+export(mask_table)
+export(perturb_counts)
+import(dplyr)
+import(tibble)

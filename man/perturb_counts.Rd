@@ -33,7 +33,6 @@ df <- tibble::tribble(
   "race", "Native American / Pacific Islander", 15, 10,
   "race", "Race - Other", 10, 0
 )
-system.time(df \%>\%
-             group_by(block) \%>\%
-             mutate(across(contains('col'), ~perturb_counts(.),.names = "{col}_masked")))
+df \%>\% group_by(block) \%>\%
+   mutate(across(contains('col'), ~perturb_counts(.),.names = "{col}_masked"))
 }

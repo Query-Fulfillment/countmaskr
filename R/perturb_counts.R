@@ -1,11 +1,16 @@
 #' Function to perturb counts in a vector with small cells
 #'
+#' @import tibble
+#' @import dplyr
+#'
 #' @param x numeric vector of length N
 #' @param threshold threshold for small cell aka 'primary cell'
 #'
 #' @return a vector with added weighted noise to the non-primary cells
 #' If the non-secondary cell do not have enough room to distribute noise, the function will return with an error
 #' suggesting to use Threshold-based suppression.
+#'
+#' @export
 #'
 #' @examples
 #' perturb_counts(x = c(102,74,30,30,4,NA))
@@ -21,9 +26,8 @@
 #'   "race", "Native American / Pacific Islander", 15, 10,
 #'   "race", "Race - Other", 10, 0
 #' )
-#' system.time(df %>%
-#'              group_by(block) %>%
-#'              mutate(across(contains('col'), ~perturb_counts(.),.names = "{col}_masked")))
+#' df %>% group_by(block) %>%
+#'    mutate(across(contains('col'), ~perturb_counts(.),.names = "{col}_masked"))
 
 
 perturb_counts <- function(x, threshold = 10) {
@@ -58,7 +62,7 @@ perturb_counts <- function(x, threshold = 10) {
     warning(
       "Required counts for adding noise exceeds the available counts. Threshold-based cell suppression coerced"
     )
-    x <- get_masked_counts(x)
+    x <- mask_counts(x)
     return(x)
   } else if (available_cells > 0) {
     weights <- x / sum(x, na.rm = T)
@@ -108,7 +112,7 @@ perturb_counts <- function(x, threshold = 10) {
        digits = 1, big.mark = ","
      ))))
    } else {
-     x <- get_masked_counts(x)
+     x <- mask_counts(x)
      return(x)
    }
   }

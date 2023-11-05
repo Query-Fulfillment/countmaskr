@@ -1,11 +1,22 @@
 Package: countmaskr
-Type: Package
 Title: Small cell masking tool for one- two- and three- way tabular reports
-Version: 0.1.0
-Author: Sahal Master
-Maintainer: The package maintainer <sahalmaster@outlook.com>
-Description: Masking primary small cells and secondary non-small cells for privacy protection in aggregated tabular reports
-License: What license is it under?
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Sahal", "Master",role = c('aut','cre'),email = "masters2@chop.edu",
+            comment = c(ORCID = "0000-0002-8518-8107")),
+    person("Amy", "Goodwin Davies", role = c('aut'), email = "goodwindaa@chop.edu"),
+    person("Ally", "Zelinski", role = c('aut'), email = "zelinskia@chop.edu"),
+    person("Qiwei",  "Shen", role = c('aut'), email = "shenq@chop.edu"))
+Description: 
+    countmaskr is an R package designed to address patient privacy concerns by automating the masking of cell counts in aggregated tabular reports. 
+    This user-friendly and versatile tool applies threshold-based masking to primary, secondary, and tertiary cells, replacing true counts with masked values. 
+    It can handle various report types, saving significant time and reducing privacy risks. 
+    This package ensures the protection of patient data while retaining accurate counts in complex tabular reports, 
+    making it a valuable addition to data sharing and privacy protection workflows.
+License: Artistic-2.0
 Encoding: UTF-8
-LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Depends:
+ tibble,
+ dplyr
