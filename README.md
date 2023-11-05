@@ -3,6 +3,11 @@
 
 # countmaskr
 
+## Development Status
+
+**Alpha Version**: Please be aware that this version is under active
+development, and some features may be incomplete or subject to change.
+
 <!-- badges: start -->
 <!-- badges: end -->
 
@@ -208,3 +213,17 @@ df %>% kable()
 | sex   | Male                               |    190 |   1407 |      8 |      2 |           1607 |           1597 |             10 | 96 %                       | 86 %               | 98 %               | 1,597                 | 190           | 1,407         | masked cell                | masked cell        | masked cell        | \<11                  | \<11          | \<11          |
 | sex   | Female                             |     17 |     20 |    511 |      2 |            550 |             37 |            513 | 2 %                        | \<9 %              | \<2 %              | 37                    | \<20          | \<30          | 96 %                       | \<99 %             | masked cell        | 513                   | \<520         | \<11          |
 | sex   | Sex - Other                        |     15 |      7 |      6 |      4 |             32 |             22 |             10 | 1 %                        | \<9 %              | masked cell        | 22                    | \<20          | \<11          | masked cell                | masked cell        | masked cell        | \<11                  | \<11          | \<11          |
+
+# {placeholder for grant related information}
+
+This package was developed to support activities of the PCORnet Query
+Fulfillment team as well as to support research conducted within
+PEDSnet, A Pediatric Clinical Research Network. PCORnet Query
+Fulfillment is funded through Patient-Centered Outcomes Research
+Institute (PCORI) award RI-CHOP-01-PS2. PEDSnet has been developed with
+funding from the PCORI; PEDSnet’s participation in PCORnet is funded
+through PCORI award RI-CHOP-01-PS1.
+
+The package and its documentation do not necessarily represent PCORI or
+other organizations participating in, collaborating with, or funding
+PCORnet.
