@@ -49,7 +49,9 @@ reports to reduce privacy risk.
 | 20 - 29 | 0                                            |
 | 30 - 39 | 0                                            |
 
-  \## Installation
+ 
+
+## Installation
 
 You can install the **alpha** version of countmaskr from
 [GitHub](https://github.com/) with:

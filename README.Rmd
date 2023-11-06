@@ -56,6 +56,7 @@ The goal of countmaskr is to automate small cell suppression in tabular reports 
 |30 - 39| 0|
 
 &nbsp;
+
 ## Installation
 
 You can install the **alpha** version of countmaskr from [GitHub](https://github.com/) with:
