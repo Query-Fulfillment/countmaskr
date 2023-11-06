@@ -49,9 +49,7 @@ reports to reduce privacy risk.
 | 20 - 29 | 0                                            |
 | 30 - 39 | 0                                            |
 
- 
-
-## Installation
+  \## Installation
 
 You can install the **alpha** version of countmaskr from
 [GitHub](https://github.com/) with:
@@ -74,6 +72,10 @@ require(knitr)
 ```
 
  
+
+## {placeholder for logic plot}
+
+![](logic_plot.png)
 
 ## One dimensional frequency table
 
@@ -153,22 +155,14 @@ melanoma_fctr %>% count(status,ulcer) %>%
 ### Example 2
 
 ``` r
- df <- tibble::tribble(
-   ~block, ~Characteristics, ~group1, ~group2, ~group3, ~group4,
-   "sex", "Male", 190, 1407, 8, 2,
-   "sex", "Female", 17, 20, 511, 2,
-   "sex", "Sex - Other", 15, 7, 6, 4,
-   "race", "White", 102, 1385, 75, 1,
-   "race", "African American / Black", 75, 30, 325, 0,
-   "race", "Asian", 20, 9, 100, 2,
-   "race", "Native American / Pacific Islander", 15, 10, 4, 3,
-   "race", "Race - Other", 10, 0, 21, 2,
- ) %>%
-   mutate(
-     aggr_group_all = group1 + group2 + group3 + group4,
-     aggr_group_1_2 = group1 + group2,
-     aggr_group_3_4 = group3 + group4
-   ) 
+df <- tibble::tribble(
+~Characteristics, ~Overall, ~Male, ~Female,
+"Totals", 1678, 226, 1452,
+"White", 1487, 102, 1385,
+"African American / Black", 91, 75, 16,
+"Asian", 33, 20, 13,
+"Native American / Pacific Islander", 45, 15, 30,
+"Race - Other", 22, 14, 8)
 ```
 
 #### Orignial
@@ -177,42 +171,35 @@ melanoma_fctr %>% count(status,ulcer) %>%
 df %>% kable()
 ```
 
-| block | Characteristics                    | group1 | group2 | group3 | group4 | aggr_group_all | aggr_group_1_2 | aggr_group_3_4 |
-|:------|:-----------------------------------|-------:|-------:|-------:|-------:|---------------:|---------------:|---------------:|
-| sex   | Male                               |    190 |   1407 |      8 |      2 |           1607 |           1597 |             10 |
-| sex   | Female                             |     17 |     20 |    511 |      2 |            550 |             37 |            513 |
-| sex   | Sex - Other                        |     15 |      7 |      6 |      4 |             32 |             22 |             10 |
-| race  | White                              |    102 |   1385 |     75 |      1 |           1563 |           1487 |             76 |
-| race  | African American / Black           |     75 |     30 |    325 |      0 |            430 |            105 |            325 |
-| race  | Asian                              |     20 |      9 |    100 |      2 |            131 |             29 |            102 |
-| race  | Native American / Pacific Islander |     15 |     10 |      4 |      3 |             32 |             25 |              7 |
-| race  | Race - Other                       |     10 |      0 |     21 |      2 |             33 |             10 |             23 |
+| Characteristics                    | Overall | Male | Female |
+|:-----------------------------------|--------:|-----:|-------:|
+| Totals                             |    1678 |  226 |   1452 |
+| White                              |    1487 |  102 |   1385 |
+| African American / Black           |      91 |   75 |     16 |
+| Asian                              |      33 |   20 |     13 |
+| Native American / Pacific Islander |      45 |   15 |     30 |
+| Race - Other                       |      22 |   14 |      8 |
 
 #### Masked with additional new columns and percentage columns
 
 ``` r
  mask_table(df,
-   group_by = "block",
    col_groups = list(
-     c("aggr_group_1_2", "group1", "group2"),
-     c("aggr_group_3_4", "group3", "group4")
-   ),
+     c("Overall","Male","Female")),
    overwrite_columns = F,
    percentages = T
  ) %>%
   kable()
 ```
 
-| block | Characteristics                    | group1 | group2 | group3 | group4 | aggr_group_all | aggr_group_1_2 | aggr_group_3_4 | aggr_group_1_2_perc_masked | group1_perc_masked | group2_perc_masked | aggr_group_1_2_masked | group1_masked | group2_masked | aggr_group_3_4_perc_masked | group3_perc_masked | group4_perc_masked | aggr_group_3_4_masked | group3_masked | group4_masked |
-|:------|:-----------------------------------|-------:|-------:|-------:|-------:|---------------:|---------------:|---------------:|:---------------------------|:-------------------|:-------------------|:----------------------|:--------------|:--------------|:---------------------------|:-------------------|:-------------------|:----------------------|:--------------|:--------------|
-| race  | White                              |    102 |   1385 |     75 |      1 |           1563 |           1487 |             76 | 90 %                       | 46 %               | 97 %               | 1,487                 | 102           | 1,385         | 14 %                       | \<15 %             | masked cell        | 76                    | \<80          | \<11          |
-| race  | African American / Black           |     75 |     30 |    325 |      0 |            430 |            105 |            325 | 6 %                        | 34 %               | 2 %                | 105                   | 75            | 30            | 61 %                       | 62 %               | 0 %                | 325                   | 325           | 0             |
-| race  | Asian                              |     20 |      9 |    100 |      2 |            131 |             29 |            102 | 2 %                        | \<14 %             | masked cell        | 29                    | \<30          | \<11          | 19 %                       | masked cell        | masked cell        | 102                   | \<110         | \<11          |
-| race  | Native American / Pacific Islander |     15 |     10 |      4 |      3 |             32 |             25 |              7 | \<2 %                      | \<9 %              | masked cell        | \<30                  | \<20          | \<11          | masked cell                | masked cell        | masked cell        | \<11                  | \<11          | \<11          |
-| race  | Race - Other                       |     10 |      0 |     21 |      2 |             33 |             10 |             23 | masked cell                | masked cell        | 0 %                | \<11                  | \<11          | 0             | \<6 %                      | \<6 %              | masked cell        | \<30                  | \<30          | \<11          |
-| sex   | Male                               |    190 |   1407 |      8 |      2 |           1607 |           1597 |             10 | 96 %                       | 86 %               | 98 %               | 1,597                 | 190           | 1,407         | masked cell                | masked cell        | masked cell        | \<11                  | \<11          | \<11          |
-| sex   | Female                             |     17 |     20 |    511 |      2 |            550 |             37 |            513 | 2 %                        | \<9 %              | \<2 %              | 37                    | \<20          | \<30          | 96 %                       | \<99 %             | masked cell        | 513                   | \<520         | \<11          |
-| sex   | Sex - Other                        |     15 |      7 |      6 |      4 |             32 |             22 |             10 | 1 %                        | \<9 %              | masked cell        | 22                    | \<20          | \<11          | masked cell                | masked cell        | masked cell        | \<11                  | \<11          | \<11          |
+| Characteristics                    | Overall | Male | Female | Overall_perc_masked | Male_perc_masked | Female_perc_masked | Overall_masked | Male_masked | Female_masked |
+|:-----------------------------------|--------:|-----:|-------:|:--------------------|:-----------------|:-------------------|:---------------|:------------|:--------------|
+| Totals                             |    1678 |  226 |   1452 | 50 %                | 50 %             | 50 %               | 1,678          | 226         | 1,452         |
+| White                              |    1487 |  102 |   1385 | 44 %                | 23 %             | 48 %               | 1,487          | 102         | 1,385         |
+| African American / Black           |      91 |   75 |     16 | 3 %                 | 17 %             | 1 %                | 91             | 75          | 16            |
+| Asian                              |      33 |   20 |     13 | 1 %                 | \<7 %            | \<1 %              | 33             | \<30        | \<20          |
+| Native American / Pacific Islander |      45 |   15 |     30 | 1 %                 | 3 %              | 1 %                | 45             | 15          | 30            |
+| Race - Other                       |      22 |   14 |      8 | 1 %                 | \<4 %            | masked cell        | 22             | \<20        | \<11          |
 
 # {placeholder for grant related information}
 

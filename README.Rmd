@@ -56,8 +56,6 @@ The goal of countmaskr is to automate small cell suppression in tabular reports 
 |30 - 39| 0|
 
 &nbsp;
-
-
 ## Installation
 
 You can install the **alpha** version of countmaskr from [GitHub](https://github.com/) with:
@@ -80,6 +78,9 @@ require(knitr)
 ```
 
 &nbsp;
+
+## {placeholder for logic plot}
+![](logic_plot.png)
 
 ## One dimensional frequency table
 
@@ -140,22 +141,14 @@ melanoma_fctr %>% count(status,ulcer) %>%
 
 ### Example 2
 ```{r message=F}
- df <- tibble::tribble(
-   ~block, ~Characteristics, ~group1, ~group2, ~group3, ~group4,
-   "sex", "Male", 190, 1407, 8, 2,
-   "sex", "Female", 17, 20, 511, 2,
-   "sex", "Sex - Other", 15, 7, 6, 4,
-   "race", "White", 102, 1385, 75, 1,
-   "race", "African American / Black", 75, 30, 325, 0,
-   "race", "Asian", 20, 9, 100, 2,
-   "race", "Native American / Pacific Islander", 15, 10, 4, 3,
-   "race", "Race - Other", 10, 0, 21, 2,
- ) %>%
-   mutate(
-     aggr_group_all = group1 + group2 + group3 + group4,
-     aggr_group_1_2 = group1 + group2,
-     aggr_group_3_4 = group3 + group4
-   ) 
+df <- tibble::tribble(
+~Characteristics, ~Overall, ~Male, ~Female,
+"Totals", 1678, 226, 1452,
+"White", 1487, 102, 1385,
+"African American / Black", 91, 75, 16,
+"Asian", 33, 20, 13,
+"Native American / Pacific Islander", 45, 15, 30,
+"Race - Other", 22, 14, 8)
 ```
 
 #### Orignial 
@@ -167,11 +160,8 @@ df %>% kable()
 #### Masked with additional new columns and percentage columns
 ```{r,message=F}
  mask_table(df,
-   group_by = "block",
    col_groups = list(
-     c("aggr_group_1_2", "group1", "group2"),
-     c("aggr_group_3_4", "group3", "group4")
-   ),
+     c("Overall","Male","Female")),
    overwrite_columns = F,
    percentages = T
  ) %>%
