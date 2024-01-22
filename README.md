@@ -75,7 +75,7 @@ require(knitr)
 
  
 
-## {placeholder for logic plot}
+## Code logic plot
 
 ![](logic_plot.png)
 
@@ -203,7 +203,7 @@ df %>% kable()
 | Native American / Pacific Islander |      45 |   15 |     30 | 1 %                 | 3 %              | 1 %                | 45             | 15          | 30            |
 | Race - Other                       |      22 |   14 |      8 | 1 %                 | \<4 %            | masked cell        | 22             | \<20        | \<11          |
 
-# {placeholder for grant related information}
+# Grants and funding
 
 This package was developed to support activities of the PCORnet Query
 Fulfillment team as well as to support research conducted within
