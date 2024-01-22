@@ -58,7 +58,7 @@ You can install the **alpha** version of countmaskr from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("PEDSnet/countmaskr")
+devtools::install_github("Query-Fulfillment/countmaskr")
 ```
 
  
