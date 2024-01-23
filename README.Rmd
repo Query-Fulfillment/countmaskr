@@ -149,7 +149,8 @@ df <- tibble::tribble(
 "African American / Black", 91, 75, 16,
 "Asian", 33, 20, 13,
 "Native American / Pacific Islander", 45, 15, 30,
-"Race - Other", 22, 14, 8)
+"Race - Other", 22, 14, 8) %>%
+  mutate(block = ifelse(Characteristics == 'Totals','tot','race'))
 ```
 
 #### Orignial 
