@@ -144,7 +144,6 @@ melanoma_fctr %>% count(status,ulcer) %>%
 ```{r message=F}
 df <- tibble::tribble(
 ~Characteristics, ~Overall, ~Male, ~Female,
-"Totals", 1678, 226, 1452,
 "White", 1487, 102, 1385,
 "African American / Black", 91, 75, 16,
 "Asian", 33, 20, 13,

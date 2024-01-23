@@ -159,12 +159,12 @@ melanoma_fctr %>% count(status,ulcer) %>%
 ``` r
 df <- tibble::tribble(
 ~Characteristics, ~Overall, ~Male, ~Female,
-"Totals", 1678, 226, 1452,
 "White", 1487, 102, 1385,
 "African American / Black", 91, 75, 16,
 "Asian", 33, 20, 13,
 "Native American / Pacific Islander", 45, 15, 30,
-"Race - Other", 22, 14, 8)
+"Race - Other", 22, 14, 8) %>%
+  mutate(block = ifelse(Characteristics == 'Totals','tot','race'))
 ```
 
 #### Orignial
@@ -173,14 +173,13 @@ df <- tibble::tribble(
 df %>% kable()
 ```
 
-| Characteristics                    | Overall | Male | Female |
-|:-----------------------------------|--------:|-----:|-------:|
-| Totals                             |    1678 |  226 |   1452 |
-| White                              |    1487 |  102 |   1385 |
-| African American / Black           |      91 |   75 |     16 |
-| Asian                              |      33 |   20 |     13 |
-| Native American / Pacific Islander |      45 |   15 |     30 |
-| Race - Other                       |      22 |   14 |      8 |
+| Characteristics                    | Overall | Male | Female | block |
+|:-----------------------------------|--------:|-----:|-------:|:------|
+| White                              |    1487 |  102 |   1385 | race  |
+| African American / Black           |      91 |   75 |     16 | race  |
+| Asian                              |      33 |   20 |     13 | race  |
+| Native American / Pacific Islander |      45 |   15 |     30 | race  |
+| Race - Other                       |      22 |   14 |      8 | race  |
 
 #### Masked with additional new columns and percentage columns
 
@@ -194,25 +193,24 @@ df %>% kable()
   kable()
 ```
 
-| Characteristics                    | Overall | Male | Female | Overall_perc_masked | Male_perc_masked | Female_perc_masked | Overall_masked | Male_masked | Female_masked |
-|:-----------------------------------|--------:|-----:|-------:|:--------------------|:-----------------|:-------------------|:---------------|:------------|:--------------|
-| Totals                             |    1678 |  226 |   1452 | 50 %                | 50 %             | 50 %               | 1,678          | 226         | 1,452         |
-| White                              |    1487 |  102 |   1385 | 44 %                | 23 %             | 48 %               | 1,487          | 102         | 1,385         |
-| African American / Black           |      91 |   75 |     16 | 3 %                 | 17 %             | 1 %                | 91             | 75          | 16            |
-| Asian                              |      33 |   20 |     13 | 1 %                 | \<7 %            | \<1 %              | 33             | \<30        | \<20          |
-| Native American / Pacific Islander |      45 |   15 |     30 | 1 %                 | 3 %              | 1 %                | 45             | 15          | 30            |
-| Race - Other                       |      22 |   14 |      8 | 1 %                 | \<4 %            | masked cell        | 22             | \<20        | \<11          |
+| Characteristics                    | Overall | Male | Female | block | Overall_perc_masked | Male_perc_masked | Female_perc_masked | Overall_masked | Male_masked | Female_masked |
+|:-----------------------------------|--------:|-----:|-------:|:------|:--------------------|:-----------------|:-------------------|:---------------|:------------|:--------------|
+| White                              |    1487 |  102 |   1385 | race  | 89 %                | 45 %             | 95 %               | 1,487          | 102         | 1,385         |
+| African American / Black           |      91 |   75 |     16 | race  | 5 %                 | 33 %             | 1 %                | 91             | 75          | 16            |
+| Asian                              |      33 |   20 |     13 | race  | 2 %                 | \<13 %           | \<1 %              | 33             | \<30        | \<20          |
+| Native American / Pacific Islander |      45 |   15 |     30 | race  | 3 %                 | 7 %              | 2 %                | 45             | 15          | 30            |
+| Race - Other                       |      22 |   14 |      8 | race  | 1 %                 | \<9 %            | masked cell        | 22             | \<20        | \<11          |
 
 # Grants and funding
 
-This package was developed to support activities of the PCORnet Query
+This package was developed to support activities of the PCORnet® Query
 Fulfillment team as well as to support research conducted within
-PEDSnet, A Pediatric Clinical Research Network. PCORnet Query
+PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query
 Fulfillment is funded through Patient-Centered Outcomes Research
 Institute (PCORI) award RI-CHOP-01-PS2. PEDSnet has been developed with
 funding from the PCORI; PEDSnet’s participation in PCORnet is funded
 through PCORI award RI-CHOP-01-PS1.
 
-The package and its documentation do not necessarily represent PCORI or
-other organizations participating in, collaborating with, or funding
-PCORnet.
+The package and its documentation do not necessarily represent the
+opinions of PCORI or other organizations participating in, collaborating
+with, or funding PCORnet®.
