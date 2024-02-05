@@ -10,7 +10,9 @@
 #' @export
 #'
 #' @examples
-#' x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
+#' x1 <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
+#' x2 <- c(1,1,1,55, 65, 121, 1213, 0, NA)
+#' x3 <- c(11, 10,10, 55, 65, 121, 1213, 0, NA)
 #'
 #' mask_counts(x)
 #'
@@ -51,29 +53,53 @@ mask_counts <- function(x, threshold = 11) {
              gsub(" ", "", paste0(format(
                x,
                digits = 1, big.mark = ","
-             )))
-      )
+             ))))
   } else {
     x.m <- x
   }
 
+  # Secondary cell making. Case where only one primary cell is present.
+  if (sum(grepl("<", x.m)) == 1 &&
+      length(.extract_digits(x.m)[!grepl("<", x.m) &
+                                  .extract_digits(x.m) != 0]) != 0 ||
 
-  if (sum(grepl("<", x.m)) == 1 &
+      # Secondary cell making. Case where two primacy cells are present but both are 1.
+      sum(x == 1 & !is.na(x)) == length(x.m[grepl("<", x.m)]) &&
       length(.extract_digits(x.m)[!grepl("<", x.m) &
                                   .extract_digits(x.m) != 0]) != 0) {
     min_value <-
       min(.extract_digits(x.m)[!grepl("<", x.m) &
                                  .extract_digits(x.m) != 0], na.rm = T)
 
-    x.m[which(min_value == .extract_digits(x.m) & !grepl("<", x.m))] <- gsub(" ", "", paste0("<", format(
-      10 * ceiling((.extract_digits(min_value) + 1) / 10),
-      digits = 1, big.mark = ","
-    )))
+    x.m[which(min_value == .extract_digits(x.m) &
+                !grepl("<", x.m))] <- gsub(" ", "", paste0("<", format(
+                  10 * ceiling((.extract_digits(min_value) + 1) / 10),
+                  digits = 1, big.mark = ","
+                )))
+
     return(x.m)
+
+  } else if (threshold == 11 & sum(x == 10 & !is.na(x)) == 2 &&
+             length(.extract_digits(x.m)[!grepl("<", x.m) &
+                                         .extract_digits(x.m) != 0]) != 0) {
+    # Secondary cell making. Case where two primacy cells are present but both are 10.
+    min_value <-
+      min(.extract_digits(x.m)[!grepl("<", x.m) &
+                                 .extract_digits(x.m) != 0], na.rm = T)
+
+    x.m[which(min_value == .extract_digits(x.m) &
+                !grepl("<", x.m))] <- gsub(" ", "", paste0("<", format(
+                  10 * ceiling((.extract_digits(min_value) + 1) / 10),
+                  digits = 1, big.mark = ","
+                )))
+
+    return(x.m)
+
   } else {
     return(gsub(" ", "", paste0(format(
       x.m,
       digits = 1, big.mark = ","
     ))))
   }
+
 }
