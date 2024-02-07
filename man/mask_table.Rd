@@ -30,7 +30,10 @@ mask_table(
 a tibble with row and column wise masking. masked columns will return as character vector
 }
 \description{
-Function to apply cell suppression methods on a two-by-two tables
+This is a multi-tasking function to convert a simple table 1 with counts and percentages both  -masked and unmasked
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }
 \examples{
 df <- tibble::tribble(

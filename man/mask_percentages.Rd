@@ -17,7 +17,10 @@ mask_percentages(x, x_masked = NULL, threshold = 11)
 character vector of masked percentages
 }
 \description{
-Function to generate masked percentage for given numeric vector
+This function converts a vector to percentages
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }
 \examples{
 x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)

@@ -15,10 +15,15 @@ mask_counts(x, threshold = 11)
 a character vector with primary and/or secondary masked cell
 }
 \description{
-Function to perform threshold based cell masking - method 1
+This function is a workhorse of the mask_table function. It identifies primary and secondary cells, and masks them as necessary
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }
 \examples{
-x <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
+x1 <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
+x2 <- c(1,1,1,55, 65, 121, 1213, 0, NA)
+x3 <- c(11, 10,10, 55, 65, 121, 1213, 0, NA)
 
 mask_counts(x)
 

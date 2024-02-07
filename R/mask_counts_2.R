@@ -1,4 +1,10 @@
 #' Function to perform threshold based cell masking - method 2
+#'
+#' `r lifecycle::badge("stable")`
+#'
+#' @description
+#' This function is an adaptation of mask_count() but performs masking in a modified way. This masking prevents the total counts to exceed the original totals
+#'
 #' @import tibble
 #' @import dplyr
 #'

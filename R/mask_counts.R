@@ -1,4 +1,11 @@
 #' Function to perform threshold based cell masking - method 1
+#'
+#' `r lifecycle::badge("stable")`
+#'
+#' @description
+#' This function is a workhorse of the mask_table function. It identifies primary and secondary cells, and masks them as necessary
+#'
+#'
 #' @import tibble
 #' @import dplyr
 #'

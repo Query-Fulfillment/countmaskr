@@ -17,7 +17,11 @@ If the non-secondary cell do not have enough room to distribute noise, the funct
 suggesting to use Threshold-based suppression.
 }
 \description{
-Function to perturb counts in a vector with small cells
+This is a function to perturb counts in a vector where only one primary cell is present and requires
+secondary cell to be masked.
+}
+\details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
 perturb_counts(x = c(102,74,30,30,4,NA))

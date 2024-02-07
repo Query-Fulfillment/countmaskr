@@ -1,5 +1,11 @@
 #' Function to apply cell suppression methods on a two-by-two tables
 #'
+#' `r lifecycle::badge("stable")`
+#'
+#' @description
+#' This is a multi-tasking function to convert a simple table 1 with counts and percentages both  -masked and unmasked
+#'
+#'
 #' @import tibble
 #' @import dplyr
 #'

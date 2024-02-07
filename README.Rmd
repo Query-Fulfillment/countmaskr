@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 **Alpha Version**: Please be aware that this version is under active development, and some features may be incomplete or subject to change.
 
 <!-- badges: start -->
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Overview
