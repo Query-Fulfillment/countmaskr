@@ -1,5 +1,11 @@
 #' Function to generate masked percentage for given numeric vector
 #'
+#' `r lifecycle::badge("stable")`
+#'
+#' @description
+#' This function converts a vector to percentages
+#'
+#'
 #' @import tibble
 #' @import dplyr
 #'

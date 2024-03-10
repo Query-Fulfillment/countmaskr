@@ -9,6 +9,9 @@
 development, and some features may be incomplete or subject to change.
 
 <!-- badges: start -->
+
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 ## Overview
@@ -150,7 +153,7 @@ melanoma_fctr %>% count(status,ulcer) %>%
 
 | status             | Absent | Present |
 |:-------------------|:-------|:--------|
-| Alive              | 92     | 42      |
+| Alive              | 92     | \<50    |
 | Melanoma death     | \<20   | \<50    |
 | Non-melanoma death | \<11   | \<11    |
 
@@ -193,13 +196,13 @@ df %>% kable()
   kable()
 ```
 
-| Characteristics                    | Overall | Male | Female | block | Overall_perc_masked | Male_perc_masked | Female_perc_masked | Overall_masked | Male_masked | Female_masked |
-|:-----------------------------------|--------:|-----:|-------:|:------|:--------------------|:-----------------|:-------------------|:---------------|:------------|:--------------|
-| White                              |    1487 |  102 |   1385 | race  | 89 %                | 45 %             | 95 %               | 1,487          | 102         | 1,385         |
-| African American / Black           |      91 |   75 |     16 | race  | 5 %                 | 33 %             | 1 %                | 91             | 75          | 16            |
-| Asian                              |      33 |   20 |     13 | race  | 2 %                 | \<13 %           | \<1 %              | 33             | \<30        | \<20          |
-| Native American / Pacific Islander |      45 |   15 |     30 | race  | 3 %                 | 7 %              | 2 %                | 45             | 15          | 30            |
-| Race - Other                       |      22 |   14 |      8 | race  | 1 %                 | \<9 %            | masked cell        | 22             | \<20        | \<11          |
+| Characteristics                    | Overall | Male | Female | block | Overall_perc | Male_perc | Female_perc | Overall_perc_masked | Male_perc_masked | Female_perc_masked | Overall_masked | Male_masked | Female_masked |
+|:-----------------------------------|--------:|-----:|-------:|:------|-------------:|----------:|------------:|:--------------------|:-----------------|:-------------------|:---------------|:------------|:--------------|
+| White                              |    1487 |  102 |   1385 | race  |           89 |        45 |          95 | 89 %                | masked cell      | \<96 %             | 1,487          | \<110       | \<1,390       |
+| African American / Black           |      91 |   75 |     16 | race  |            5 |        33 |           1 | 5 %                 | \<35 %           | \<1 %              | 91             | \<80        | \<20          |
+| Asian                              |      33 |   20 |     13 | race  |            2 |         9 |           1 | \<2 %               | \<13 %           | \<1 %              | \<40           | \<30        | \<20          |
+| Native American / Pacific Islander |      45 |   15 |     30 | race  |            3 |         7 |           2 | 3 %                 | \<9 %            | \<3 %              | 45             | \<20        | \<40          |
+| Race - Other                       |      22 |   14 |      8 | race  |            1 |         6 |           1 | \<2 %               | \<9 %            | masked cell        | \<30           | \<20        | \<11          |
 
 # Grants and funding
 
