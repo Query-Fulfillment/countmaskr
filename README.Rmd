@@ -89,12 +89,14 @@ require(knitr)
 ```{r message=F}
 data(mtcars)
 
-mtcars %>% count(gear) %>%
+mtcars %>%
+  count(gear) %>%
   kable()
 ```
 
 ```{r,message=F}
-mtcars %>% count(gear) %>%
+mtcars %>%
+  count(gear) %>%
   mutate(n = mask_counts(n)) %>%
   kable()
 ```
@@ -105,34 +107,40 @@ mtcars %>% count(gear) %>%
 ### Example 1
 
 ```{r,message=F}
-data(melanoma,package = "boot")
+data(melanoma, package = "boot")
 
 melanoma_fctr <- melanoma %>%
   mutate(
     status = factor(status, levels = c(2, 1, 3), labels = c("Alive", "Melanoma death", "Non-melanoma death")),
     sex = factor(sex, levels = c(1, 0), labels = c("Male", "Female")),
     ulcer = factor(ulcer, levels = c(0, 1), labels = c("Absent", "Present"))
-  ) 
+  )
 ```
 
 #### Original 
 
 ```{r,message=F}
-melanoma_fctr %>% count(status,ulcer) %>%
-  pivot_wider(id_cols = 'status',
-              names_from = 'ulcer',
-              values_from = n) %>%
+melanoma_fctr %>%
+  count(status, ulcer) %>%
+  pivot_wider(
+    id_cols = "status",
+    names_from = "ulcer",
+    values_from = n
+  ) %>%
   kable()
 ```
 
 #### Masked
 
 ```{r,message=F}
-melanoma_fctr %>% count(status,ulcer) %>%
-  pivot_wider(id_cols = 'status',
-              names_from = 'ulcer',
-              values_from = n) %>%
-  mask_table(col_groups = c("Absent","Present")) %>%
+melanoma_fctr %>%
+  count(status, ulcer) %>%
+  pivot_wider(
+    id_cols = "status",
+    names_from = "ulcer",
+    values_from = n
+  ) %>%
+  mask_table(col_groups = c("Absent", "Present")) %>%
   kable()
 ```
 
@@ -144,13 +152,14 @@ melanoma_fctr %>% count(status,ulcer) %>%
 ### Example 2
 ```{r message=F}
 df <- tibble::tribble(
-~Characteristics, ~Overall, ~Male, ~Female,
-"White", 1487, 102, 1385,
-"African American / Black", 91, 75, 16,
-"Asian", 33, 20, 13,
-"Native American / Pacific Islander", 45, 15, 30,
-"Race - Other", 22, 14, 8) %>%
-  mutate(block = ifelse(Characteristics == 'Totals','tot','race'))
+  ~Characteristics, ~Overall, ~Male, ~Female,
+  "White", 1487, 102, 1385,
+  "African American / Black", 91, 75, 16,
+  "Asian", 33, 20, 13,
+  "Native American / Pacific Islander", 45, 15, 30,
+  "Race - Other", 22, 14, 8
+) %>%
+  mutate(block = ifelse(Characteristics == "Totals", "tot", "race"))
 ```
 
 #### Orignial 
@@ -161,12 +170,13 @@ df %>% kable()
 
 #### Masked with additional new columns and percentage columns
 ```{r,message=F}
- mask_table(df,
-   col_groups = list(
-     c("Overall","Male","Female")),
-   overwrite_columns = F,
-   percentages = T
- ) %>%
+mask_table(df,
+  col_groups = list(
+    c("Overall", "Male", "Female")
+  ),
+  overwrite_columns = F,
+  percentages = T
+) %>%
   kable()
 ```
 

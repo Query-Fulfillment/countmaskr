@@ -19,7 +19,11 @@
 #' @export
 #'
 #' @examples
-#' perturb_counts(x = c(102,74,30,30,4,NA))
+#' x1 <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
+#' x2 <- c(1, 1, 1, 55, 65, 121, 1213, 0, NA)
+#' x3 <- c(11, 10, 10, 55, 65, 121, 1213, 0, NA)
+#'
+#' lapply(list(x1, x2, x3), perturb_counts)
 #'
 #' df <- tibble::tribble(
 #'   ~block, ~Characterstics, ~col1, ~col2,
@@ -32,10 +36,9 @@
 #'   "race", "Native American / Pacific Islander", 15, 10,
 #'   "race", "Race - Other", 10, 0
 #' )
-#' df %>% group_by(block) %>%
-#'    mutate(across(contains('col'), ~perturb_counts(.),.names = "{col}_masked"))
-
-
+#' df %>%
+#'   group_by(block) %>%
+#'   mutate(across(contains("col"), ~ perturb_counts(.), .names = "{col}_masked"))
 perturb_counts <- function(x, threshold = 10) {
   small_cells <- which(x > 0 & x < threshold)
 
@@ -48,6 +51,7 @@ perturb_counts <- function(x, threshold = 10) {
     warning(
       "More than one primary cell detected. Use threshold based suppression to minimize information loss"
     )
+    x.i <- x
   } else {
     x.i <- x
   }
@@ -109,17 +113,18 @@ perturb_counts <- function(x, threshold = 10) {
         remaining_noise <- remaining_noise + 1
       }
     }
-    x.prop <- round(x[-small_cells] / sum(x[-small_cells], na.rm = T),digits = 0)
-    x.i.prop <- round(x.i[-small_cells] / sum(x.i[-small_cells],na.rm = T),digits = 0)
+    x.prop <- round(x[-small_cells] / sum(x[-small_cells], na.rm = T), digits = 0)
+    x.i.prop <- round(x.i[-small_cells] / sum(x.i[-small_cells], na.rm = T), digits = 0)
 
-   if(all(x.prop == x.i.prop,na.rm = T)) {
-     return(gsub(" ", "", paste0(format(
-       x.i,
-       digits = 1, big.mark = ","
-     ))))
-   } else {
-     x <- mask_counts(x)
-     return(x)
-   }
+    if (all(x.prop == x.i.prop, na.rm = T)) {
+      return(gsub(" ", "", paste0(format(
+        x.i,
+        digits = 1, big.mark = ","
+      ))))
+    } else {
+      warning("Perturbing counts changes prior percentages - Threshold-based cell suppression coerced")
+      x <- mask_counts(x)
+      return(x)
+    }
   }
 }

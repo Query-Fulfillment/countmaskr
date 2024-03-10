@@ -53,12 +53,12 @@ df <- tibble::tribble(
     aggr_group_3_4 = group3 + group4
   )
 mask_table(df,
-           group_by = "block",
-           col_groups = list(
-             c("aggr_group_1_2", "group1", "group2"),
-             c("aggr_group_3_4", "group3", "group4")
-           ),
-           overwrite_columns = FALSE,
-           percentages = TRUE
+  group_by = "block",
+  col_groups = list(
+    c("aggr_group_1_2", "group1", "group2"),
+    c("aggr_group_3_4", "group3", "group4")
+  ),
+  overwrite_columns = FALSE,
+  percentages = TRUE
 )
 }
