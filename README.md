@@ -315,7 +315,6 @@ aggregated_gtsummary_tbl_one_way <- countmaskr_data %>%
 mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ```
 
-
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_col_headings">
@@ -385,7 +384,6 @@ aggregated_gtsummary_tbl_two_way <- countmaskr_data %>%
 
 mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 ```
-
 
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>

@@ -66,6 +66,10 @@ mask_tbl_summary <- function(gttbl) {
     gttbl$table_styling$header <- gttbl$table_styling$header %>%
       mutate(
         label = case_when(
+          grepl("stat_", column) ~ paste0(""),
+          T ~ as.character(label)
+        ),
+        label = case_when(
           grepl("stat_", column) ~ paste0(label, "**N = ", modify_stat_n, "**"),
           T ~ as.character(label)
         )
