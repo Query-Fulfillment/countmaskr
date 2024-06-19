@@ -3,16 +3,23 @@
 #' `r lifecycle::badge("experimental")`
 #'
 #' @description
-#' This is a wrapper around the `gtsummary::tbl_summary()` function to produce a masked version of the aggregated table.
+#' This is a wrapper around the gtsummary::tbl_summary()`= function to produce a masked version of the aggregated table.
 #'
-#' @param gttbl output from `gtsummary::tbl_summary()`
+#' @param gttbl output from gtsummary::tbl_summary()
 #'
 #' @return A masked tbl_summary object
+#'
 #' @import tibble
 #' @import dplyr
+#' @import gtsummary
+#' @import purrr
+#'
+#' @export
 #'
 #' @examples
-mask_gt_table <- function(gttbl) {
+#' data(countmaskr_data)
+#' mask_gtsummary(gtsummary::tbl_summary(countmaskr_data[,-1]))
+mask_gtsummary <- function(gttbl) {
   gttbl$table_body <- gttbl$table_body %>%
     mutate(sort = row_number())
 
@@ -24,12 +31,11 @@ mask_gt_table <- function(gttbl) {
     colnames()
 
   raw_table[["level"]] <- raw_table[["level"]] %>%
-    mutate(across(starts_with("stat_"), ~ as.numeric(sub(" .*", "", .)))) %>%
-      mask_table(.,
-      col_groups = list(cols),
-      group_by = "variable",
-      overwrite_columns = T,
-      percentages = T
+    mutate(across(all_of(cols), ~ .extract_digits(sub(" .*", "", .)))) %>%
+      mask_table(col_groups = list(cols),
+                 group_by = "variable",
+                 overwrite_columns = T,
+                 percentages = T
     ) %>%
     as_tibble()
 
@@ -50,15 +56,15 @@ mask_gt_table <- function(gttbl) {
   gttbl$table_styling$header <- gttbl$table_styling$header %>%
     mutate(
       modify_stat_n = case_when(
-        str_detect(column, "stat_") ~ mask_counts(modify_stat_n),
+        grepl("stat_",column) ~ mask_counts(modify_stat_n),
         T ~ as.character(modify_stat_n)
       ),
       label = case_when(
-        str_detect(column, "stat_") ~ sub(",.*", "", label),
+        grepl("stat_",column) ~ sub(",.*", "", label),
         T ~ as.character(label)
       ),
       label = case_when(
-        str_detect(column, "stat_") ~ paste0(label, ", N = ", modify_stat_n),
+        grepl("stat_",column) ~ paste0(label, ", N = ", modify_stat_n),
         T ~ as.character(label)
       )
     )

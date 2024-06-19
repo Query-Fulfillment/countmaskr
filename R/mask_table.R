@@ -14,7 +14,7 @@
 #' @param col_groups columns that requires suppression. If two way tables. enter columns groups that require row-wise suppression as list()
 #' @param group_by variable name to group the masking by
 #' @param overwrite_columns Boolean parameter to overwrite columns
-#' @param percentages Boolean parameter for generate masked percentages. naming convention will be as follows: ('{col}_perc_masked')
+#' @param percentages Boolean parameter for generate masked percentages, naming convention: 'col_perc_masked'
 #'
 #' @return a tibble with row and column wise masking. masked columns will return as character vector
 #'
@@ -53,15 +53,6 @@ mask_table <-
            group_by = NULL,
            overwrite_columns = T,
            percentages = F) {
-    # Defining a function to extract digits from character vector
-    .extract_digits <- function(x) {
-      if (is.numeric(x)) {
-        return(x)
-      } else {
-        x <- as.numeric(gsub("[^0-9.]", "", x))
-      }
-      return(x)
-    }
 
     # resolving data structure to perform downstream tasks
     threshold <- threshold
@@ -209,3 +200,14 @@ mask_table <-
     rownames(masked_data) <- NULL
     return(masked_data)
   }
+
+
+# Defining a function to extract digits from character vector
+.extract_digits <- function(x) {
+  if (is.numeric(x)) {
+    return(x)
+  } else {
+    x <- as.numeric(gsub("[^0-9.]", "", x))
+  }
+  return(x)
+}

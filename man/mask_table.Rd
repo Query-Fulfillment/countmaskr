@@ -24,7 +24,7 @@ mask_table(
 
 \item{overwrite_columns}{Boolean parameter to overwrite columns}
 
-\item{percentages}{Boolean parameter for generate masked percentages. naming convention will be as follows: ('{col}_perc_masked')}
+\item{percentages}{Boolean parameter for generate masked percentages, naming convention: 'col_perc_masked'}
 }
 \value{
 a tibble with row and column wise masking. masked columns will return as character vector

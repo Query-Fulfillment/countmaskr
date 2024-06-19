@@ -2,9 +2,11 @@
 
 export(mask_counts)
 export(mask_counts_2)
-export(mask_percentages)
+export(mask_gtsummary)
 export(mask_table)
 export(perturb_counts)
 import(dplyr)
+import(gtsummary)
+import(purrr)
 import(tibble)
 importFrom(lifecycle,deprecated)
