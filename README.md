@@ -305,10 +305,12 @@ mask_table(two_way_freq_table,
 
 ## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)<sup>1</sup> package’s `tbl_summary()` function to obtain presentation-ready masked tables
 
-``` r
-aggregated_gtsummary_tbl <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary()
+## One dimensional frequency table
 
-mask_tbl_summary(aggregated_gtsummary_tbl)
+``` r
+aggregated_gtsummary_tbl_one_way <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary()
+
+mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ```
 
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
@@ -365,6 +367,125 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   &#10;  <tfoot class="gt_footnotes">
     <tr>
       <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> Median (IQR); n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+## Two-way frequency table
+
+``` r
+aggregated_gtsummary_tbl_two_way <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary(by = 'race')
+
+mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
+```
+
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;American Indian/ Pacific Islander&lt;/strong&gt;, N = 66&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>American Indian/ Pacific Islander</strong>, N = 66<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Asian&lt;/strong&gt;, N = 215&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Asian</strong>, N = 215<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Black&lt;/strong&gt;, N = 453&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Black</strong>, N = 453<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Other&lt;/strong&gt;, N = 6&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Other</strong>, N = 6<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;White&lt;/strong&gt;, N = 760&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>White</strong>, N = 760<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">age</td>
+<td headers="stat_1" class="gt_row gt_center">49 (26, 72)</td>
+<td headers="stat_2" class="gt_row gt_center">53 (35, 69)</td>
+<td headers="stat_3" class="gt_row gt_center">57 (39, 76)</td>
+<td headers="stat_4" class="gt_row gt_center">54 (52, 56)</td>
+<td headers="stat_5" class="gt_row gt_center">52 (35, 71)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">gender</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="stat_5" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">29 (44 %)</td>
+<td headers="stat_2" class="gt_row gt_center">&lt;100 (&lt;47 %)</td>
+<td headers="stat_3" class="gt_row gt_center">&lt;230 (&lt;51 %)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0 %)</td>
+<td headers="stat_5" class="gt_row gt_center">379 (50 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">37 (56 %)</td>
+<td headers="stat_2" class="gt_row gt_center">118 (55 %)</td>
+<td headers="stat_3" class="gt_row gt_center">228 (50 %)</td>
+<td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_5" class="gt_row gt_center">&lt;380 (&lt;50 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Other</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0 %)</td>
+<td headers="stat_2" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_3" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0 %)</td>
+<td headers="stat_5" class="gt_row gt_center">&lt;11 (masked cell)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">ethnicity</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="stat_5" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_2" class="gt_row gt_center">&lt;20 (&lt;9 %)</td>
+<td headers="stat_3" class="gt_row gt_center">&lt;50 (&lt;11 %)</td>
+<td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_5" class="gt_row gt_center">&lt;80 (&lt;11 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Non-Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;70 (&lt;100 %)</td>
+<td headers="stat_2" class="gt_row gt_center">196 (91 %)</td>
+<td headers="stat_3" class="gt_row gt_center">403 (89 %)</td>
+<td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_5" class="gt_row gt_center">681 (90 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Other</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_2" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_3" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0 %)</td>
+<td headers="stat_5" class="gt_row gt_center">&lt;11 (masked cell)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">age_group</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="stat_5" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    18-29</td>
+<td headers="stat_1" class="gt_row gt_center">19 (29 %)</td>
+<td headers="stat_2" class="gt_row gt_center">30 (14 %)</td>
+<td headers="stat_3" class="gt_row gt_center">61 (13 %)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0 %)</td>
+<td headers="stat_5" class="gt_row gt_center">133 (18 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    30-39</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_2" class="gt_row gt_center">&lt;40 (&lt;19 %)</td>
+<td headers="stat_3" class="gt_row gt_center">56 (12 %)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0 %)</td>
+<td headers="stat_5" class="gt_row gt_center">99 (13 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    40-49</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_2" class="gt_row gt_center">&lt;30 (&lt;14 %)</td>
+<td headers="stat_3" class="gt_row gt_center">65 (14 %)</td>
+<td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_5" class="gt_row gt_center">114 (15 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    50-64</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_2" class="gt_row gt_center">58 (27 %)</td>
+<td headers="stat_3" class="gt_row gt_center">95 (21 %)</td>
+<td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_5" class="gt_row gt_center">156 (21 %)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    65+</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;30 (&lt;45 %)</td>
+<td headers="stat_2" class="gt_row gt_center">64 (30 %)</td>
+<td headers="stat_3" class="gt_row gt_center">176 (39 %)</td>
+<td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
+<td headers="stat_5" class="gt_row gt_center">258 (34 %)</td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> Median (IQR); n (%)</td>
     </tr>
   </tfoot>
 </table>

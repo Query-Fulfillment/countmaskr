@@ -184,10 +184,20 @@ mask_table(two_way_freq_table,
 
 ## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)^1^ package's `tbl_summary()` function to obtain presentation-ready masked tables
 
-```{r message=FALSE,error=FALSE,warning=FALSE}
-aggregated_gtsummary_tbl <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary()
+## One dimensional frequency table
 
-mask_tbl_summary(aggregated_gtsummary_tbl)
+```{r message=FALSE,error=FALSE,warning=FALSE}
+aggregated_gtsummary_tbl_one_way <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary()
+
+mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
+```
+
+## Two-way frequency table
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+aggregated_gtsummary_tbl_two_way <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary(by = 'race')
+
+mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 ```
 
 # Grants and funding
