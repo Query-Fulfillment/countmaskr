@@ -6,3 +6,6 @@
 ^data-raw$
 ^Artistic_license$
 ^logic_plot.png$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
