@@ -7,6 +7,12 @@
 .DS_Store
 .DS_STore?
 .Rproj.user
+<<<<<<< Updated upstream
 *.csv
 *.rds
 docs
+=======
+docs/
+.rds
+.csv
+>>>>>>> Stashed changes

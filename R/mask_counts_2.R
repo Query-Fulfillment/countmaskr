@@ -69,7 +69,7 @@ mask_counts_2 <- function(x, threshold = 11) {
       max(.extract_digits(x.m)[!grepl("<", x.m) &
         .extract_digits(x.m) != 0], na.rm = T)
 
-    small_cell_index  <- which(x.m == "<11")
+    small_cell_index <- which(x.m == "<11")
 
     x.m[which(max_value == .extract_digits(x.m))] <- gsub(" ", "", paste0(">", format(
       max_value - (threshold - x[small_cell_index]),
