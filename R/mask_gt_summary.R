@@ -1,9 +1,15 @@
-#' Function to mask output from gtsummary::tbl_summary() function
+#' Function to mask output from `gtsummary::tbl_summary()` function
 #'
-#' @param gttbl output from gtsummary::tbl_summary()
+#' `r lifecycle::badge("experimental")`
 #'
-#' @return Masked tbl_summary object
-#' @export
+#' @description
+#' This is a wrapper around the `gtsummary::tbl_summary()` function to produce a masked version of the aggregated table.
+#'
+#' @param gttbl output from `gtsummary::tbl_summary()`
+#'
+#' @return A masked tbl_summary object
+#' @import tibble
+#' @import dplyr
 #'
 #' @examples
 mask_gt_table <- function(gttbl) {
@@ -19,7 +25,7 @@ mask_gt_table <- function(gttbl) {
 
   raw_table[["level"]] <- raw_table[["level"]] %>%
     mutate(across(starts_with("stat_"), ~ as.numeric(sub(" .*", "", .)))) %>%
-    countmaskr::mask_table(.,
+      mask_table(.,
       col_groups = list(cols),
       group_by = "variable",
       overwrite_columns = T,
@@ -44,7 +50,7 @@ mask_gt_table <- function(gttbl) {
   gttbl$table_styling$header <- gttbl$table_styling$header %>%
     mutate(
       modify_stat_n = case_when(
-        str_detect(column, "stat_") ~ countmaskr::mask_counts(modify_stat_n),
+        str_detect(column, "stat_") ~ mask_counts(modify_stat_n),
         T ~ as.character(modify_stat_n)
       ),
       label = case_when(
