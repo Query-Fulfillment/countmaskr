@@ -25,20 +25,20 @@
 #'
 #' lapply(list(x1, x2, x3), perturb_counts)
 #'
-#' df <- tibble::tribble(
-#'   ~block, ~Characterstics, ~col1, ~col2,
-#'   "sex", "Male", 190, 1407,
-#'   "sex", "Female", 17, 20,
-#'   "sex", "Sex - Other", 15, 7,
-#'   "race", "White", 102, 1385,
-#'   "race", "African American / Black", 75, 20,
-#'   "race", "Asian", 20, 19,
-#'   "race", "Native American / Pacific Islander", 15, 10,
-#'   "race", "Race - Other", 10, 0
-#' )
-#' df %>%
-#'   group_by(block) %>%
-#'   mutate(across(contains("col"), ~ perturb_counts(.), .names = "{col}_masked"))
+#' data('countmaskr_data')
+#'
+#' aggregate_table <- countmaskr_data %>%
+#'   select(-c(id, age)) %>%
+#'   gather(block, Characteristics) %>%
+#'   group_by(block, Characteristics) %>%
+#'   summarise(N = n()) %>%
+#'   ungroup()
+#'
+#' aggregate_table %>%
+#'   group_by(domain, block) %>%
+#'   arrange(domain) %>%
+#'   mutate(N_masked = perturb_counts(N))
+#'
 perturb_counts <- function(x, threshold = 10) {
   small_cells <- which(x > 0 & x < threshold)
 

@@ -21,31 +21,40 @@
 #' @export
 #'
 #' @examples
-#' df <- tibble::tribble(
-#'   ~block, ~Characteristics, ~group1, ~group2, ~group3, ~group4,
-#'   "sex", "Male", 190, 1407, 8, 2,
-#'   "sex", "Female", 17, 20, 511, 2,
-#'   "sex", "Sex - Other", 15, 7, 6, 4,
-#'   "race", "White", 102, 1385, 75, 1,
-#'   "race", "African American / Black", 75, 30, 325, 0,
-#'   "race", "Asian", 20, 9, 100, 2,
-#'   "race", "Native American / Pacific Islander", 15, 10, 4, 3,
-#'   "race", "Race - Other", 10, 0, 21, 2,
-#' ) %>%
-#'   dplyr::mutate(
-#'     aggr_group_all = group1 + group2 + group3 + group4,
-#'     aggr_group_1_2 = group1 + group2,
-#'     aggr_group_3_4 = group3 + group4
-#'   )
-#' mask_table(df,
+#'
+#' data("countmaskr_data")
+#'
+#' aggregate_table <- countmaskr_data %>%
+#'   select(-c(id, age)) %>%
+#'   gather(block, Characteristics) %>%
+#'   group_by(block, Characteristics) %>%
+#'   summarise(N = n()) %>%
+#'   ungroup()
+#'
+#' mask_table(aggregate_table,
 #'   group_by = "block",
-#'   col_groups = list(
-#'     c("aggr_group_1_2", "group1", "group2"),
-#'     c("aggr_group_3_4", "group3", "group4")
-#'   ),
+#'   col_groups = list("N")
+#' )
+#'
+#' mask_table(aggregate_table,
+#'   group_by = "block",
+#'   col_groups = list("N"),
 #'   overwrite_columns = FALSE,
 #'   percentages = TRUE
 #' )
+#'
+#' countmaskr_data %>%
+#'   count(race, gender) %>%
+#'   pivot_wider(names_from = gender, values_from = n) %>%
+#'   mutate(across(all_of(c("Male", "Other")), ~ ifelse(is.na(.), 0, .)),
+#'     Overall = Female + Male + Other, .after = 1
+#'   ) %>%
+#'   countmaskr::mask_table(.,
+#'     col_groups = list(c("Overall", "Female", "Male", "Other")),
+#'     overwrite_columns = TRUE,
+#'     percentages = FALSE
+#'   )
+#'
 mask_table <-
   function(data,
            threshold = 11,
@@ -53,7 +62,6 @@ mask_table <-
            group_by = NULL,
            overwrite_columns = T,
            percentages = F) {
-
     # resolving data structure to perform downstream tasks
     threshold <- threshold
     if (!is.list(col_groups)) {
@@ -69,10 +77,7 @@ mask_table <-
 
     # Starting to loop by block
     for (block in seq_along(list)) {
-      message(paste0(
-        "Starting masking for ", names(list[block]),
-        "\n\n"
-      ))
+      message(paste0("Starting masking for ", names(list[block]), "\n\n"))
       # Looping by groups
       for (group in col_groups) {
         original_counts <- list[[block]][, group]
@@ -98,13 +103,7 @@ mask_table <-
             across_row_mask <- t(across_row_mask)
           }
           original_percentages <-
-            as.matrix(round(sweep(
-              list[[block]][
-                ,
-                group
-              ], 2, colSums(list[[block]][, group]),
-              FUN = "/"
-            ) * 100, digits = 0))
+            as.matrix(round(sweep(list[[block]][, group], 2, colSums(list[[block]][, group]), FUN = "/") * 100, digits = 0))
           original_total <- colSums(list[[block]][, group])
 
           # Percentage computations if reqested
@@ -112,10 +111,7 @@ mask_table <-
             masked_percentages <-
               round(
                 sweep(if (is.vector(
-                  apply(
-                    across_row_mask,
-                    2, .extract_digits
-                  )
+                  apply(across_row_mask, 2, .extract_digits)
                 )) {
                   t(as.matrix(apply(
                     across_row_mask, 2, .extract_digits
@@ -126,23 +122,13 @@ mask_table <-
                 digits = 0
               )
             masked_percentages[which(grepl("<", across_row_mask))] <-
-              paste0(
-                "<",
-                masked_percentages[which(grepl("<", across_row_mask))],
-                " %"
-              )
-            masked_percentages[which(grepl(paste0(
-              "<",
-              threshold
-            ), across_row_mask))] <-
+              paste0("<", masked_percentages[which(grepl("<", across_row_mask))], " %")
+            masked_percentages[which(grepl(paste0("<", threshold), across_row_mask))] <-
               paste0("masked cell")
             masked_percentages[which(.extract_digits(masked_percentages) >
               100)] <- paste0("<100 %")
             masked_percentages[which(!grepl("<", across_row_mask))] <-
-              paste0(original_percentages[which(!grepl(
-                "<",
-                across_row_mask
-              ))], " %")
+              paste0(original_percentages[which(!grepl("<", across_row_mask))], " %")
             masked_percentages[which(grepl("NaN %", masked_percentages))] <-
               "0 %"
 
@@ -157,30 +143,22 @@ mask_table <-
           # Checking if performing rowwise masking in same row on different column requires an additional cell,
           # if required, the repeat loop will perform a whole iteration until convergence is attained
           if (nrow(masked_counts) > 1) {
-            total_masked_cells <- colSums(apply(
-              masked_counts,
-              2, function(col) {
-                grepl("<", col)
-              }
-            ))
-            total_available_cells <- colSums(apply(
-              masked_counts,
-              2, function(col) {
-                !grepl("<", col)
-              }
-            ))
-            total_zeros <- colSums(apply(
-              masked_counts,
-              2, function(col) {
-                col == "0" | col == "NA" | is.na(col)
-              }
-            ))
+            total_masked_cells <- colSums(apply(masked_counts, 2, function(col) {
+              grepl("<", col)
+            }))
+            total_available_cells <- colSums(apply(masked_counts, 2, function(col) {
+              !grepl("<", col)
+            }))
+            total_zeros <- colSums(apply(masked_counts, 2, function(col) {
+              col == "0" | col == "NA" | is.na(col)
+            }))
           }
-          if ((nrow(masked_counts) == 1) | (any(total_masked_cells ==
-            1) &
-            all(total_available_cells[which(total_masked_cells ==
-              1)] == total_zeros[which(total_masked_cells ==
-              1)])) |
+          if ((nrow(masked_counts) == 1) |
+            (any(total_masked_cells ==
+              1) &
+              all(total_available_cells[which(total_masked_cells ==
+                1)] == total_zeros[which(total_masked_cells ==
+                1)])) |
             (!any(total_masked_cells == 1))) {
             # Overwriting columns if requested
             if (isTRUE(overwrite_columns)) {
@@ -193,7 +171,6 @@ mask_table <-
             original_counts <- masked_counts
           }
         }
-
       }
     }
     masked_data <- data.frame(do.call(rbind, Map(cbind, list)))

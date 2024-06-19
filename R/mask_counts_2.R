@@ -20,27 +20,23 @@
 #' x2 <- c(1, 1, 1, 55, 65, 121, 1213, 0, NA)
 #' x3 <- c(11, 10, 10, 55, 65, 121, 1213, 0, NA)
 #'
-#' lapply(list(x1, x2, x3), mask_counts_2)
 #'
-#' df <- tibble::tribble(
-#'   ~block, ~Characteristics, ~group1, ~group2, ~group3, ~group4,
-#'   "sex", "Male", 190, 1407, 8, 2,
-#'   "sex", "Female", 17, 20, 511, 2,
-#'   "sex", "Sex - Other", 15, 7, 6, 4,
-#'   "race", "White", 102, 1385, 75, 1,
-#'   "race", "African American / Black", 75, 30, 325, 0,
-#'   "race", "Asian", 20, 9, 100, 2,
-#'   "race", "Native American / Pacific Islander", 15, 10, 4, 3,
-#'   "race", "Race - Other", 10, 0, 21, 2,
-#' ) %>%
-#'   dplyr::mutate(
-#'     aggr_group_all = group1 + group2 + group3 + group4,
-#'     aggr_group_1_2 = group1 + group2,
-#'     aggr_group_3_4 = group3 + group4
-#'   )
-#' df %>%
-#'   group_by(block) %>%
-#'   mutate(across(contains("group"), ~ mask_counts_2(.), .names = "{col}_masked"))
+#' lapply(list(x1, x2, x3), mask_counts_2)
+#' s
+#' data('countmaskr_data')
+#'
+#' aggregate_table <- countmaskr_data %>%
+#'   select(-c(id, age)) %>%
+#'   gather(block, Characteristics) %>%
+#'   group_by(block, Characteristics) %>%
+#'   summarise(N = n()) %>%
+#'   ungroup()
+#'
+#' aggregate_table %>%
+#'   group_by(domain, block) %>%
+#'   arrange(domain) %>%
+#'   mutate(N_masked = mask_counts_2(N))
+#'
 mask_counts_2 <- function(x, threshold = 11) {
   .extract_digits <- function(x) {
     x <- as.numeric(gsub("[^0-9.]", "", x))
