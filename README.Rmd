@@ -101,7 +101,7 @@ aggregate_table <- countmaskr_data %>%
 
 ### A1
 
-```{r,message=F}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
   group_by(block) %>%
   mutate(N_masked = mask_counts(N))
@@ -109,7 +109,7 @@ aggregate_table %>%
 
 ### A2
 
-```{r,message=F}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
   group_by(block) %>%
   mutate(N_masked = mask_counts_2(N))
@@ -117,7 +117,7 @@ aggregate_table %>%
 
 ### A3
 
-```{r,message=F}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
   group_by(block) %>%
   mutate(N_masked = perturb_counts(N))
@@ -129,7 +129,7 @@ mask_table() is intended multi-tasking function which allows for masking, obtain
 
 #### Simple one-dimensional masking on the original column.
 
-```{r}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N")
@@ -140,7 +140,7 @@ mask_table(aggregate_table,
 
 Naming convention for the masked columns follow {col}_N_masked pattern.
 
-```{r}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N"),
@@ -152,7 +152,7 @@ mask_table(aggregate_table,
 
 Naming convention for the original and masked percentages follow {col}_perc and {col}_perc_masked pattern.
 
-```{r}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N"),
@@ -162,7 +162,7 @@ mask_table(aggregate_table,
 
 ## Two-way frequency table
 
-```{r}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 two_way_freq_table <- countmaskr_data %>%
   count(race, gender) %>%
   pivot_wider(names_from = gender, values_from = n) %>%
@@ -177,7 +177,7 @@ mask_table(two_way_freq_table,
 ```
 ## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)^1^ package's `tbl_summary()` function to obtain presentation-ready masked tables
 
-```{r}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregated_gtsummary_tbl <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary()
 
 mask_tbl_summary(aggregated_gtsummary_tbl)
