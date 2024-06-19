@@ -4,12 +4,12 @@
 \name{countmaskr-package}
 \alias{countmaskr}
 \alias{countmaskr-package}
-\title{countmaskr: Small cell masking tool for one- two- and three- way tabular reports}
+\title{countmaskr: Small cell masking tool for one- and two-way tabular reports}
 \description{
 countmaskr is an R package designed to address patient privacy concerns by automating the masking of cell counts in aggregated tabular reports. This user-friendly and versatile tool applies threshold-based masking to primary, secondary, and tertiary cells, replacing true counts with masked values. It can handle various report types, saving significant time and reducing privacy risks. This package ensures the protection of patient data while retaining accurate counts in complex tabular reports, making it a valuable addition to data sharing and privacy protection workflows.
 }
 \author{
-\strong{Maintainer}: Sahal Master \email{masters2@chop.edu} (\href{https://orcid.org/0000-0002-8518-8107}{ORCID})
+\strong{Maintainer}: Sahal Master \email{sahalmaster@outlook.com} (\href{https://orcid.org/0000-0002-8518-8107}{ORCID})
 
 Authors:
 \itemize{

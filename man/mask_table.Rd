@@ -24,7 +24,7 @@ mask_table(
 
 \item{overwrite_columns}{Boolean parameter to overwrite columns}
 
-\item{percentages}{Boolean parameter for generate masked percentages. naming convention will be as follows: ('{col}_perc_masked')}
+\item{percentages}{Boolean parameter for generate masked percentages, naming convention: 'col_perc_masked'}
 }
 \value{
 a tibble with row and column wise masking. masked columns will return as character vector
@@ -36,29 +36,38 @@ This is a multi-tasking function to convert a simple table 1 with counts and per
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }
 \examples{
-df <- tibble::tribble(
-  ~block, ~Characteristics, ~group1, ~group2, ~group3, ~group4,
-  "sex", "Male", 190, 1407, 8, 2,
-  "sex", "Female", 17, 20, 511, 2,
-  "sex", "Sex - Other", 15, 7, 6, 4,
-  "race", "White", 102, 1385, 75, 1,
-  "race", "African American / Black", 75, 30, 325, 0,
-  "race", "Asian", 20, 9, 100, 2,
-  "race", "Native American / Pacific Islander", 15, 10, 4, 3,
-  "race", "Race - Other", 10, 0, 21, 2,
-) \%>\%
-  dplyr::mutate(
-    aggr_group_all = group1 + group2 + group3 + group4,
-    aggr_group_1_2 = group1 + group2,
-    aggr_group_3_4 = group3 + group4
-  )
-mask_table(df,
+
+data("countmaskr_data")
+
+aggregate_table <- countmaskr_data \%>\%
+  select(-c(id, age)) \%>\%
+  gather(block, Characteristics) \%>\%
+  group_by(block, Characteristics) \%>\%
+  summarise(N = n()) \%>\%
+  ungroup()
+
+mask_table(aggregate_table,
   group_by = "block",
-  col_groups = list(
-    c("aggr_group_1_2", "group1", "group2"),
-    c("aggr_group_3_4", "group3", "group4")
-  ),
+  col_groups = list("N")
+)
+
+mask_table(aggregate_table,
+  group_by = "block",
+  col_groups = list("N"),
   overwrite_columns = FALSE,
   percentages = TRUE
 )
+
+countmaskr_data \%>\%
+  count(race, gender) \%>\%
+  pivot_wider(names_from = gender, values_from = n) \%>\%
+  mutate(across(all_of(c("Male", "Other")), ~ ifelse(is.na(.), 0, .)),
+    Overall = Female + Male + Other, .after = 1
+  ) \%>\%
+  countmaskr::mask_table(.,
+    col_groups = list(c("Overall", "Female", "Male", "Other")),
+    overwrite_columns = TRUE,
+    percentages = FALSE
+  )
+
 }
