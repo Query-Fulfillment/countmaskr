@@ -46,7 +46,7 @@ mask_tbl_summary <- function(gttbl) {
       mutate(!!i := paste0(!!sym(i), " (", !!sym(ith_perc), ")"))
   }
 
-  raw_table[["level"]] <- raw_table[["level"]] %>% select(variable, var_type, var_label, row_type, label, starts_with("stat_"), -ends_with("_masked"), -ends_with("_perc"), sort)
+  raw_table[["level"]] <- raw_table[["level"]] %>% select(-ends_with("_masked"), -ends_with("_perc"))
 
   cat_cont[["categorical"]] <- reduce(raw_table, rbind)
 
