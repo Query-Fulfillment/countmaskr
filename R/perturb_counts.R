@@ -8,6 +8,7 @@
 #'
 #' @import tibble
 #' @import dplyr
+#' @import tidyr
 #'
 #' @param x numeric vector of length N
 #' @param threshold threshold for small cell aka 'primary cell'
@@ -35,8 +36,7 @@
 #'   ungroup()
 #'
 #' aggregate_table %>%
-#'   group_by(domain, block) %>%
-#'   arrange(domain) %>%
+#'   group_by(block) %>%
 #'   mutate(N_masked = perturb_counts(N))
 #'
 perturb_counts <- function(x, threshold = 10) {

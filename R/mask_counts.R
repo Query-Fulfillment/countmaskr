@@ -8,6 +8,7 @@
 #'
 #' @import tibble
 #' @import dplyr
+#' @import tidyr
 #'
 #' @param x vector of length N
 #' @param threshold threshold below with the values must be suppressed
@@ -22,7 +23,7 @@
 #' x3 <- c(11, 10, 10, 55, 65, 121, 1213, 0, NA)
 #'
 #' lapply(list(x1, x2, x3), mask_counts_2)
-#' s
+#'
 #' data('countmaskr_data')
 #'
 #' aggregate_table <- countmaskr_data %>%
@@ -33,8 +34,7 @@
 #'   ungroup()
 #'
 #' aggregate_table %>%
-#'   group_by(domain, block) %>%
-#'   arrange(domain) %>%
+#'   group_by(block) %>%
 #'   mutate(N_masked = mask_counts(N))
 #'
 mask_counts <- function(x, threshold = 11) {

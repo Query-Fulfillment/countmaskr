@@ -8,6 +8,7 @@
 #'
 #' @import tibble
 #' @import dplyr
+#' @import tidyr
 #'
 #' @param data input data with a column that has counts which need suppression
 #' @param threshold threshold value for suppression for the threshold_suppression() function. defaulted to 11
@@ -175,7 +176,7 @@ mask_table <-
     }
     masked_data <- data.frame(do.call(rbind, Map(cbind, list)))
     rownames(masked_data) <- NULL
-    return(masked_data)
+    return(tibble(masked_data))
   }
 
 
