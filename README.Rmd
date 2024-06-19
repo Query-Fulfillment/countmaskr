@@ -159,7 +159,8 @@ Naming convention for the original and masked percentages follow {col}_perc and 
 mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N"),
-  overwrite_columns = FALSE
+  overwrite_columns = TRUE,
+  percentages = TRUE
 ) %>%
   kable()
 ```
