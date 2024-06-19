@@ -187,7 +187,9 @@ mask_table(two_way_freq_table,
 ## One dimensional frequency table
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-aggregated_gtsummary_tbl_one_way <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary()
+aggregated_gtsummary_tbl_one_way <- countmaskr_data %>% 
+                                        select(-id) %>% 
+                                        gtsummary::tbl_summary()
 
 mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ```
@@ -195,7 +197,10 @@ mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ## Two-way frequency table
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-aggregated_gtsummary_tbl_two_way <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary(by = 'race')
+aggregated_gtsummary_tbl_two_way <- countmaskr_data %>% 
+                                        select(-id) %>% 
+                                        gtsummary::tbl_summary(by = 'race') %>% 
+                                        add_overall()
 
 mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 ```

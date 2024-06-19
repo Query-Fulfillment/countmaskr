@@ -63,7 +63,7 @@ mask_tbl_summary <- function(gttbl) {
     )
 
   if (length(cols) == 1 && cols == "stat_0") {
-    gttbl$table_styling$header %>%
+    gttbl$table_styling$header <- gttbl$table_styling$header %>%
       mutate(
         label = case_when(
           grepl("stat_", column) ~ paste0(label, "**N = ", modify_stat_n, "**"),
@@ -71,7 +71,7 @@ mask_tbl_summary <- function(gttbl) {
         )
       )
   } else {
-    gttbl$table_styling$header %>%
+    gttbl$table_styling$header  <- gttbl$table_styling$header %>%
       mutate(
         label = case_when(
           grepl("stat_", column) ~ sub(",.*", "", label),
