@@ -24,6 +24,5 @@ data(countmaskr_data)
 }
 \description{
 A synthetic dataset of 1500 subjects with demographic information ascertaining atleast one category from the demographics has counts less than 11.
-Report ...
 }
 \keyword{datasets}

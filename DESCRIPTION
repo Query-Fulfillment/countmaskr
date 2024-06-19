@@ -1,8 +1,8 @@
 Package: countmaskr
-Title: Small cell masking tool for one- two- and three- way tabular reports
+Title: Small cell masking tool for one- and two-way tabular reports
 Version: 0.0.0.9001
 Authors@R: c(
-    person("Sahal", "Master",role = c('aut','cre'),email = "masters2@chop.edu",
+    person("Sahal", "Master",role = c('aut','cre'),email = "sahalmaster@outlook.com",
             comment = c(ORCID = "0000-0002-8518-8107")),
     person("Amy", "Goodwin Davies", role = c('aut'), email = "goodwindaa@chop.edu"),
     person("Ally", "Zelinski", role = c('aut'), email = "zelinskia@chop.edu"),
@@ -27,3 +27,4 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     lifecycle
+LazyData: true
