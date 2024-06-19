@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## Development Status
 
-**Alpha Version**: Please be aware that this version is under active development, and some features may be incomplete or subject to change.
+**Beta Version**: Please be aware that this version is under active development, and some features may be incomplete or subject to change.
 
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
@@ -86,98 +86,101 @@ require(knitr)
 
 ## One dimensional frequency table
 
+
+
 ```{r message=F}
-data(mtcars)
+data('countmaskr_data')
 
-mtcars %>%
-  count(gear) %>%
-  kable()
+aggregate_table <- countmaskr_data %>%
+  select(-c(id, age)) %>%
+  gather(block, Characteristics) %>%
+  group_by(block, Characteristics) %>%
+  summarise(N = n()) %>%
+  ungroup()
 ```
 
+### A1
+
 ```{r,message=F}
-mtcars %>%
-  count(gear) %>%
-  mutate(n = mask_counts(n)) %>%
-  kable()
+aggregate_table %>%
+  group_by(block) %>%
+  mutate(N_masked = mask_counts(N))
 ```
 
-
-## Two-by-two frequency table
-
-### Example 1
+### A2
 
 ```{r,message=F}
-data(melanoma, package = "boot")
+aggregate_table %>%
+  group_by(block) %>%
+  mutate(N_masked = mask_counts_2(N))
+```
 
-melanoma_fctr <- melanoma %>%
-  mutate(
-    status = factor(status, levels = c(2, 1, 3), labels = c("Alive", "Melanoma death", "Non-melanoma death")),
-    sex = factor(sex, levels = c(1, 0), labels = c("Male", "Female")),
-    ulcer = factor(ulcer, levels = c(0, 1), labels = c("Absent", "Present"))
+### A3
+
+```{r,message=F}
+aggregate_table %>%
+  group_by(block) %>%
+  mutate(N_masked = perturb_counts(N))
+```
+
+### Using `mask_table()`
+
+mask_table() is intended multi-tasking function which allows for masking, obtaining original and masked percentages on an aggregated table.
+
+#### Simple one-dimensional masking on the original column.
+
+```{r}
+mask_table(aggregate_table,
+  group_by = "block",
+  col_groups = list("N")
+)
+```
+
+#### Simple one-dimensional masking while preserving original column and creating new masked columns
+
+Naming convention for the masked columns follow {col}_N_masked pattern.
+
+```{r}
+mask_table(aggregate_table,
+  group_by = "block",
+  col_groups = list("N"),
+  overwrite_columns = FALSE
+)
+```
+
+#### Simple one-dimensional masking with computing original and masked percentages
+
+Naming convention for the original and masked percentages follow {col}_perc and {col}_perc_masked pattern.
+
+```{r}
+mask_table(aggregate_table,
+  group_by = "block",
+  col_groups = list("N"),
+  overwrite_columns = FALSE
+)
+```
+
+## Two-way frequency table
+
+```{r}
+two_way_freq_table <- countmaskr_data %>%
+  count(race, gender) %>%
+  pivot_wider(names_from = gender, values_from = n) %>%
+  mutate(across(all_of(c("Female","Male", "Other")), ~ ifelse(is.na(.), 0, .)),
+    Overall = Female + Male + Other, .after = 1) 
+
+mask_table(two_way_freq_table,
+    col_groups = list(c("Overall", "Female", "Male", "Other")),
+    overwrite_columns = TRUE,
+    percentages = FALSE
   )
 ```
+## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)^1^ package's `tbl_summary()` function to obtain presentation-ready masked tables
 
-#### Original 
+```{r}
+aggregated_gtsummary_tbl <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_summary()
 
-```{r,message=F}
-melanoma_fctr %>%
-  count(status, ulcer) %>%
-  pivot_wider(
-    id_cols = "status",
-    names_from = "ulcer",
-    values_from = n
-  ) %>%
-  kable()
-```
-
-#### Masked
-
-```{r,message=F}
-melanoma_fctr %>%
-  count(status, ulcer) %>%
-  pivot_wider(
-    id_cols = "status",
-    names_from = "ulcer",
-    values_from = n
-  ) %>%
-  mask_table(col_groups = c("Absent", "Present")) %>%
-  kable()
-```
-
-
-
-
-
-
-### Example 2
-```{r message=F}
-df <- tibble::tribble(
-  ~Characteristics, ~Overall, ~Male, ~Female,
-  "White", 1487, 102, 1385,
-  "African American / Black", 91, 75, 16,
-  "Asian", 33, 20, 13,
-  "Native American / Pacific Islander", 45, 15, 30,
-  "Race - Other", 22, 14, 8
-) %>%
-  mutate(block = ifelse(Characteristics == "Totals", "tot", "race"))
-```
-
-#### Orignial 
-```{r message=F}
-df %>% kable()
-```
-
-
-#### Masked with additional new columns and percentage columns
-```{r,message=F}
-mask_table(df,
-  col_groups = list(
-    c("Overall", "Male", "Female")
-  ),
-  overwrite_columns = F,
-  percentages = T
-) %>%
-  kable()
+mask_tbl_summary(aggregated_gtsummary_tbl)
 ```
 
 # Grants and funding
@@ -185,3 +188,6 @@ mask_table(df,
 This package was developed to support activities of the PCORnet® Query Fulfillment team as well as to support research conducted within PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query Fulfillment is funded through Patient-Centered Outcomes Research Institute (PCORI) award RI-CHOP-01-PS2. PEDSnet has been developed with funding from the PCORI; PEDSnet’s participation in PCORnet is funded through PCORI award RI-CHOP-01-PS1. 
  
 The package and its documentation do not necessarily represent the opinions of PCORI or other organizations participating in, collaborating with, or funding PCORnet®.
+
+# References
+1. Sjoberg DD, Whiting K, Curry M, Lavery JA, Larmarange J. Reproducible summary tables with the gtsummary package. The R Journal 2021;13:570–80. https://doi.org/10.32614/RJ-2021-053.

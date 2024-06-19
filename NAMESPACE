@@ -2,8 +2,8 @@
 
 export(mask_counts)
 export(mask_counts_2)
-export(mask_gtsummary)
 export(mask_table)
+export(mask_tbl_summary)
 export(perturb_counts)
 import(dplyr)
 import(gtsummary)

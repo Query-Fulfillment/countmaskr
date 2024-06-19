@@ -18,8 +18,8 @@
 #'
 #' @examples
 #' data(countmaskr_data)
-#' mask_gtsummary(gtsummary::tbl_summary(countmaskr_data[,-1]))
-mask_gtsummary <- function(gttbl) {
+#' mask_tbl_summary(gtsummary::tbl_summary(countmaskr_data[, -1]))
+mask_tbl_summary <- function(gttbl) {
   gttbl$table_body <- gttbl$table_body %>%
     mutate(sort = row_number())
 
@@ -32,10 +32,11 @@ mask_gtsummary <- function(gttbl) {
 
   raw_table[["level"]] <- raw_table[["level"]] %>%
     mutate(across(all_of(cols), ~ .extract_digits(sub(" .*", "", .)))) %>%
-      mask_table(col_groups = list(cols),
-                 group_by = "variable",
-                 overwrite_columns = T,
-                 percentages = T
+    mask_table(
+      col_groups = list(cols),
+      group_by = "variable",
+      overwrite_columns = T,
+      percentages = T
     ) %>%
     as_tibble()
 
@@ -56,18 +57,32 @@ mask_gtsummary <- function(gttbl) {
   gttbl$table_styling$header <- gttbl$table_styling$header %>%
     mutate(
       modify_stat_n = case_when(
-        grepl("stat_",column) ~ mask_counts(modify_stat_n),
+        grepl("stat_", column) ~ mask_counts(modify_stat_n),
         T ~ as.character(modify_stat_n)
-      ),
-      label = case_when(
-        grepl("stat_",column) ~ sub(",.*", "", label),
-        T ~ as.character(label)
-      ),
-      label = case_when(
-        grepl("stat_",column) ~ paste0(label, ", N = ", modify_stat_n),
-        T ~ as.character(label)
       )
     )
+
+  if (length(cols) == 1 && cols == "stat_0") {
+    gttbl$table_styling$header %>%
+      mutate(
+        label = case_when(
+          grepl("stat_", column) ~ paste0(label, "**N = ", modify_stat_n, "**"),
+          T ~ as.character(label)
+        )
+      )
+  } else {
+    gttbl$table_styling$header %>%
+      mutate(
+        label = case_when(
+          grepl("stat_", column) ~ sub(",.*", "", label),
+          T ~ as.character(label)
+        ),
+        label = case_when(
+          grepl("stat_", column) ~ paste0(label, ", N = ", modify_stat_n),
+          T ~ as.character(label)
+        )
+      )
+  }
 
   return(gttbl)
 }
