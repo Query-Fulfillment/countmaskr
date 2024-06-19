@@ -102,84 +102,84 @@ aggregate_table <- countmaskr_data %>%
 ``` r
 aggregate_table %>%
   group_by(block) %>%
-  mutate(N_masked = mask_counts(N))
-#> # A tibble: 16 × 4
-#> # Groups:   block [4]
-#>    block     Characteristics                       N N_masked
-#>    <chr>     <chr>                             <int> <chr>   
-#>  1 age_group 18-29                               243 243     
-#>  2 age_group 30-39                               198 198     
-#>  3 age_group 40-49                               215 215     
-#>  4 age_group 50-64                               323 323     
-#>  5 age_group 65+                                 521 521     
-#>  6 ethnicity Hispanic                            143 143     
-#>  7 ethnicity Non-Hispanic                       1346 1,346   
-#>  8 ethnicity Other                                11 11      
-#>  9 gender    Female                              728 <730    
-#> 10 gender    Male                                763 763     
-#> 11 gender    Other                                 9 <11     
-#> 12 race      American Indian/ Pacific Islander    66 <70     
-#> 13 race      Asian                               215 215     
-#> 14 race      Black                               453 453     
-#> 15 race      Other                                 6 <11     
-#> 16 race      White                               760 760
+  mutate(N_masked = mask_counts(N)) %>%
+  kable()
 ```
+
+| block     | Characteristics                   |    N | N_masked |
+|:----------|:----------------------------------|-----:|:---------|
+| age_group | 18-29                             |  243 | 243      |
+| age_group | 30-39                             |  198 | 198      |
+| age_group | 40-49                             |  215 | 215      |
+| age_group | 50-64                             |  323 | 323      |
+| age_group | 65+                               |  521 | 521      |
+| ethnicity | Hispanic                          |  143 | 143      |
+| ethnicity | Non-Hispanic                      | 1346 | 1,346    |
+| ethnicity | Other                             |   11 | 11       |
+| gender    | Female                            |  728 | \<730    |
+| gender    | Male                              |  763 | 763      |
+| gender    | Other                             |    9 | \<11     |
+| race      | American Indian/ Pacific Islander |   66 | \<70     |
+| race      | Asian                             |  215 | 215      |
+| race      | Black                             |  453 | 453      |
+| race      | Other                             |    6 | \<11     |
+| race      | White                             |  760 | 760      |
 
 ### A2
 
 ``` r
 aggregate_table %>%
   group_by(block) %>%
-  mutate(N_masked = mask_counts_2(N))
-#> # A tibble: 16 × 4
-#> # Groups:   block [4]
-#>    block     Characteristics                       N N_masked
-#>    <chr>     <chr>                             <int> <chr>   
-#>  1 age_group 18-29                               243 243     
-#>  2 age_group 30-39                               198 198     
-#>  3 age_group 40-49                               215 215     
-#>  4 age_group 50-64                               323 323     
-#>  5 age_group 65+                                 521 521     
-#>  6 ethnicity Hispanic                            143 143     
-#>  7 ethnicity Non-Hispanic                       1346 1,346   
-#>  8 ethnicity Other                                11 11      
-#>  9 gender    Female                              728 728     
-#> 10 gender    Male                                763 >761    
-#> 11 gender    Other                                 9 <11     
-#> 12 race      American Indian/ Pacific Islander    66 66      
-#> 13 race      Asian                               215 215     
-#> 14 race      Black                               453 453     
-#> 15 race      Other                                 6 <11     
-#> 16 race      White                               760 >755
+  mutate(N_masked = mask_counts_2(N)) %>%
+  kable()
 ```
+
+| block     | Characteristics                   |    N | N_masked |
+|:----------|:----------------------------------|-----:|:---------|
+| age_group | 18-29                             |  243 | 243      |
+| age_group | 30-39                             |  198 | 198      |
+| age_group | 40-49                             |  215 | 215      |
+| age_group | 50-64                             |  323 | 323      |
+| age_group | 65+                               |  521 | 521      |
+| ethnicity | Hispanic                          |  143 | 143      |
+| ethnicity | Non-Hispanic                      | 1346 | 1,346    |
+| ethnicity | Other                             |   11 | 11       |
+| gender    | Female                            |  728 | 728      |
+| gender    | Male                              |  763 | \>761    |
+| gender    | Other                             |    9 | \<11     |
+| race      | American Indian/ Pacific Islander |   66 | 66       |
+| race      | Asian                             |  215 | 215      |
+| race      | Black                             |  453 | 453      |
+| race      | Other                             |    6 | \<11     |
+| race      | White                             |  760 | \>755    |
 
 ### A3
 
 ``` r
 aggregate_table %>%
   group_by(block) %>%
-  mutate(N_masked = perturb_counts(N))
-#> # A tibble: 16 × 4
-#> # Groups:   block [4]
-#>    block     Characteristics                       N N_masked
-#>    <chr>     <chr>                             <int> <chr>   
-#>  1 age_group 18-29                               243 243     
-#>  2 age_group 30-39                               198 198     
-#>  3 age_group 40-49                               215 215     
-#>  4 age_group 50-64                               323 323     
-#>  5 age_group 65+                                 521 521     
-#>  6 ethnicity Hispanic                            143 143     
-#>  7 ethnicity Non-Hispanic                       1346 1,346   
-#>  8 ethnicity Other                                11 11      
-#>  9 gender    Female                              728 728     
-#> 10 gender    Male                                763 762     
-#> 11 gender    Other                                 9 10      
-#> 12 race      American Indian/ Pacific Islander    66 66      
-#> 13 race      Asian                               215 214     
-#> 14 race      Black                               453 452     
-#> 15 race      Other                                 6 10      
-#> 16 race      White                               760 758
+  mutate(N_masked = perturb_counts(N)) %>%
+  kable()
 ```
+
+| block     | Characteristics                   |    N | N_masked |
+|:----------|:----------------------------------|-----:|:---------|
+| age_group | 18-29                             |  243 | 243      |
+| age_group | 30-39                             |  198 | 198      |
+| age_group | 40-49                             |  215 | 215      |
+| age_group | 50-64                             |  323 | 323      |
+| age_group | 65+                               |  521 | 521      |
+| ethnicity | Hispanic                          |  143 | 143      |
+| ethnicity | Non-Hispanic                      | 1346 | 1,346    |
+| ethnicity | Other                             |   11 | 11       |
+| gender    | Female                            |  728 | 728      |
+| gender    | Male                              |  763 | 762      |
+| gender    | Other                             |    9 | 10       |
+| race      | American Indian/ Pacific Islander |   66 | 66       |
+| race      | Asian                             |  215 | 214      |
+| race      | Black                             |  453 | 452      |
+| race      | Other                             |    6 | 10       |
+| race      | White                             |  760 | 758      |
 
 ### Using `mask_table()`
 
@@ -193,27 +193,28 @@ table.
 mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N")
-)
-#> # A tibble: 16 × 3
-#>    block     Characteristics                   N    
-#>    <chr>     <chr>                             <chr>
-#>  1 age_group 18-29                             243  
-#>  2 age_group 30-39                             198  
-#>  3 age_group 40-49                             215  
-#>  4 age_group 50-64                             323  
-#>  5 age_group 65+                               521  
-#>  6 ethnicity Hispanic                          143  
-#>  7 ethnicity Non-Hispanic                      1,346
-#>  8 ethnicity Other                             11   
-#>  9 gender    Female                            <730 
-#> 10 gender    Male                              763  
-#> 11 gender    Other                             <11  
-#> 12 race      American Indian/ Pacific Islander <70  
-#> 13 race      Asian                             215  
-#> 14 race      Black                             453  
-#> 15 race      Other                             <11  
-#> 16 race      White                             760
+) %>%
+  kable()
 ```
+
+| block     | Characteristics                   | N     |
+|:----------|:----------------------------------|:------|
+| age_group | 18-29                             | 243   |
+| age_group | 30-39                             | 198   |
+| age_group | 40-49                             | 215   |
+| age_group | 50-64                             | 323   |
+| age_group | 65+                               | 521   |
+| ethnicity | Hispanic                          | 143   |
+| ethnicity | Non-Hispanic                      | 1,346 |
+| ethnicity | Other                             | 11    |
+| gender    | Female                            | \<730 |
+| gender    | Male                              | 763   |
+| gender    | Other                             | \<11  |
+| race      | American Indian/ Pacific Islander | \<70  |
+| race      | Asian                             | 215   |
+| race      | Black                             | 453   |
+| race      | Other                             | \<11  |
+| race      | White                             | 760   |
 
 #### Simple one-dimensional masking while preserving original column and creating new masked columns
 
@@ -224,27 +225,28 @@ mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N"),
   overwrite_columns = FALSE
-)
-#> # A tibble: 16 × 4
-#>    block     Characteristics                       N N_masked
-#>    <chr>     <chr>                             <int> <chr>   
-#>  1 age_group 18-29                               243 243     
-#>  2 age_group 30-39                               198 198     
-#>  3 age_group 40-49                               215 215     
-#>  4 age_group 50-64                               323 323     
-#>  5 age_group 65+                                 521 521     
-#>  6 ethnicity Hispanic                            143 143     
-#>  7 ethnicity Non-Hispanic                       1346 1,346   
-#>  8 ethnicity Other                                11 11      
-#>  9 gender    Female                              728 <730    
-#> 10 gender    Male                                763 763     
-#> 11 gender    Other                                 9 <11     
-#> 12 race      American Indian/ Pacific Islander    66 <70     
-#> 13 race      Asian                               215 215     
-#> 14 race      Black                               453 453     
-#> 15 race      Other                                 6 <11     
-#> 16 race      White                               760 760
+) %>%
+  kable()
 ```
+
+| block     | Characteristics                   |    N | N_masked |
+|:----------|:----------------------------------|-----:|:---------|
+| age_group | 18-29                             |  243 | 243      |
+| age_group | 30-39                             |  198 | 198      |
+| age_group | 40-49                             |  215 | 215      |
+| age_group | 50-64                             |  323 | 323      |
+| age_group | 65+                               |  521 | 521      |
+| ethnicity | Hispanic                          |  143 | 143      |
+| ethnicity | Non-Hispanic                      | 1346 | 1,346    |
+| ethnicity | Other                             |   11 | 11       |
+| gender    | Female                            |  728 | \<730    |
+| gender    | Male                              |  763 | 763      |
+| gender    | Other                             |    9 | \<11     |
+| race      | American Indian/ Pacific Islander |   66 | \<70     |
+| race      | Asian                             |  215 | 215      |
+| race      | Black                             |  453 | 453      |
+| race      | Other                             |    6 | \<11     |
+| race      | White                             |  760 | 760      |
 
 #### Simple one-dimensional masking with computing original and masked percentages
 
@@ -256,27 +258,28 @@ mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N"),
   overwrite_columns = FALSE
-)
-#> # A tibble: 16 × 4
-#>    block     Characteristics                       N N_masked
-#>    <chr>     <chr>                             <int> <chr>   
-#>  1 age_group 18-29                               243 243     
-#>  2 age_group 30-39                               198 198     
-#>  3 age_group 40-49                               215 215     
-#>  4 age_group 50-64                               323 323     
-#>  5 age_group 65+                                 521 521     
-#>  6 ethnicity Hispanic                            143 143     
-#>  7 ethnicity Non-Hispanic                       1346 1,346   
-#>  8 ethnicity Other                                11 11      
-#>  9 gender    Female                              728 <730    
-#> 10 gender    Male                                763 763     
-#> 11 gender    Other                                 9 <11     
-#> 12 race      American Indian/ Pacific Islander    66 <70     
-#> 13 race      Asian                               215 215     
-#> 14 race      Black                               453 453     
-#> 15 race      Other                                 6 <11     
-#> 16 race      White                               760 760
+) %>%
+  kable()
 ```
+
+| block     | Characteristics                   |    N | N_masked |
+|:----------|:----------------------------------|-----:|:---------|
+| age_group | 18-29                             |  243 | 243      |
+| age_group | 30-39                             |  198 | 198      |
+| age_group | 40-49                             |  215 | 215      |
+| age_group | 50-64                             |  323 | 323      |
+| age_group | 65+                               |  521 | 521      |
+| ethnicity | Hispanic                          |  143 | 143      |
+| ethnicity | Non-Hispanic                      | 1346 | 1,346    |
+| ethnicity | Other                             |   11 | 11       |
+| gender    | Female                            |  728 | \<730    |
+| gender    | Male                              |  763 | 763      |
+| gender    | Other                             |    9 | \<11     |
+| race      | American Indian/ Pacific Islander |   66 | \<70     |
+| race      | Asian                             |  215 | 215      |
+| race      | Black                             |  453 | 453      |
+| race      | Other                             |    6 | \<11     |
+| race      | White                             |  760 | 760      |
 
 ## Two-way frequency table
 
@@ -291,16 +294,17 @@ mask_table(two_way_freq_table,
     col_groups = list(c("Overall", "Female", "Male", "Other")),
     overwrite_columns = TRUE,
     percentages = FALSE
-  )
-#> # A tibble: 5 × 5
-#>   race                              Overall Female Male  Other
-#>   <chr>                             <chr>   <chr>  <chr> <chr>
-#> 1 American Indian/ Pacific Islander <70     29     <40   0    
-#> 2 Asian                             215     <100   118   <11  
-#> 3 Black                             453     <230   228   <11  
-#> 4 Other                             <11     0      <11   0    
-#> 5 White                             760     379    <380  <11
+  ) %>%
+  kable()
 ```
+
+| race                              | Overall | Female | Male  | Other |
+|:----------------------------------|:--------|:-------|:------|:------|
+| American Indian/ Pacific Islander | \<70    | 29     | \<40  | 0     |
+| Asian                             | 215     | \<100  | 118   | \<11  |
+| Black                             | 453     | \<230  | 228   | \<11  |
+| Other                             | \<11    | 0      | \<11  | 0     |
+| White                             | 760     | 379    | \<380 | \<11  |
 
 ## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)<sup>1</sup> package’s `tbl_summary()` function to obtain presentation-ready masked tables
 
@@ -309,21 +313,21 @@ aggregated_gtsummary_tbl <- countmaskr_data %>% select(-id) %>% gtsummary::tbl_s
 
 mask_tbl_summary(aggregated_gtsummary_tbl)
 ```
-
-<div id="epvfiuzfqr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#epvfiuzfqr table {
+```{=html}
+<div id="jqszsngepd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jqszsngepd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#epvfiuzfqr thead, #epvfiuzfqr tbody, #epvfiuzfqr tfoot, #epvfiuzfqr tr, #epvfiuzfqr td, #epvfiuzfqr th {
+&#10;#jqszsngepd thead, #jqszsngepd tbody, #jqszsngepd tfoot, #jqszsngepd tr, #jqszsngepd td, #jqszsngepd th {
   border-style: none;
 }
-&#10;#epvfiuzfqr p {
+&#10;#jqszsngepd p {
   margin: 0;
   padding: 0;
 }
-&#10;#epvfiuzfqr .gt_table {
+&#10;#jqszsngepd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -348,11 +352,11 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_caption {
+&#10;#jqszsngepd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#epvfiuzfqr .gt_title {
+&#10;#jqszsngepd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -363,7 +367,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#epvfiuzfqr .gt_subtitle {
+&#10;#jqszsngepd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -374,7 +378,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#epvfiuzfqr .gt_heading {
+&#10;#jqszsngepd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -385,12 +389,12 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_bottom_border {
+&#10;#jqszsngepd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_col_headings {
+&#10;#jqszsngepd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -404,7 +408,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_col_heading {
+&#10;#jqszsngepd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -423,7 +427,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#epvfiuzfqr .gt_column_spanner_outer {
+&#10;#jqszsngepd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -434,13 +438,13 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#epvfiuzfqr .gt_column_spanner_outer:first-child {
+&#10;#jqszsngepd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#epvfiuzfqr .gt_column_spanner_outer:last-child {
+&#10;#jqszsngepd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#epvfiuzfqr .gt_column_spanner {
+&#10;#jqszsngepd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -451,10 +455,10 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   display: inline-block;
   width: 100%;
 }
-&#10;#epvfiuzfqr .gt_spanner_row {
+&#10;#jqszsngepd .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#epvfiuzfqr .gt_group_heading {
+&#10;#jqszsngepd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -479,7 +483,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   vertical-align: middle;
   text-align: left;
 }
-&#10;#epvfiuzfqr .gt_empty_group_heading {
+&#10;#jqszsngepd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -493,13 +497,13 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#epvfiuzfqr .gt_from_md > :first-child {
+&#10;#jqszsngepd .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#epvfiuzfqr .gt_from_md > :last-child {
+&#10;#jqszsngepd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#epvfiuzfqr .gt_row {
+&#10;#jqszsngepd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -517,7 +521,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#epvfiuzfqr .gt_stub {
+&#10;#jqszsngepd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -529,7 +533,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#epvfiuzfqr .gt_stub_row_group {
+&#10;#jqszsngepd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -542,13 +546,13 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#epvfiuzfqr .gt_row_group_first td {
+&#10;#jqszsngepd .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#epvfiuzfqr .gt_row_group_first th {
+&#10;#jqszsngepd .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#epvfiuzfqr .gt_summary_row {
+&#10;#jqszsngepd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -557,14 +561,14 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#epvfiuzfqr .gt_first_summary_row {
+&#10;#jqszsngepd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_first_summary_row.thick {
+&#10;#jqszsngepd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#epvfiuzfqr .gt_last_summary_row {
+&#10;#jqszsngepd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -573,7 +577,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_grand_summary_row {
+&#10;#jqszsngepd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -582,7 +586,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#epvfiuzfqr .gt_first_grand_summary_row {
+&#10;#jqszsngepd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -591,7 +595,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_last_grand_summary_row_top {
+&#10;#jqszsngepd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -600,10 +604,10 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_striped {
+&#10;#jqszsngepd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#epvfiuzfqr .gt_table_body {
+&#10;#jqszsngepd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -611,7 +615,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_footnotes {
+&#10;#jqszsngepd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -624,7 +628,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_footnote {
+&#10;#jqszsngepd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -632,7 +636,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#epvfiuzfqr .gt_sourcenotes {
+&#10;#jqszsngepd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -645,60 +649,61 @@ mask_tbl_summary(aggregated_gtsummary_tbl)
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#epvfiuzfqr .gt_sourcenote {
+&#10;#jqszsngepd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#epvfiuzfqr .gt_left {
+&#10;#jqszsngepd .gt_left {
   text-align: left;
 }
-&#10;#epvfiuzfqr .gt_center {
+&#10;#jqszsngepd .gt_center {
   text-align: center;
 }
-&#10;#epvfiuzfqr .gt_right {
+&#10;#jqszsngepd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#epvfiuzfqr .gt_font_normal {
+&#10;#jqszsngepd .gt_font_normal {
   font-weight: normal;
 }
-&#10;#epvfiuzfqr .gt_font_bold {
+&#10;#jqszsngepd .gt_font_bold {
   font-weight: bold;
 }
-&#10;#epvfiuzfqr .gt_font_italic {
+&#10;#jqszsngepd .gt_font_italic {
   font-style: italic;
 }
-&#10;#epvfiuzfqr .gt_super {
+&#10;#jqszsngepd .gt_super {
   font-size: 65%;
 }
-&#10;#epvfiuzfqr .gt_footnote_marks {
+&#10;#jqszsngepd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#epvfiuzfqr .gt_asterisk {
+&#10;#jqszsngepd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#epvfiuzfqr .gt_indent_1 {
+&#10;#jqszsngepd .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#epvfiuzfqr .gt_indent_2 {
+&#10;#jqszsngepd .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#epvfiuzfqr .gt_indent_3 {
+&#10;#jqszsngepd .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#epvfiuzfqr .gt_indent_4 {
+&#10;#jqszsngepd .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#epvfiuzfqr .gt_indent_5 {
+&#10;#jqszsngepd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
+```
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_col_headings">

@@ -104,7 +104,8 @@ aggregate_table <- countmaskr_data %>%
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
   group_by(block) %>%
-  mutate(N_masked = mask_counts(N))
+  mutate(N_masked = mask_counts(N)) %>%
+  kable()
 ```
 
 ### A2
@@ -112,7 +113,8 @@ aggregate_table %>%
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
   group_by(block) %>%
-  mutate(N_masked = mask_counts_2(N))
+  mutate(N_masked = mask_counts_2(N)) %>%
+  kable()
 ```
 
 ### A3
@@ -120,7 +122,8 @@ aggregate_table %>%
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
   group_by(block) %>%
-  mutate(N_masked = perturb_counts(N))
+  mutate(N_masked = perturb_counts(N)) %>%
+  kable()
 ```
 
 ### Using `mask_table()`
@@ -133,7 +136,8 @@ mask_table() is intended multi-tasking function which allows for masking, obtain
 mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N")
-)
+) %>%
+  kable()
 ```
 
 #### Simple one-dimensional masking while preserving original column and creating new masked columns
@@ -145,7 +149,8 @@ mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N"),
   overwrite_columns = FALSE
-)
+) %>%
+  kable()
 ```
 
 #### Simple one-dimensional masking with computing original and masked percentages
@@ -157,7 +162,8 @@ mask_table(aggregate_table,
   group_by = "block",
   col_groups = list("N"),
   overwrite_columns = FALSE
-)
+) %>%
+  kable()
 ```
 
 ## Two-way frequency table
@@ -173,8 +179,10 @@ mask_table(two_way_freq_table,
     col_groups = list(c("Overall", "Female", "Male", "Other")),
     overwrite_columns = TRUE,
     percentages = FALSE
-  )
+  ) %>%
+  kable()
 ```
+
 ## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)^1^ package's `tbl_summary()` function to obtain presentation-ready masked tables
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
