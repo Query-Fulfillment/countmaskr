@@ -88,7 +88,7 @@ require(knitr)
 
 
 
-```{r message=F}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 data('countmaskr_data')
 
 aggregate_table <- countmaskr_data %>%
