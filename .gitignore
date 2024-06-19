@@ -7,3 +7,6 @@
 .DS_Store
 .DS_STore?
 .Rproj.user
+*.csv
+*.rds
+ds_presentaion.R
