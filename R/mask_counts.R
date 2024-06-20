@@ -1,4 +1,4 @@
-#' Function to perform threshold based cell masking - method 1
+#' Function to perform threshold based cell masking - Algorithm 1 (A1)
 #'
 #' `r lifecycle::badge("stable")`
 #'

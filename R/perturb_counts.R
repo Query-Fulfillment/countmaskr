@@ -4,7 +4,7 @@
 #'
 #' @description
 #' This is a function to perturb counts in a vector where only one primary cell is present and requires
-#' secondary cell to be masked.
+#' secondary cell to be masked - Algorithm 3 (A3)
 #'
 #' @import tibble
 #' @import dplyr

@@ -18,7 +18,7 @@ suggesting to use Threshold-based suppression.
 }
 \description{
 This is a function to perturb counts in a vector where only one primary cell is present and requires
-secondary cell to be masked.
+secondary cell to be masked - Algorithm 3 (A3)
 }
 \details{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/mask_counts_2.R
 \name{mask_counts_2}
 \alias{mask_counts_2}
-\title{Function to perform threshold based cell masking - method 2}
+\title{Function to perform threshold based cell masking - Algorithm 2 (A2)}
 \usage{
 mask_counts_2(x, threshold = 11)
 }
