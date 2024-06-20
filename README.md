@@ -179,9 +179,8 @@ aggregate_table %>%
 
 ### Using `mask_table()`
 
-mask_table() is intended multi-tasking function which allows for
-masking, obtaining original and masked percentages on an aggregated
-table.
+mask_table() is a multi-tasking function which allows for masking,
+obtaining original and masked percentages on an aggregated table.
 
 #### Simple one-dimensional masking on the original column.
 
@@ -303,7 +302,7 @@ mask_table(two_way_freq_table,
 | Other                             | \<11    | 0      | \<11  | 0     |
 | White                             | 760     | 379    | \<380 | \<11  |
 
-## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)<sup>1</sup> package’s `tbl_summary()` function to obtain presentation-ready masked tables
+## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)[^1] package’s `tbl_summary()` function to obtain presentation-ready masked tables
 
 ## One dimensional frequency table
 
@@ -314,7 +313,6 @@ aggregated_gtsummary_tbl_one_way <- countmaskr_data %>%
 
 mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ```
-
 
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
@@ -530,6 +528,6 @@ with, or funding PCORnet®.
 
 # References
 
-1.  Sjoberg DD, Whiting K, Curry M, Lavery JA, Larmarange J.
+[^1]: Sjoberg DD, Whiting K, Curry M, Lavery JA, Larmarange J.
     Reproducible summary tables with the gtsummary package. The R
     Journal 2021;13:570–80. <https://doi.org/10.32614/RJ-2021-053>.
