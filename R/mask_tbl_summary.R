@@ -27,7 +27,7 @@ mask_tbl_summary <- function(gttbl) {
   raw_table <- split(cat_cont[["categorical"]], cat_cont[["categorical"]]$row_type)
 
   cols <- raw_table[["level"]] %>%
-    select(starts_with("stat_")) %>%
+    select(starts_with("stat_") & !contains("_label")) %>%
     colnames()
 
   raw_table[["level"]] <- raw_table[["level"]] %>%
