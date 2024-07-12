@@ -24,7 +24,7 @@
 #'
 #' lapply(list(x1, x2, x3), mask_counts_2)
 #'
-#' data('countmaskr_data')
+#' data("countmaskr_data")
 #'
 #' aggregate_table <- countmaskr_data %>%
 #'   select(-c(id, age)) %>%

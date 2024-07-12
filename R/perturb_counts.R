@@ -26,7 +26,7 @@
 #'
 #' lapply(list(x1, x2, x3), perturb_counts)
 #'
-#' data('countmaskr_data')
+#' data("countmaskr_data")
 #'
 #' aggregate_table <- countmaskr_data %>%
 #'   select(-c(id, age)) %>%

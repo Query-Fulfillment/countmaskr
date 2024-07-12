@@ -61,8 +61,9 @@ mask_table <-
            threshold = 11,
            col_groups,
            group_by = NULL,
-           overwrite_columns = T,
-           percentages = F) {
+           overwrite_columns = TRUE,
+           percentages = FALSE,
+           relax_masking = FALSE) {
     # resolving data structure to perform downstream tasks
     threshold <- threshold
     if (!is.list(col_groups)) {
@@ -88,7 +89,8 @@ mask_table <-
           across_column_mask <- apply(original_counts,
             MARGIN = 2,
             mask_counts,
-            threshold = threshold
+            threshold = threshold,
+            relax_masking = relax_masking
           )
           if (!is.matrix(across_column_mask)) {
             across_column_mask <- t(matrix(across_column_mask))
@@ -96,7 +98,8 @@ mask_table <-
           across_row_mask <- apply(across_column_mask,
             MARGIN = 1,
             mask_counts,
-            threshold = threshold
+            threshold = threshold,
+            relax_masking = relax_masking
           )
           if (!is.matrix(across_row_mask)) {
             across_row_mask <- matrix(t(across_row_mask))
@@ -143,7 +146,7 @@ mask_table <-
 
           # Checking if performing rowwise masking in same row on different column requires an additional cell,
           # if required, the repeat loop will perform a whole iteration until convergence is attained
-          if (nrow(masked_counts) > 1) {
+          if (nrow(masked_counts) >= 1) {
             total_masked_cells <- colSums(apply(masked_counts, 2, function(col) {
               grepl("<", col)
             }))

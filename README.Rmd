@@ -87,7 +87,7 @@ require(knitr)
 
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-data('countmaskr_data')
+data("countmaskr_data")
 
 aggregate_table <- countmaskr_data %>%
   select(-c(id, age)) %>%
@@ -171,14 +171,15 @@ mask_table(aggregate_table,
 two_way_freq_table <- countmaskr_data %>%
   count(race, gender) %>%
   pivot_wider(names_from = gender, values_from = n) %>%
-  mutate(across(all_of(c("Female","Male", "Other")), ~ ifelse(is.na(.), 0, .)),
-    Overall = Female + Male + Other, .after = 1) 
+  mutate(across(all_of(c("Female", "Male", "Other")), ~ ifelse(is.na(.), 0, .)),
+    Overall = Female + Male + Other, .after = 1
+  )
 
 mask_table(two_way_freq_table,
-    col_groups = list(c("Overall", "Female", "Male", "Other")),
-    overwrite_columns = TRUE,
-    percentages = FALSE
-  ) %>%
+  col_groups = list(c("Overall", "Female", "Male", "Other")),
+  overwrite_columns = TRUE,
+  percentages = FALSE
+) %>%
   kable()
 ```
 
@@ -187,9 +188,9 @@ mask_table(two_way_freq_table,
 ## One dimensional frequency table
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-aggregated_gtsummary_tbl_one_way <- countmaskr_data %>% 
-                                        select(-id) %>% 
-                                        gtsummary::tbl_summary()
+aggregated_gtsummary_tbl_one_way <- countmaskr_data %>%
+  select(-id) %>%
+  gtsummary::tbl_summary()
 
 mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ```
@@ -197,10 +198,10 @@ mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ## Two-way frequency table
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-aggregated_gtsummary_tbl_two_way <- countmaskr_data %>% 
-                                        select(-id) %>% 
-                                        gtsummary::tbl_summary(by = 'race') %>% 
-                                        add_overall()
+aggregated_gtsummary_tbl_two_way <- countmaskr_data %>%
+  select(-id) %>%
+  gtsummary::tbl_summary(by = "race") %>%
+  add_overall()
 
 mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 ```
