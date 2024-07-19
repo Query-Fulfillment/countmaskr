@@ -63,7 +63,8 @@ mask_table <-
            group_by = NULL,
            overwrite_columns = TRUE,
            percentages = FALSE,
-           relax_masking = FALSE) {
+           relax_masking = FALSE,
+           .verbose = FALSE) {
     # resolving data structure to perform downstream tasks
     threshold <- threshold
     if (!is.list(col_groups)) {
@@ -79,12 +80,15 @@ mask_table <-
 
     # Starting to loop by block
     for (block in seq_along(list)) {
-      message(paste0("Starting masking for ", names(list[block]), "\n\n"))
+      if (isTRUE(.verbose)) {
+        message(paste0("Starting masking for ", names(list[block]), "\n\n"))
+      }
       # Looping by groups
       for (group in col_groups) {
         original_counts <- list[[block]][, group]
-        message(paste0("Performing masking:", group, "\n\n"))
-
+        if (isTRUE(.verbose)) {
+          message(paste0("Performing masking:", group, "\n\n"))
+        }
         repeat {
           across_column_mask <- apply(original_counts,
             MARGIN = 2,
