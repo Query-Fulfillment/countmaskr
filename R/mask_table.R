@@ -114,7 +114,7 @@ mask_table <-
             as.matrix(round(sweep(list[[block]][, group], 2, colSums(list[[block]][, group]), FUN = "/") * 100, digits = 0))
           original_total <- colSums(list[[block]][, group])
 
-          # Percentage computations if reqested
+          # Percentage computations if requested
           if (isTRUE(percentages)) {
             masked_percentages <-
               round(
@@ -151,15 +151,15 @@ mask_table <-
           # Checking if performing rowwise masking in same row on different column requires an additional cell,
           # if required, the repeat loop will perform a whole iteration until convergence is attained
           if (nrow(masked_counts) >= 1) {
-            total_masked_cells <- colSums(apply(masked_counts, 2, function(col) {
+            total_masked_cells <- colSums(matrix(apply(masked_counts, 2, function(col) {
               grepl("<", col)
-            }))
-            total_available_cells <- colSums(apply(masked_counts, 2, function(col) {
+            })))
+            total_available_cells <- colSums(matrix(apply(masked_counts, 2, function(col) {
               !grepl("<", col)
-            }))
-            total_zeros <- colSums(apply(masked_counts, 2, function(col) {
+            })))
+            total_zeros <- colSums(matrix(apply(masked_counts, 2, function(col) {
               col == "0" | col == "NA" | is.na(col)
-            }))
+            })))
           }
           if ((nrow(masked_counts) == 1) |
             (any(total_masked_cells ==
