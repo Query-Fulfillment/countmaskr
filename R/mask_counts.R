@@ -38,7 +38,7 @@
 #'   group_by(block) %>%
 #'   mutate(N_masked = mask_counts(N))
 #'
-mask_counts <- function(x, threshold = 11, relax_masking = FALSE) {
+mask_counts <- function(x, threshold = 11, zero_masking = FALSE) {
   .extract_digits <- function(x) {
     x <- as.numeric(gsub("[^0-9.]", "", x))
 
@@ -71,7 +71,7 @@ mask_counts <- function(x, threshold = 11, relax_masking = FALSE) {
     sum(x == 1 & !is.na(x)) && sum(x.m == paste0("<", threshold) & !is.na(x.m)) == length(x.m[grepl("<", x.m)]) &&
       length(.extract_digits(x.m)[!grepl("<", x.m) &
         .extract_digits(x.m) != 0]) != 0) {
-    if (isTRUE(relax_masking)) {
+    if (isTRUE(zero_masking)) {
       min_value <-
         min(.extract_digits(x.m)[!grepl("<", x.m)], na.rm = T)
       if (min_value == 0) {
@@ -100,7 +100,7 @@ mask_counts <- function(x, threshold = 11, relax_masking = FALSE) {
     length(.extract_digits(x.m)[!grepl("<", x.m) &
       .extract_digits(x.m) != 0]) != 0) {
     # Secondary cell making. Case where two primacy cells are present but both are 10.
-    if (isTRUE(relax_masking)) {
+    if (isTRUE(zero_masking)) {
       min_value <-
         min(.extract_digits(x.m)[!grepl("<", x.m)], na.rm = T)
       if (min_value == 0) {

@@ -63,7 +63,7 @@ mask_table <-
            group_by = NULL,
            overwrite_columns = TRUE,
            percentages = FALSE,
-           relax_masking = FALSE,
+           zero_masking = FALSE,
            .verbose = FALSE) {
     # resolving data structure to perform downstream tasks
     threshold <- threshold
@@ -94,7 +94,7 @@ mask_table <-
             MARGIN = 2,
             mask_counts,
             threshold = threshold,
-            relax_masking = relax_masking
+            zero_masking = zero_masking
           )
           if (!is.matrix(across_column_mask)) {
             across_column_mask <- t(matrix(across_column_mask))
@@ -103,7 +103,7 @@ mask_table <-
             MARGIN = 1,
             mask_counts,
             threshold = threshold,
-            relax_masking = relax_masking
+            zero_masking = zero_masking
           )
           if (!is.matrix(across_row_mask)) {
             across_row_mask <- matrix(t(across_row_mask))
