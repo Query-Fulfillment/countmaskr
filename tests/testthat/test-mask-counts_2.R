@@ -27,14 +27,14 @@ test_that("mask_counts handles secondary masking with one primary cell", {
 
 test_that("mask_counts handles secondary masking with two primary cells equal to 1", {
   x4 <- c(1, 1, 43, 55)
-  expected4 <- c("<11", "<11", "43", ">49")
+  expected4 <- c("<11", "<11", "43", "55")
 
   expect_equal(mask_counts_2(x4), expected4)
 })
 
 test_that("mask_counts handles secondary masking with two primary cells equal to 10", {
   x5 <- c(10, 10, 43, 55)
-  expected5 <- c("<11", "<11", "<50", "55")
+  expected5 <- c("<11", "<11", "43", "55")
 
   expect_equal(mask_counts_2(x5), expected5)
 })

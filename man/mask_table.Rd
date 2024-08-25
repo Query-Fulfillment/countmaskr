@@ -9,8 +9,10 @@ mask_table(
   threshold = 11,
   col_groups,
   group_by = NULL,
-  overwrite_columns = T,
-  percentages = F
+  overwrite_columns = TRUE,
+  percentages = FALSE,
+  zero_masking = FALSE,
+  .verbose = FALSE
 )
 }
 \arguments{
@@ -25,6 +27,10 @@ mask_table(
 \item{overwrite_columns}{Boolean parameter to overwrite columns}
 
 \item{percentages}{Boolean parameter for generate masked percentages, naming convention: 'col_perc_masked'}
+
+\item{zero_masking}{Boolean parameter to mask 0 as secondary cell when present}
+
+\item{.verbose}{Boolean parameter to log steps of masking in the console}
 }
 \value{
 a tibble with row and column wise masking. masked columns will return as character vector

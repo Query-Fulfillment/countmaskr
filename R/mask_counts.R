@@ -11,8 +11,8 @@
 #' @import tidyr
 #'
 #' @param x vector of length N
+#' @param zero_masking boolean parameter to mask 0 as secondary cell when present
 #' @param threshold threshold below with the values must be suppressed
-#' @param relax_masking boolean parameter to set relaxed masking. When set to TRUE, if 0 is present with a small cell, it will be masked as a secondary cell with a value
 #'
 #' @return a character vector with primary and/or secondary masked cell
 #'
@@ -39,6 +39,9 @@
 #'   mutate(N_masked = mask_counts(N))
 #'
 mask_counts <- function(x, threshold = 11, zero_masking = FALSE) {
+  disable_sci_notation <- options(scipen = 999)
+  on.exit(options(disable_sci_notation))
+
   .extract_digits <- function(x) {
     x <- as.numeric(gsub("[^0-9.]", "", x))
 

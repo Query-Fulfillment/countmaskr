@@ -16,6 +16,8 @@
 #' @param group_by variable name to group the masking by
 #' @param overwrite_columns Boolean parameter to overwrite columns
 #' @param percentages Boolean parameter for generate masked percentages, naming convention: 'col_perc_masked'
+#' @param zero_masking Boolean parameter to mask 0 as secondary cell when present
+#' @param .verbose Boolean parameter to log steps of masking in the console
 #'
 #' @return a tibble with row and column wise masking. masked columns will return as character vector
 #'

@@ -4,12 +4,14 @@
 \alias{mask_counts}
 \title{Function to perform threshold based cell masking - Algorithm 1 (A1)}
 \usage{
-mask_counts(x, threshold = 11)
+mask_counts(x, threshold = 11, zero_masking = FALSE)
 }
 \arguments{
 \item{x}{vector of length N}
 
 \item{threshold}{threshold below with the values must be suppressed}
+
+\item{zero_masking}{boolean parameter to mask 0 as secondary cell when present}
 }
 \value{
 a character vector with primary and/or secondary masked cell
@@ -27,7 +29,7 @@ x3 <- c(11, 10, 10, 55, 65, 121, 1213, 0, NA)
 
 lapply(list(x1, x2, x3), mask_counts_2)
 
-data('countmaskr_data')
+data("countmaskr_data")
 
 aggregate_table <- countmaskr_data \%>\%
   select(-c(id, age)) \%>\%

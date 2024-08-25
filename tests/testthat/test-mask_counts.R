@@ -6,9 +6,11 @@ library(tidyr)
 
 test_that("mask_counts handles basic cases correctly", {
   x1 <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
-  expected1 <- c("<11", "<20", "43", "55", "65", "121", "1,213", "0", NA)
+  expected1a <- c("<11", "<20", "43", "55", "65", "121", "1,213", "0", NA)
+  expected1b <- c("<11", "11", "43", "55", "65", "121", "1,213", "<11", NA)
 
-  expect_equal(mask_counts(x1), expected1)
+  expect_equal(mask_counts(x1,zero_masking = FALSE), expected1a)
+  expect_equal(mask_counts(x1,zero_masking = TRUE), expected1b)
 })
 
 test_that("mask_counts handles all values below threshold", {
@@ -19,24 +21,30 @@ test_that("mask_counts handles all values below threshold", {
 })
 
 test_that("mask_counts handles secondary masking with one primary cell", {
-  x3 <- c(5, 12, 43, 55)
-  expected3 <- c("<11", "<20", "43", "55")
+  x3 <- c(5, 12, 43, 55,0)
+  expected3a <- c("<11", "<20", "43", "55","0")
+  expected3b <- c("<11", "12", "43", "55","<11")
 
-  expect_equal(mask_counts(x3), expected3)
+  expect_equal(mask_counts(x3,zero_masking = FALSE), expected3a)
+  expect_equal(mask_counts(x3,zero_masking = TRUE), expected3b)
 })
 
 test_that("mask_counts handles secondary masking with two primary cells equal to 1", {
   x4 <- c(1, 1, 43, 55)
   expected4 <- c("<11", "<11", "<50", "55")
 
-  expect_equal(mask_counts(x4), expected4)
+  expect_equal(mask_counts(x4,zero_masking = FALSE), expected4)
+  expect_equal(mask_counts(x4,zero_masking = TRUE), expected4)
 })
 
 test_that("mask_counts handles secondary masking with two primary cells equal to 10", {
-  x5 <- c(10, 10, 43, 55)
-  expected5 <- c("<11", "<11", "<50", "55")
+  x5 <- c(10, 10, 43, 55,0)
 
-  expect_equal(mask_counts(x5), expected5)
+  expected5a <- c("<11", "<11", "<50", "55","0")
+  expected5b <- c("<11", "<11", "43", "55","<11")
+
+  expect_equal(mask_counts(x5,zero_masking = FALSE), expected5a)
+  expect_equal(mask_counts(x5,zero_masking = TRUE), expected5b)
 })
 
 test_that("mask_counts handles character input", {
@@ -68,8 +76,10 @@ test_that("mask_counts handles large numbers correctly", {
 })
 
 test_that("mask_counts handles input with existing masked values", {
-  x10 <- c("<11", "43", "55")
-  expected10 <- c("<11", "<50", "55")
+  x10 <- c("<11", "43", "55","0")
+  expected10a <- c("<11", "<50", "55","0")
+  expected10b <- c("<11", "43", "55","<11")
 
-  expect_equal(mask_counts(x10), expected10)
+  expect_equal(mask_counts(x10,zero_masking = FALSE), expected10a)
+  expect_equal(mask_counts(x10,zero_masking = TRUE), expected10b)
 })

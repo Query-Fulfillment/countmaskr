@@ -57,10 +57,10 @@ test_that("mask_table respects overwrite_columns parameter", {
     B = c(3, 6, 9, 12)
   )
 
-  result <- mask_table(data, threshold = 10, col_groups = c("A", "B"), overwrite_columns = FALSE)
+  result <- mask_table(data, threshold = 11, col_groups = c("A", "B"), overwrite_columns = FALSE)
 
-  expect_true(all(result$A_masked == c("<11", 10, 15, 20)))
-  expect_true(all(result$B_masked == c("<11", 6, 9, 12)))
+  expect_true(all(result$A_masked == c("<11", "<11", "<20", 20)))
+  expect_true(all(result$B_masked == c("<11", "<11", "<11", 12)))
   expect_true(all(result$A == c(5, 10, 15, 20)))
   expect_true(all(result$B == c(3, 6, 9, 12)))
 })
