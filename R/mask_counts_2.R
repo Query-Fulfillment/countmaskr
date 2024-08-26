@@ -24,7 +24,7 @@
 #'
 #' lapply(list(x1, x2, x3), mask_counts_2)
 #'
-#' data('countmaskr_data')
+#' data("countmaskr_data")
 #'
 #' aggregate_table <- countmaskr_data %>%
 #'   select(-c(id, age)) %>%
@@ -38,6 +38,8 @@
 #'   mutate(N_masked = mask_counts_2(N))
 #'
 mask_counts_2 <- function(x, threshold = 11) {
+  disable_sci_notation <- options(scipen = 999)
+  on.exit(options(disable_sci_notation))
   .extract_digits <- function(x) {
     x <- as.numeric(gsub("[^0-9.]", "", x))
 

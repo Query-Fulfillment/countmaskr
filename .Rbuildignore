@@ -9,3 +9,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^revdep$
+^cran-comments\.md$
+^.github

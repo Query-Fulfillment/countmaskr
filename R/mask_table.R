@@ -16,6 +16,8 @@
 #' @param group_by variable name to group the masking by
 #' @param overwrite_columns Boolean parameter to overwrite columns
 #' @param percentages Boolean parameter for generate masked percentages, naming convention: 'col_perc_masked'
+#' @param zero_masking Boolean parameter to mask 0 as secondary cell when present
+#' @param .verbose Boolean parameter to log steps of masking in the console
 #'
 #' @return a tibble with row and column wise masking. masked columns will return as character vector
 #'
@@ -61,8 +63,10 @@ mask_table <-
            threshold = 11,
            col_groups,
            group_by = NULL,
-           overwrite_columns = T,
-           percentages = F) {
+           overwrite_columns = TRUE,
+           percentages = FALSE,
+           zero_masking = FALSE,
+           .verbose = FALSE) {
     # resolving data structure to perform downstream tasks
     threshold <- threshold
     if (!is.list(col_groups)) {
@@ -78,17 +82,21 @@ mask_table <-
 
     # Starting to loop by block
     for (block in seq_along(list)) {
-      message(paste0("Starting masking for ", names(list[block]), "\n\n"))
+      if (isTRUE(.verbose)) {
+        message(paste0("Starting masking for ", names(list[block]), "\n\n"))
+      }
       # Looping by groups
       for (group in col_groups) {
         original_counts <- list[[block]][, group]
-        message(paste0("Performing masking:", group, "\n\n"))
-
+        if (isTRUE(.verbose)) {
+          message(paste0("Performing masking:", group, "\n\n"))
+        }
         repeat {
           across_column_mask <- apply(original_counts,
             MARGIN = 2,
             mask_counts,
-            threshold = threshold
+            threshold = threshold,
+            zero_masking = zero_masking
           )
           if (!is.matrix(across_column_mask)) {
             across_column_mask <- t(matrix(across_column_mask))
@@ -96,7 +104,8 @@ mask_table <-
           across_row_mask <- apply(across_column_mask,
             MARGIN = 1,
             mask_counts,
-            threshold = threshold
+            threshold = threshold,
+            zero_masking = zero_masking
           )
           if (!is.matrix(across_row_mask)) {
             across_row_mask <- matrix(t(across_row_mask))
@@ -107,7 +116,7 @@ mask_table <-
             as.matrix(round(sweep(list[[block]][, group], 2, colSums(list[[block]][, group]), FUN = "/") * 100, digits = 0))
           original_total <- colSums(list[[block]][, group])
 
-          # Percentage computations if reqested
+          # Percentage computations if requested
           if (isTRUE(percentages)) {
             masked_percentages <-
               round(
@@ -143,16 +152,16 @@ mask_table <-
 
           # Checking if performing rowwise masking in same row on different column requires an additional cell,
           # if required, the repeat loop will perform a whole iteration until convergence is attained
-          if (nrow(masked_counts) > 1) {
-            total_masked_cells <- colSums(apply(masked_counts, 2, function(col) {
+          if (nrow(masked_counts) >= 1) {
+            total_masked_cells <- colSums(matrix(apply(masked_counts, 2, function(col) {
               grepl("<", col)
-            }))
-            total_available_cells <- colSums(apply(masked_counts, 2, function(col) {
+            })))
+            total_available_cells <- colSums(matrix(apply(masked_counts, 2, function(col) {
               !grepl("<", col)
-            }))
-            total_zeros <- colSums(apply(masked_counts, 2, function(col) {
+            })))
+            total_zeros <- colSums(matrix(apply(masked_counts, 2, function(col) {
               col == "0" | col == "NA" | is.na(col)
-            }))
+            })))
           }
           if ((nrow(masked_counts) == 1) |
             (any(total_masked_cells ==

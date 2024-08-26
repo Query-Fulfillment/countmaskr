@@ -2,30 +2,35 @@ Package: countmaskr
 Title: Small Cell Masking Tool for One- & Two-Way Tabular Reports
 Version: 1.0.0
 Authors@R: c(
-    person("Sahal", "Master",role = c('aut','cre'),email = "sahalmaster@outlook.com",
-            comment = c(ORCID = "0000-0002-8518-8107")),
-    person("Amy", "Goodwin Davies", role = c('aut'), email = "goodwindaa@chop.edu"),
-    person("Ally", "Zelinski", role = c('aut'), email = "zelinskia@chop.edu"),
-    person("Qiwei",  "Shen", role = c('aut'), email = "shenq@chop.edu"))
-Description: 
-    This is an R package designed to address patient privacy concerns by automating the masking of cell counts in aggregated tabular reports. 
-    This user-friendly and versatile tool applies threshold-based masking to primary, secondary, and tertiary cells, replacing true counts with masked values. 
-    It can handle various report types, saving significant time and reducing privacy risks. 
-    This package ensures the protection of patient data while retaining accurate counts in complex tabular reports, 
-    making it a valuable addition to data sharing and privacy protection workflows.
+    person("Sahal", "Master", , "sahalmaster@outlook.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8518-8107")),
+    person("Amy", "Goodwin Davies", , "goodwindaa@chop.edu", role = "aut"),
+    person("Ally", "Zelinski", , "zelinskia@chop.edu", role = "aut"),
+    person("Qiwei", "Shen", , "shenq@chop.edu", role = "aut")
+  )
+Description: This is an R package designed to address patient privacy
+    concerns by automating the masking of cell counts in aggregated
+    tabular reports.  This user-friendly and versatile tool applies
+    threshold-based masking to primary, secondary, and tertiary cells,
+    replacing true counts with masked values.  It can handle various
+    report types, saving significant time and reducing privacy risks.
+    This package ensures the protection of patient data while retaining
+    accurate counts in complex tabular reports, making it a valuable
+    addition to data sharing and privacy protection workflows.
 License: Artistic-2.0
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
-Depends: R (>= 2.10),
-    tibble,
+Depends: 
     dplyr,
     gtsummary,
     purrr,
+    R (>= 2.10),
+    tibble,
     tidyr
+Imports: 
+    lifecycle
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Imports: 
-    lifecycle
+Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1

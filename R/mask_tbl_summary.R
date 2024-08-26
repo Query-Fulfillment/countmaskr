@@ -75,7 +75,7 @@ mask_tbl_summary <- function(gttbl) {
         )
       )
   } else {
-    gttbl$table_styling$header  <- gttbl$table_styling$header %>%
+    gttbl$table_styling$header <- gttbl$table_styling$header %>%
       mutate(
         label = case_when(
           grepl("stat_", column) ~ sub(",.*", "", label),
