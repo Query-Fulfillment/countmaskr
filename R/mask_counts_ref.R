@@ -89,17 +89,17 @@ mask_counts <- function(x, threshold = 11, zero_masking = FALSE, secondary_cell 
     # For non-NA values, apply the pattern matching
     non_na_values <- values[!is_na]
 
-    # Define the allowed pattern: optional '<', optional '-', digits, optional '.', digits
-    allowed_pattern <- "^<?-?[0-9]*\\.?[0-9]+$"
+    # Define the allowed pattern: optional '<', optional '-', digits and commas, optional '.', digits
+    allowed_pattern <- "^<?-?[0-9,]*\\.?[0-9]+$"
 
     # Check for disallowed characters or invalid formats in non-NA values
     if (any(!grepl(allowed_pattern, non_na_values))) {
       stop("Error: Values contain disallowed characters or invalid format.")
     }
 
-    # Remove the '<' symbol if it's present at the start in non-NA values
+    # Remove the '<' symbol and commas in non-NA values
     numeric_strings <- rep(NA_character_, length(values))
-    numeric_strings[!is_na] <- gsub("^<", "", non_na_values)
+    numeric_strings[!is_na] <- gsub("[<,]", "", non_na_values)
 
     # Convert the cleaned strings to numeric
     numeric_values <- as.numeric(numeric_strings)
@@ -111,6 +111,7 @@ mask_counts <- function(x, threshold = 11, zero_masking = FALSE, secondary_cell 
 
     return(numeric_values)
   }
+
 
 
   # Initialize masked counts
