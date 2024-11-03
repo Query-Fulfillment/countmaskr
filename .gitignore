@@ -17,3 +17,4 @@ docs/
 .csv
 >>>>>>> Stashed changes
 revdep/
+prep-for-cran.R

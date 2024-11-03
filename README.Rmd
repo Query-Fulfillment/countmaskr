@@ -60,7 +60,7 @@ The goal of countmaskr is to automate small cell suppression in tabular reports 
 
 ## Installation
 
-You can install the **alpha** version of countmaskr from [GitHub](https://github.com/) with:
+You can install the **beta** version of countmaskr from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
