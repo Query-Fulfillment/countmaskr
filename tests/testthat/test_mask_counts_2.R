@@ -117,7 +117,7 @@ test_that("Secondary masking with two primary masked cells", {
 # Test 15: Large numbers
 test_that("Handling large numbers", {
   counts <- c(1e6, 5e6, 1e7)
-  expected <- format(counts, digits = 1, big.mark = ",", trim = TRUE)
+  expected <- format_cells(counts)
   result <- mask_counts_2(counts)
   expect_equal(result, expected)
 })

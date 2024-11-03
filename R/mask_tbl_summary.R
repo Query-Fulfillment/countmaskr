@@ -31,7 +31,7 @@ mask_tbl_summary <- function(gttbl) {
     colnames()
 
   raw_table[["level"]] <- raw_table[["level"]] %>%
-    mutate(across(all_of(cols), ~ .extract_digits(sub(" .*", "", .)))) %>%
+    mutate(across(all_of(cols), ~ extract_digits(sub(" .*", "", .)))) %>%
     mask_table(
       col_groups = list(cols),
       group_by = "variable",

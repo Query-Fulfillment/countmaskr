@@ -2,7 +2,7 @@
 % Please edit documentation in R/mask_table.R
 \name{mask_table}
 \alias{mask_table}
-\title{Function to apply cell suppression methods on a two-by-two tables}
+\title{Apply Threshold-Based Masking to a Data Frame}
 \usage{
 mask_table(
   data,
@@ -12,37 +12,39 @@ mask_table(
   overwrite_columns = TRUE,
   percentages = FALSE,
   zero_masking = FALSE,
+  secondary_cell = "min",
   .verbose = FALSE
 )
 }
 \arguments{
-\item{data}{input data with a column that has counts which need suppression}
+\item{data}{A data frame containing the counts to be masked. Must be a data frame.}
 
-\item{threshold}{threshold value for suppression for the threshold_suppression() function. defaulted to 11}
+\item{threshold}{A positive numeric value specifying the threshold below which values must be suppressed. Default is 11.}
 
-\item{col_groups}{columns that requires suppression. If two way tables. enter columns groups that require row-wise suppression as list()}
+\item{col_groups}{A character vector or a list of character vectors, where each character vector specifies columns in \code{data} to which masking should be applied.}
 
-\item{group_by}{variable name to group the masking by}
+\item{group_by}{An optional character string specifying a column name in \code{data} to group the data by before masking.}
 
-\item{overwrite_columns}{Boolean parameter to overwrite columns}
+\item{overwrite_columns}{Logical; if \code{TRUE}, the original columns are overwritten with masked counts. If \code{FALSE}, new columns are added with masked counts. Default is \code{TRUE}.}
 
-\item{percentages}{Boolean parameter for generate masked percentages, naming convention: 'col_perc_masked'}
+\item{percentages}{Logical; if \code{TRUE}, percentages are calculated and masked accordingly. Default is \code{FALSE}.}
 
-\item{zero_masking}{Boolean parameter to mask 0 as secondary cell when present}
+\item{zero_masking}{Logical; if \code{TRUE}, zeros can be masked as secondary cells when present. Passed to \code{mask_counts}. Default is \code{FALSE}.}
 
-\item{.verbose}{Boolean parameter to log steps of masking in the console}
+\item{secondary_cell}{Character string specifying the method for selecting secondary cells when necessary. Options are \code{"min"}, \code{"max"}, or \code{"random"}. Passed to \code{mask_counts}. Default is \code{"min"}.}
+
+\item{.verbose}{Logical; if \code{TRUE}, progress messages are printed during masking. Default is \code{FALSE}.}
 }
 \value{
-a tibble with row and column wise masking. masked columns will return as character vector
+A data frame with masked counts in specified columns. If \code{percentages = TRUE}, additional columns with percentages are added. The structure of the returned data frame depends on the \code{overwrite_columns} parameter.
 }
 \description{
-This is a multi-tasking function to convert a simple table 1 with counts and percentages both  -masked and unmasked
-}
-\details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+The \code{mask_table} function applies threshold-based masking to specified columns in a data frame.
+It uses the \code{mask_counts} function to mask counts that are below a certain threshold, adhering
+to data privacy requirements. The function can handle grouped data and calculate percentages if required.
+It ensures convergence by checking specific criteria after each iteration.
 }
 \examples{
-
 data("countmaskr_data")
 
 aggregate_table <- countmaskr_data \%>\%
@@ -76,4 +78,7 @@ countmaskr_data \%>\%
     percentages = FALSE
   )
 
+}
+\seealso{
+\code{\link{mask_counts}}
 }

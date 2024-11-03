@@ -12,18 +12,6 @@
 #' @return A numeric vector containing the extracted numeric values. If a value is
 #'   incorrectly formatted, the function stops with an error message.
 #'
-#' @examples
-#' # Basic usage with symbols, commas, and decimal points
-#' extract_digits(c("1,234", "<5,432.1", ">-3,000", "987.65"))
-#'
-#' # Using values with no symbols or commas
-#' extract_digits(c("100", "-50.25", "3000"))
-#'
-#' # Values with invalid format will trigger an error
-#' \dontrun{
-#' extract_digits(c("123abc", ">1,234,567.89")) # Error due to invalid format
-#' }
-#'
 #' @details
 #' The function first checks for valid formats using a regular expression. Only values
 #' matching the following pattern are accepted:
@@ -36,6 +24,11 @@
 #' and converts the cleaned string to a numeric value.
 #'
 extract_digits <- function(values) {
+
+  if (is.numeric(values) || is.integer(values)) {
+    return(values)
+  }
+
   # Identify which values are NA
   is_na <- is.na(values)
 

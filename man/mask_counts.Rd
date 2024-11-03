@@ -2,44 +2,80 @@
 % Please edit documentation in R/mask_counts.R
 \name{mask_counts}
 \alias{mask_counts}
-\title{Function to perform threshold based cell masking - Algorithm 1 (A1)}
+\title{Perform threshold-based cell masking with primary and secondary masking (Algorithm 1 - A1)}
 \usage{
-mask_counts(x, threshold = 11, zero_masking = FALSE)
+mask_counts(x, threshold = 11, zero_masking = FALSE, secondary_cell = "min")
 }
 \arguments{
-\item{x}{vector of length N}
+\item{x}{A numeric vector.}
 
-\item{threshold}{threshold below with the values must be suppressed}
+\item{threshold}{A positive numeric value specifying the threshold below which values must be suppressed. Default is 11.}
 
-\item{zero_masking}{boolean parameter to mask 0 as secondary cell when present}
+\item{zero_masking}{Logical; if \code{TRUE}, zeros can be masked as secondary cells when present. Default is \code{FALSE}.}
+
+\item{secondary_cell}{Character string specifying the method for selecting secondary cells when necessary. Options are \code{"min"}, \code{"max"}, or \code{"random"}. Default is \code{"min"}.}
 }
 \value{
-a character vector with primary and/or secondary masked cell
+A character vector with primary and/or secondary masked cells.
 }
 \description{
-This function is a workhorse of the mask_table function. It identifies primary and secondary cells, and masks them as necessary
+Identifies primary and secondary cells in a numeric vector and masks them according to the specified threshold.
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+The function operates in two main steps: \strong{primary masking} and \strong{secondary masking}.
+
+\strong{Primary Masking}:
+Values greater than 0 and less than the specified \code{threshold} are considered primary cells. These values are masked by replacing them with \code{<threshold}.
+
+\strong{Secondary Masking}:
+Secondary masking is applied to prevent the deduction of masked primary cells from the totals. The logic for identifying the need for secondary masking is based on the following conditions:
+\itemize{
+\item \strong{Condition A}: Only one primary masked cell exists, and there are other counts greater than or equal to the threshold.
+\item \strong{Condition B}: Two or more counts of 1 are masked, and there are other counts greater than or equal to the threshold.
+\item \strong{Condition C}: The \code{threshold} is 11, and two or more counts of 10 are masked, and there are other counts greater than or equal to the threshold.
+}
+
+If any of these conditions are met, secondary masking is performed as follows:
+\itemize{
+\item If \code{zero_masking} is \code{TRUE} and zeros are present in the data, one zero is randomly selected and masked as \code{<threshold}.
+\item If zeros are not to be masked or not present, a non-zero cell is selected for masking based on the \code{secondary_cell} parameter:
+\itemize{
+\item \code{"min"}: The smallest unmasked count greater than zero is selected.
+\item \code{"max"}: The largest unmasked count is selected.
+\item \code{"random"}: A random unmasked count is selected.
+}
+}
+
+The selected secondary cell is then masked by calculating a new masking threshold using the formula:
+
+\deqn{mask\_value = 5 \times \lceil (selected\_value + 1) / 5 \rceil}
+
+The formula calculates the masking threshold by first adding 1 to the selected value, then dividing by 5, and rounding up to the nearest whole number. This result is then multiplied by 5 to get the final \code{mask_value}. Essentially, it rounds the selected value up to the next multiple of 5 after incrementing it by 1.
+
+The cell is then replaced with \code{<mask_value}.
 }
 \examples{
 x1 <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
 x2 <- c(1, 1, 1, 55, 65, 121, 1213, 0, NA)
 x3 <- c(11, 10, 10, 55, 65, 121, 1213, 0, NA)
 
-lapply(list(x1, x2, x3), mask_counts_2)
+mask_counts(x1)
+mask_counts(x2)
+mask_counts(x3)
 
-data("countmaskr_data")
+if (requireNamespace("dplyr", quietly = TRUE) && requireNamespace("tidyr", quietly = TRUE)) {
+  data("countmaskr_data")
 
-aggregate_table <- countmaskr_data \%>\%
-  select(-c(id, age)) \%>\%
-  gather(block, Characteristics) \%>\%
-  group_by(block, Characteristics) \%>\%
-  summarise(N = n()) \%>\%
-  ungroup()
+  aggregate_table <- countmaskr_data \%>\%
+    dplyr::select(-c(id, age)) \%>\%
+    tidyr::gather(block, Characteristics) \%>\%
+    dplyr::group_by(block, Characteristics) \%>\%
+    dplyr::summarise(N = dplyr::n()) \%>\%
+    dplyr::ungroup()
 
-aggregate_table \%>\%
-  group_by(block) \%>\%
-  mutate(N_masked = mask_counts(N))
+  aggregate_table \%>\%
+    dplyr::group_by(block) \%>\%
+    dplyr::mutate(N_masked = mask_counts(N))
+}
 
 }

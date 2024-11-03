@@ -2,43 +2,60 @@
 % Please edit documentation in R/mask_counts_2.R
 \name{mask_counts_2}
 \alias{mask_counts_2}
-\title{Function to perform threshold based cell masking - Algorithm 2 (A2)}
+\title{Perform threshold-based cell masking with primary and secondary masking  (Algorithm 2 - A2)}
 \usage{
-mask_counts_2(x, threshold = 11)
+mask_counts_2(x, threshold = 11, zero_masking = FALSE)
 }
 \arguments{
-\item{x}{vector of length N}
+\item{x}{Numeric vector to mask.}
 
-\item{threshold}{threshold below with the values must be suppressed}
+\item{threshold}{Positive numeric value for the threshold below which cells are masked. Default is 11.}
+
+\item{zero_masking}{Logical; if \code{TRUE}, zeros may be masked as secondary cells if present. Default is \code{FALSE}.}
 }
 \value{
-a character vector with primary and/or secondary masked cell
+A character vector with masked cells, retaining \code{NA} as \code{NA_character_}.
 }
 \description{
-This function is an adaptation of mask_count() but performs masking in a modified way. This masking prevents the total counts to exceed the original totals
+This function masks values in a numeric vector based on a specified threshold, using primary and secondary masking to ensure data privacy.
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
+The function operates in two main steps:
+\itemize{
+\item \strong{Primary Masking}: Values greater than 0 but less than the threshold are masked by replacing them with \code{<threshold}.
+\item \strong{Secondary Masking}: Applied when additional masking is required to prevent deduction of masked cells from totals. Secondary masking is triggered under the following conditions:
+\itemize{
+\item \strong{Condition A}: A single primary masked cell exists, and there are other values that meet or exceed the threshold.
+\item \strong{Condition B}: Two or more counts of 1 are masked, with other values meeting or exceeding the threshold.
+\item \strong{Condition C}: The threshold is set to 11, with two or more counts of 10 masked and other counts meeting or exceeding the threshold.
+}
+}
+
+If any of these conditions are met:
+\itemize{
+\item When \code{zero_masking = TRUE} and zeros are present, one zero is randomly selected and masked as \code{<threshold}.
+\item When \code{zero_masking = FALSE} (or zeros are absent), the function masks the largest unmasked count (i.e., the maximum non-zero value).
+}
+
+\strong{Formula for Mask Value Calculation}:
+To calculate the \code{mask_value} for the secondary cell, the following formula is used:
+\deqn{mask\_value = selected\_value - (threshold - totals\_of\_small\_cells)}
+
+In words, this formula subtracts the difference between the threshold and the sum of all small cells (those masked in the primary masking step) from the selected maximum unmasked value. This adjusted \code{mask_value} helps ensure privacy while retaining consistent totals.
 }
 \examples{
 x1 <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
-x2 <- c(1, 1, 1, 55, 65, 121, 1213, 0, NA)
-x3 <- c(11, 10, 10, 55, 65, 121, 1213, 0, NA)
 
+mask_counts_2(x1)
 
-lapply(list(x1, x2, x3), mask_counts_2)
-
-data("countmaskr_data")
-
-aggregate_table <- countmaskr_data \%>\%
-  select(-c(id, age)) \%>\%
-  gather(block, Characteristics) \%>\%
-  group_by(block, Characteristics) \%>\%
-  summarise(N = n()) \%>\%
-  ungroup()
-
-aggregate_table \%>\%
-  group_by(block) \%>\%
-  mutate(N_masked = mask_counts_2(N))
-
+if (requireNamespace("dplyr", quietly = TRUE) && requireNamespace("tidyr", quietly = TRUE)) {
+  data("countmaskr_data")
+  countmaskr_data \%>\%
+    dplyr::select(-c(id, age)) \%>\%
+    tidyr::gather(block, Characteristics) \%>\%
+    dplyr::group_by(block, Characteristics) \%>\%
+    dplyr::summarise(N = dplyr::n()) \%>\%
+    dplyr::ungroup() \%>\%
+    dplyr::mutate(N_masked = mask_counts_2(N))
+}
 }
