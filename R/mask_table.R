@@ -12,6 +12,7 @@
 #' @param group_by An optional character string specifying a column name in `data` to group the data by before masking.
 #' @param overwrite_columns Logical; if `TRUE`, the original columns are overwritten with masked counts. If `FALSE`, new columns are added with masked counts. Default is `TRUE`.
 #' @param percentages Logical; if `TRUE`, percentages are calculated and masked accordingly. Default is `FALSE`.
+#' @param  perc_decimal = A positive numeric value specifying the decimals for percentages. Default is 0.
 #' @param zero_masking Logical; if `TRUE`, zeros can be masked as secondary cells when present. Passed to `mask_counts`. Default is `FALSE`.
 #' @param secondary_cell Character string specifying the method for selecting secondary cells when necessary. Options are `"min"`, `"max"`, or `"random"`. Passed to `mask_counts`. Default is `"min"`.
 #' @param .verbose Logical; if `TRUE`, progress messages are printed during masking. Default is `FALSE`.
@@ -63,6 +64,7 @@ mask_table <- function(data,
                        group_by = NULL,
                        overwrite_columns = TRUE,
                        percentages = FALSE,
+                       perc_decimal = 0,
                        zero_masking = FALSE,
                        secondary_cell = "min",
                        .verbose = FALSE) {
@@ -87,6 +89,9 @@ mask_table <- function(data,
   }
   if (!is.logical(.verbose) || length(.verbose) != 1) {
     stop("Argument '.verbose' must be a logical value (TRUE or FALSE).")
+  }
+  if (percentages && !is.numeric(perc_decimal)) {
+    stop("Argument 'perc_decimal' must be a positive numeric value.")
   }
 
   # Validate 'group_by'
@@ -191,11 +196,11 @@ mask_table <- function(data,
         # Check convergence criteria
         if (nrow(masked_counts) >= 1) {
           # Calculate total masked cells per column
-          total_masked_cells <- colSums(apply(masked_counts, 2, function(col) grepl("<", col)))
+          total_masked_cells <- sapply(masked_counts, function(col) sum(grepl("<", col), na.rm = TRUE))
           # Calculate total available (unmasked) cells per column
-          total_available_cells <- colSums(apply(masked_counts, 2, function(col) !grepl("<", col)))
+          total_available_cells <- sapply(masked_counts, function(col) sum(!grepl("<", col), na.rm = TRUE))
           # Calculate total zeros per column
-          total_zeros <- colSums(apply(masked_counts, 2, function(col) col == "0" | is.na(col)))
+          total_zeros <- sapply(masked_counts, function(col) sum(col == "0" | is.na(col), na.rm = TRUE))
 
           # Check if convergence criteria are met
           if ((nrow(masked_counts) == 1) ||
@@ -247,7 +252,7 @@ mask_table <- function(data,
 
         # Calculate original percentages
         original_percentages <- sweep(original_counts_numeric, 2, original_totals, FUN = "/") * 100
-        original_percentages <- round(original_percentages, digits = 0)
+        original_percentages <- round(original_percentages, digits = perc_decimal)
 
         # Create original percentages data frame with suffix '_perc'
         original_percentages_char <- matrix(NA_character_, nrow = nrow(original_percentages), ncol = ncol(original_percentages))
@@ -263,7 +268,7 @@ mask_table <- function(data,
         # Now handle masked percentages
         # Calculate masked percentages
         masked_percentages <- sweep(masked_counts_numeric, 2, original_totals, FUN = "/") * 100
-        masked_percentages <- round(masked_percentages, digits = 0)
+        masked_percentages <- round(masked_percentages, digits = perc_decimal)
 
         # Initialize masked_percentages_char with appropriate dimensions and names
         masked_percentages_char <- matrix(NA_character_, nrow = nrow(masked_percentages), ncol = ncol(masked_percentages))
