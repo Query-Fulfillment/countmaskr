@@ -277,23 +277,30 @@ mask_table <- function(data,
         # Create logical matrices for conditions
         is_masked_sec_cell <- as.matrix(apply(masked_counts, 2, function(col) grepl("<", col) & !grepl(paste0("<", threshold), col)))
         is_small_cell <- as.matrix(apply(masked_counts, 2, function(col) grepl(paste0("<", threshold), col)))
-        is_na_cell <- is.na(masked_counts_numeric)
+        
+        # Ensure is_na_cell has the same dimensions as other logical matrices
+        is_na_cell <- as.matrix(is.na(masked_counts_numeric))
+        
+        # Ensure all matrices have the same dimensions
+        if (nrow(masked_counts_numeric) == 1) {
+          # For single row case, ensure all matrices are row matrices
+          is_masked_sec_cell <- matrix(is_masked_sec_cell, nrow = 1)
+          is_small_cell <- matrix(is_small_cell, nrow = 1)
+          is_na_cell <- matrix(is_na_cell, nrow = 1)
+          
+          # Set column names to match
+          colnames(is_masked_sec_cell) <- colnames(masked_counts)
+          colnames(is_small_cell) <- colnames(masked_counts)
+          colnames(is_na_cell) <- colnames(masked_counts)
+        }
 
         # Assign masked percentages
         masked_percentages_char[is_masked_sec_cell] <- paste0("<", masked_percentages[is_masked_sec_cell], " %")
         masked_percentages_char[is_small_cell] <- "masked cell"
 
         # Assign unmasked percentages
-        unmasked_condition <- !is_masked_sec_cell & !is_na_cell & !is_small_cell
-        na_condition <- !is_masked_sec_cell & !is_small_cell & is_na_cell
-
-        if (any(unmasked_condition, na.rm = TRUE)) {
-           masked_percentages_char[unmasked_condition] <- paste0(masked_percentages[unmasked_condition], " %")
-         }
-      
-        if (any(na_condition, na.rm = TRUE)) {
+        masked_percentages_char[!is_masked_sec_cell & !is_na_cell & !is_small_cell] <- paste0(masked_percentages[!is_masked_sec_cell & !is_na_cell & !is_small_cell], " %")
         masked_percentages_char[!is_masked_sec_cell & !is_small_cell & is_na_cell] <- NA_character_
-        }
         # Convert to data frame
         masked_percentages_df <- as.data.frame(masked_percentages_char, check.names = FALSE)
 
