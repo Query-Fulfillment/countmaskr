@@ -11,6 +11,7 @@ mask_table(
   group_by = NULL,
   overwrite_columns = TRUE,
   percentages = FALSE,
+  perc_decimal = 0,
   zero_masking = FALSE,
   secondary_cell = "min",
   .verbose = FALSE
@@ -28,6 +29,8 @@ mask_table(
 \item{overwrite_columns}{Logical; if \code{TRUE}, the original columns are overwritten with masked counts. If \code{FALSE}, new columns are added with masked counts. Default is \code{TRUE}.}
 
 \item{percentages}{Logical; if \code{TRUE}, percentages are calculated and masked accordingly. Default is \code{FALSE}.}
+
+\item{perc_decimal}{= A positive numeric value specifying the decimals for percentages. Default is 0.}
 
 \item{zero_masking}{Logical; if \code{TRUE}, zeros can be masked as secondary cells when present. Passed to \code{mask_counts}. Default is \code{FALSE}.}
 

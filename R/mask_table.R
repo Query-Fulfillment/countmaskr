@@ -284,9 +284,16 @@ mask_table <- function(data,
         masked_percentages_char[is_small_cell] <- "masked cell"
 
         # Assign unmasked percentages
-        masked_percentages_char[!is_masked_sec_cell & !is_na_cell & !is_small_cell] <- paste0(masked_percentages[!is_masked_sec_cell & !is_na_cell & !is_small_cell], " %")
-        masked_percentages_char[!is_masked_sec_cell & !is_small_cell & is_na_cell] <- NA_character_
+        unmasked_condition <- !is_masked_sec_cell & !is_na_cell & !is_small_cell
+        na_condition <- !is_masked_sec_cell & !is_small_cell & is_na_cell
 
+        if (any(unmasked_condition, na.rm = TRUE)) {
+           masked_percentages_char[unmasked_condition] <- paste0(masked_percentages[unmasked_condition], " %")
+         }
+      
+        if (any(na_condition, na.rm = TRUE)) {
+        masked_percentages_char[!is_masked_sec_cell & !is_small_cell & is_na_cell] <- NA_character_
+        }
         # Convert to data frame
         masked_percentages_df <- as.data.frame(masked_percentages_char, check.names = FALSE)
 
@@ -296,7 +303,7 @@ mask_table <- function(data,
         } else {
           block_data <- cbind(block_data, original_percentages_df, masked_percentages_df)
         }
-      }
+        }
 
       # Overwrite or add masked counts to block_data (if not already done)
       if (!isTRUE(overwrite_columns)) {
