@@ -56,7 +56,7 @@ reports to reduce privacy risk.
 
 ## Installation
 
-You can install the **alpha** version of countmaskr from
+You can install the **beta** version of countmaskr from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -83,7 +83,7 @@ require(knitr)
 ## One dimensional frequency table
 
 ``` r
-data('countmaskr_data')
+data("countmaskr_data")
 
 aggregate_table <- countmaskr_data %>%
   select(-c(id, age)) %>%
@@ -258,24 +258,24 @@ mask_table(aggregate_table,
   kable()
 ```
 
-| block     | Characteristics                   | N     | N_perc | N_perc_masked |
-|:----------|:----------------------------------|:------|-------:|:--------------|
-| age_group | 18-29                             | 243   |     16 | 16 %          |
-| age_group | 30-39                             | 198   |     13 | 13 %          |
-| age_group | 40-49                             | 215   |     14 | 14 %          |
-| age_group | 50-64                             | 323   |     22 | 22 %          |
-| age_group | 65+                               | 521   |     35 | 35 %          |
-| ethnicity | Hispanic                          | 143   |     10 | 10 %          |
-| ethnicity | Non-Hispanic                      | 1,346 |     90 | 90 %          |
-| ethnicity | Other                             | 11    |      1 | 1 %           |
-| gender    | Female                            | \<730 |     49 | \<49 %        |
-| gender    | Male                              | 763   |     51 | 51 %          |
-| gender    | Other                             | \<11  |      1 | masked cell   |
-| race      | American Indian/ Pacific Islander | \<70  |      4 | \<5 %         |
-| race      | Asian                             | 215   |     14 | 14 %          |
-| race      | Black                             | 453   |     30 | 30 %          |
-| race      | Other                             | \<11  |      0 | masked cell   |
-| race      | White                             | 760   |     51 | 51 %          |
+| block     | Characteristics                   | N     | N_perc_masked |
+|:----------|:----------------------------------|:------|:--------------|
+| age_group | 18-29                             | 243   | 16 %          |
+| age_group | 30-39                             | 198   | 13 %          |
+| age_group | 40-49                             | 215   | 14 %          |
+| age_group | 50-64                             | 323   | 22 %          |
+| age_group | 65+                               | 521   | 35 %          |
+| ethnicity | Hispanic                          | 143   | 10 %          |
+| ethnicity | Non-Hispanic                      | 1,346 | 90 %          |
+| ethnicity | Other                             | 11    | 1 %           |
+| gender    | Female                            | \<730 | \<49 %        |
+| gender    | Male                              | 763   | 51 %          |
+| gender    | Other                             | \<11  | masked cell   |
+| race      | American Indian/ Pacific Islander | \<70  | \<5 %         |
+| race      | Asian                             | 215   | 14 %          |
+| race      | Black                             | 453   | 30 %          |
+| race      | Other                             | \<11  | masked cell   |
+| race      | White                             | 760   | 51 %          |
 
 ## Two-way frequency table
 
@@ -283,14 +283,15 @@ mask_table(aggregate_table,
 two_way_freq_table <- countmaskr_data %>%
   count(race, gender) %>%
   pivot_wider(names_from = gender, values_from = n) %>%
-  mutate(across(all_of(c("Female","Male", "Other")), ~ ifelse(is.na(.), 0, .)),
-    Overall = Female + Male + Other, .after = 1) 
+  mutate(across(all_of(c("Female", "Male", "Other")), ~ ifelse(is.na(.), 0, .)),
+    Overall = Female + Male + Other, .after = 1
+  )
 
 mask_table(two_way_freq_table,
-    col_groups = list(c("Overall", "Female", "Male", "Other")),
-    overwrite_columns = TRUE,
-    percentages = FALSE
-  ) %>%
+  col_groups = list(c("Overall", "Female", "Male", "Other")),
+  overwrite_columns = TRUE,
+  percentages = FALSE
+) %>%
   kable()
 ```
 
@@ -298,22 +299,23 @@ mask_table(two_way_freq_table,
 |:----------------------------------|:--------|:-------|:------|:------|
 | American Indian/ Pacific Islander | \<70    | 29     | \<40  | 0     |
 | Asian                             | 215     | \<100  | 118   | \<11  |
-| Black                             | 453     | \<230  | 228   | \<11  |
+| Black                             | 453     | \<225  | 228   | \<11  |
 | Other                             | \<11    | 0      | \<11  | 0     |
-| White                             | 760     | 379    | \<380 | \<11  |
+| White                             | 760     | 379    | \<375 | \<11  |
 
 ## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)[^1] package’s `tbl_summary()` function to obtain presentation-ready masked tables
 
 ## One dimensional frequency table
 
 ``` r
-aggregated_gtsummary_tbl_one_way <- countmaskr_data %>% 
-                                        select(-id) %>% 
-                                        gtsummary::tbl_summary()
+aggregated_gtsummary_tbl_one_way <- countmaskr_data %>%
+  select(-id) %>%
+  gtsummary::tbl_summary()
 
 mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ```
 
+<div id="odsxeisefc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_col_headings">
@@ -376,15 +378,15 @@ mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
 ## Two-way frequency table
 
 ``` r
-aggregated_gtsummary_tbl_two_way <- countmaskr_data %>% 
-                                        select(-id) %>% 
-                                        gtsummary::tbl_summary(by = 'race') %>% 
-                                        add_overall()
+aggregated_gtsummary_tbl_two_way <- countmaskr_data %>%
+  select(-id) %>%
+  gtsummary::tbl_summary(by = "race") %>%
+  add_overall()
 
 mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 ```
 
-
+<div id="ranrhlxstc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_col_headings">
@@ -416,7 +418,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 <td headers="stat_0" class="gt_row gt_center">&lt;730 (&lt;49 %)</td>
 <td headers="stat_1" class="gt_row gt_center">29 (44 %)</td>
 <td headers="stat_2" class="gt_row gt_center">&lt;100 (&lt;47 %)</td>
-<td headers="stat_3" class="gt_row gt_center">&lt;230 (&lt;51 %)</td>
+<td headers="stat_3" class="gt_row gt_center">&lt;225 (&lt;50 %)</td>
 <td headers="stat_4" class="gt_row gt_center">0 (0 %)</td>
 <td headers="stat_5" class="gt_row gt_center">379 (50 %)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Male</td>
@@ -425,7 +427,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 <td headers="stat_2" class="gt_row gt_center">118 (55 %)</td>
 <td headers="stat_3" class="gt_row gt_center">228 (50 %)</td>
 <td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
-<td headers="stat_5" class="gt_row gt_center">&lt;380 (&lt;50 %)</td></tr>
+<td headers="stat_5" class="gt_row gt_center">&lt;375 (&lt;49 %)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Other</td>
 <td headers="stat_0" class="gt_row gt_center">&lt;11 (masked cell)</td>
 <td headers="stat_1" class="gt_row gt_center">0 (0 %)</td>
@@ -446,10 +448,10 @@ mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 <td headers="stat_2" class="gt_row gt_center">&lt;20 (&lt;9 %)</td>
 <td headers="stat_3" class="gt_row gt_center">&lt;50 (&lt;11 %)</td>
 <td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
-<td headers="stat_5" class="gt_row gt_center">&lt;80 (&lt;11 %)</td></tr>
+<td headers="stat_5" class="gt_row gt_center">&lt;75 (&lt;10 %)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Non-Hispanic</td>
 <td headers="stat_0" class="gt_row gt_center">1,346 (90 %)</td>
-<td headers="stat_1" class="gt_row gt_center">&lt;70 (&lt;100 %)</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;65 (&lt;98 %)</td>
 <td headers="stat_2" class="gt_row gt_center">196 (91 %)</td>
 <td headers="stat_3" class="gt_row gt_center">403 (89 %)</td>
 <td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
@@ -498,7 +500,7 @@ mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 <td headers="stat_5" class="gt_row gt_center">156 (21 %)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    65+</td>
 <td headers="stat_0" class="gt_row gt_center">521 (35 %)</td>
-<td headers="stat_1" class="gt_row gt_center">&lt;30 (&lt;45 %)</td>
+<td headers="stat_1" class="gt_row gt_center">&lt;25 (&lt;38 %)</td>
 <td headers="stat_2" class="gt_row gt_center">64 (30 %)</td>
 <td headers="stat_3" class="gt_row gt_center">176 (39 %)</td>
 <td headers="stat_4" class="gt_row gt_center">&lt;11 (masked cell)</td>
@@ -518,13 +520,13 @@ This package was developed to support activities of the PCORnet® Query
 Fulfillment team as well as to support research conducted within
 PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query
 Fulfillment is funded through Patient-Centered Outcomes Research
-Institute (PCORI) award RI-CHOP-01-PS2. PEDSnet has been developed with
-funding from the PCORI; PEDSnet’s participation in PCORnet is funded
-through PCORI award RI-CHOP-01-PS1.
+Institute (PCORI®) award RI-CHOP-01-PS2. PEDSnet has been developed with
+funding from the PCORI®; PEDSnet’s participation in PCORnet® is funded
+through PCORI® award RI-CHOP-01-PS1.
 
 The package and its documentation do not necessarily represent the
-opinions of PCORI or other organizations participating in, collaborating
-with, or funding PCORnet®.
+opinions of PCORI® or other organizations participating in,
+collaborating with, or funding PCORnet®.
 
 # References
 

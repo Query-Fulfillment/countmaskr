@@ -12,3 +12,5 @@
 ^revdep$
 ^cran-comments\.md$
 ^.github
+^prep-for-cran.R
+^dev

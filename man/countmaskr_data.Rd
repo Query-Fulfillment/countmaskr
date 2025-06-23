@@ -23,6 +23,6 @@ A data frame with 1500 rows and 6 columns:
 data(countmaskr_data)
 }
 \description{
-A synthetic dataset of 1500 subjects with demographic information ascertaining atleast one category from the demographics has counts less than 11.
+A synthetic dataset of 1500 subjects with demographic information ascertaining at least one category from the demographics has counts less than 11.
 }
 \keyword{datasets}

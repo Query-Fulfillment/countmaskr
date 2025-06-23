@@ -2,39 +2,85 @@
 % Please edit documentation in R/perturb_counts.R
 \name{perturb_counts}
 \alias{perturb_counts}
-\title{Function to perturb counts in a vector with small cells}
+\title{Perturb Counts in a Vector with Small Cells}
 \usage{
 perturb_counts(x, threshold = 10)
 }
 \arguments{
-\item{x}{numeric vector of length N}
+\item{x}{Numeric vector of length N containing counts.}
 
-\item{threshold}{threshold for small cell aka 'primary cell'}
+\item{threshold}{Numeric value specifying the threshold for small cells (primary cells). Defaults to 10.}
 }
 \value{
-a vector with added weighted noise to the non-primary cells
-If the non-secondary cell do not have enough room to distribute noise, the function will return with an error
-suggesting to use Threshold-based suppression.
+A character vector with perturbed counts formatted with digit precision and thousands separator. If perturbation is not feasible, the function returns counts masked using \code{\link[=mask_counts]{mask_counts()}}.
 }
 \description{
-This is a function to perturb counts in a vector where only one primary cell is present and requires
-secondary cell to be masked - Algorithm 3 (A3)
+The \code{perturb_counts} function perturbs counts in a numeric vector containing small cells, specifically when only one primary cell is present and secondary cells need to be masked, following Algorithm 3 (A3). The function adjusts the counts by distributing noise to non-primary cells while preserving the overall distribution as much as possible.
 }
 \details{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+\strong{Perturbation Process Overview:}
+
+The function performs perturbation through the following steps:
+\enumerate{
+\item \strong{Identification of Small Cells}: Cells with counts greater than 0 and less than the specified \code{threshold} are identified as small cells (primary cells).
+
+\deqn{\text{Small Cells} = \{ i \mid 0 < x_i < \text{threshold} \}}
+\item \strong{Adjustment of Small Cells}: The counts of small cells are set to the \code{threshold} value.
+
+\deqn{x'_i = \left\{
+     \begin{array}{ll}
+       \text{threshold} & \text{if } x_i \text{ is a small cell} \\
+       x_i & \text{otherwise}
+     \end{array}
+   \right.}
+\item \strong{Calculation of Total Noise}: The total noise to be distributed is calculated as the difference between the original total sum and the adjusted sum.
+
+\deqn{\text{Total Noise} = \sum_{i=1}^{N} x_i - \sum_{i=1}^{N} x'_i}
+\item \strong{Distribution of Noise to Non-Small Cells}: The total noise is proportionally distributed to the non-small cells based on their original counts.
+\itemize{
+\item \strong{Weights Calculation}:
+\deqn{w_i = \frac{x_i}{\sum_{j \in \text{Non-Small Cells}} x_j}}
+\item \strong{Noise Allocation}:
+\deqn{\text{Noise}_i = w_i \times \text{Total Noise}}
+\item \strong{Adjusted Counts}:
+\deqn{x''_i = x'_i + \text{Noise}_i}
+}
+\item \strong{Rounding Adjusted Counts}: The adjusted counts are rounded to the nearest integer.
+
+\deqn{x'''_i = \text{round}(x''_i)}
+\item \strong{Adjustment for Rounding Discrepancies}: Any remaining noise due to rounding discrepancies is adjusted by iteratively adding or subtracting 1 from the largest counts until the total counts are balanced, ensuring that no count falls below the \code{threshold}.
+\item \strong{Verification of Proportions}: The function checks if the proportions of the non-small cells remain consistent before and after perturbation. If the proportions differ, the function coerces to mask counts using the \code{\link[=mask_counts]{mask_counts()}} function.
+}
+
+\strong{Coercion to Mask Counts:}
+
+The function coerces to mask counts in the following scenarios:
+\itemize{
+\item \strong{Multiple Small Cells Detected}: If more than one small cell is identified, perturbation may not be necessary unless intended to use. The function will still proceed with perturbation but recommends using threshold-based suppression.
+\item \strong{Insufficient Available Counts}: If the non-small cells do not have enough counts to absorb the total noise without any count falling below the \code{threshold}, the operation will lead to information loss.
+\item \strong{Proportions Changed After Perturbation}: If perturbation alters the original proportions of the non-small cells, the operation will lead to information loss.
+}
+
+#' - \strong{All Counts Below Threshold}: If all counts in the vector are below the specified \code{threshold}, there is no meaningful perturbation possible. In this case, the function coerces to \code{mask_counts()} as a more secure alternative.
+
+In these cases, the function calls \code{\link[=mask_counts]{mask_counts()}} to apply threshold-based cell suppression as a more secure alternative.
 }
 \examples{
+# Example vectors
 x1 <- c(5, 11, 43, 55, 65, 121, 1213, 0, NA)
 x2 <- c(1, 1, 1, 55, 65, 121, 1213, 0, NA)
 x3 <- c(11, 10, 10, 55, 65, 121, 1213, 0, NA)
 
+# Apply the function
 lapply(list(x1, x2, x3), perturb_counts)
 
+# Using the function within a data frame
 data("countmaskr_data")
-
 aggregate_table <- countmaskr_data \%>\%
   select(-c(id, age)) \%>\%
-  gather(block, Characteristics) \%>\%
+  tidyr::gather(block, Characteristics) \%>\%
   group_by(block, Characteristics) \%>\%
   summarise(N = n()) \%>\%
   ungroup()

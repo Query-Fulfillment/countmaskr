@@ -7,7 +7,6 @@
 .DS_Store
 .DS_STore?
 .Rproj.user
-<<<<<<< Updated upstream
 *.csv
 *.rds
 docs
@@ -17,3 +16,4 @@ docs/
 .csv
 >>>>>>> Stashed changes
 revdep/
+prep-for-cran.R

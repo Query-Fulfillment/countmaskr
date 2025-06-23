@@ -60,7 +60,7 @@ The goal of countmaskr is to automate small cell suppression in tabular reports 
 
 ## Installation
 
-You can install the **alpha** version of countmaskr from [GitHub](https://github.com/) with:
+You can install the **beta** version of countmaskr from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -208,9 +208,9 @@ mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
 
 # Grants and funding
 
-This package was developed to support activities of the PCORnet® Query Fulfillment team as well as to support research conducted within PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query Fulfillment is funded through Patient-Centered Outcomes Research Institute (PCORI) award RI-CHOP-01-PS2. PEDSnet has been developed with funding from the PCORI; PEDSnet’s participation in PCORnet is funded through PCORI award RI-CHOP-01-PS1. 
+This package was developed to support activities of the PCORnet® Query Fulfillment team as well as to support research conducted within PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query Fulfillment is funded through Patient-Centered Outcomes Research Institute (PCORI®) award RI-CHOP-01-PS2. PEDSnet has been developed with funding from the PCORI®; PEDSnet’s participation in PCORnet® is funded through PCORI® award RI-CHOP-01-PS1. 
  
-The package and its documentation do not necessarily represent the opinions of PCORI or other organizations participating in, collaborating with, or funding PCORnet®.
+The package and its documentation do not necessarily represent the opinions of PCORI® or other organizations participating in, collaborating with, or funding PCORnet®.
 
 # References
 [^1]: Sjoberg DD, Whiting K, Curry M, Lavery JA, Larmarange J. Reproducible summary tables with the gtsummary package. The R Journal 2021;13:570–80. https://doi.org/10.32614/RJ-2021-053.
