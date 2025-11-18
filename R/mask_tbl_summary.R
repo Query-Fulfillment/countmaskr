@@ -19,7 +19,8 @@
 #' @examples
 #' data(countmaskr_data)
 #' mask_tbl_summary(gtsummary::tbl_summary(countmaskr_data[, -1]))
-mask_tbl_summary <- function(gttbl) {
+mask_tbl_summary <- function(gttbl,
+                             threshold = 11) {
   gttbl$table_body <- gttbl$table_body %>%
     mutate(sort = row_number())
 
@@ -36,7 +37,8 @@ mask_tbl_summary <- function(gttbl) {
       col_groups = list(cols),
       group_by = "variable",
       overwrite_columns = T,
-      percentages = T
+      percentages = T,
+      threshold = threshold
     ) %>%
     as_tibble()
 
