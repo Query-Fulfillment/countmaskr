@@ -6,24 +6,22 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-8518-8107")),
     person("Amy", "Goodwin Davies", , "goodwindaa@chop.edu", role = "aut"),
     person("Allison", "Zelinski", , "zelinskia@chop.edu", role = "aut"),
-    person("Qiwei", "Shen", , "shenq@chop.edu", role = "aut"),
+    person("Qiwei", "Shen", , "shenq@chop.edu", 
+            comment = c(ORCID = "0009-0003-0631-0026"), role = "aut"),
     person("Nicole", "Marchesani", , "MARCHESANN@chop.edu", 
            comment = c(ORCID = "0009-0006-0683-7575"),role = "ctb"),
     person("Aqsa", "Khan", , "khana8@chop.edu",
             comment = c(ORCID = "0009-0000-9574-4704"),role = "ctb"),
     person("Rhonda", "DeCook", , "rhonda-decook@uiowa.edu", role = "ctb")
   )
-Description: A tool that provides a principled framework for automated small-cell 
-    suppression in one- and two-way frequency tabulations, enabling analysts to 
-    disseminate aggregate statistical results while mitigating re-identification 
-    risk inherent in clinical and health administrative data. The package implements 
-    threshold-based masking algorithms that systematically identify and suppress primary 
-    cells falling below a defined frequency threshold, with propagation to secondary 
-    cells to prevent residual disclosure through arithmetic inference. 
-    Designed for integration into reproducible reporting pipelines, countmaskr 
-    supports a broad range of tabular structures, substantially reducing manual 
-    review burden while enforcing consistent, auditable privacy-protection 
-    standards across institutional data sharing workflows.
+Description: Provides automated small-cell suppression for one- and two-way 
+        frequency tables. Cells falling below a user-defined frequency 
+        threshold are masked, with suppression propagated to secondary 
+        cells to prevent indirect disclosure. Designed for clinical and 
+        health administrative data, the package supports a range of tabular 
+        structures and fits into reproducible reporting pipelines, reducing 
+        manual review while applying consistent suppression rules across data 
+        sharing workflows.
 License: Mozilla Public License Version 2.0
 Depends: 
     R (>= 2.10),
