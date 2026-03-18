@@ -14,3 +14,5 @@
 ^.github
 ^prep-for-cran.R
 ^dev
+^\.github$
+^codecov\.yml$

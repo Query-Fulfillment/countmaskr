@@ -1,0 +1,136 @@
+---
+title: "getting-started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting-started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(countmaskr)
+library(dplyr)
+library(tidyr)
+library(knitr)
+```
+
+&nbsp;
+
+## Code logic plot
+![](logic_plot.png)
+
+## One dimensional frequency table
+
+
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+data("countmaskr_data")
+
+aggregate_table <- countmaskr_data %>%
+  select(-c(id, age)) %>%
+  gather(block, Characteristics) %>%
+  group_by(block, Characteristics) %>%
+  summarise(N = n()) %>%
+  ungroup()
+```
+
+### A1
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+aggregate_table %>%
+  group_by(block) %>%
+  mutate(N_masked = mask_counts(N)) %>%
+  kable()
+```
+
+### A2
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+aggregate_table %>%
+  group_by(block) %>%
+  mutate(N_masked = mask_counts_2(N)) %>%
+  kable()
+```
+
+### A3
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+aggregate_table %>%
+  group_by(block) %>%
+  mutate(N_masked = perturb_counts(N)) %>%
+  kable()
+```
+
+### Using `mask_table()`
+
+mask_table() is a multi-tasking function which allows for masking, obtaining original and masked percentages on an aggregated table.
+
+#### Simple one-dimensional masking on the original column.
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
+  kable()
+```
+
+#### Simple one-dimensional masking while preserving original column and creating new masked columns
+
+Naming convention for the masked columns follow {col}_N_masked pattern.
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+mask_table(
+  aggregate_table,
+  group_by = "block",
+  col_groups = list("N"),
+  overwrite_columns = FALSE
+) %>%
+  kable()
+```
+
+#### Simple one-dimensional masking with computing original and masked percentages
+
+Naming convention for the original and masked percentages follow {col}_perc and {col}_perc_masked pattern.
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+mask_table(
+  aggregate_table,
+  group_by = "block",
+  col_groups = list("N"),
+  overwrite_columns = TRUE,
+  percentages = TRUE
+) %>%
+  kable()
+```
+
+## Two-way frequency table
+
+```{r message=FALSE,error=FALSE,warning=FALSE}
+two_way_freq_table <- countmaskr_data %>%
+  count(race, gender) %>%
+  pivot_wider(names_from = gender, values_from = n) %>%
+  mutate(
+    across(all_of(c("Female", "Male", "Other")), ~ ifelse(is.na(.), 0, .)),
+    Overall = Female + Male + Other,
+    .after = 1
+  )
+
+mask_table(
+  two_way_freq_table,
+  col_groups = list(c("Overall", "Female", "Male", "Other")),
+  overwrite_columns = TRUE,
+  percentages = FALSE
+) %>%
+  kable()
+```
+
+# Grants and funding
+
+This package was developed to support activities of the PCORnet® Query Fulfillment team as well as to support research conducted within PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query Fulfillment is funded through Patient-Centered Outcomes Research Institute (PCORI®) award RI-CHOP-01-PS2. PEDSnet has been developed with funding from the PCORI®; PEDSnet’s participation in PCORnet® is funded through PCORI® award RI-CHOP-01-PS1. 
+ 
+The package and its documentation do not necessarily represent the opinions of PCORI® or other organizations participating in, collaborating with, or funding PCORnet®.
