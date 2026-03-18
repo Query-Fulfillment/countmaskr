@@ -22,7 +22,7 @@ Description: Provides automated small-cell suppression for one- and two-way
         structures and fits into reproducible reporting pipelines, reducing 
         manual review while applying consistent suppression rules across data 
         sharing workflows.
-License: Mozilla Public License Version 2.0
+License: MPL-2.0
 Depends: 
     R (>= 2.10),
     dplyr,

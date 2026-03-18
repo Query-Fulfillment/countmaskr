@@ -13,10 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# countmaskr
+# countmaskr <a href="https://dplyr.tidyverse.org"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=for-the-badge)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+
+[![R-hub](https://img.shields.io/github/actions/workflow/status/query-fulfillment/countmaskr/rhub.yaml?style=for-the-badge&label=R-hub&logo=r)](https://github.com/query-fulfillment/countmaskr/actions/workflows/rhub.yaml)
 
 <!-- badges: end -->
 
@@ -26,7 +28,7 @@ The dissemination of aggregate health statistics derived from clinical and admin
 
 Federal agencies — including the [CMS](https://resdac.org/articles/cms-cell-size-suppression-policy), the [AHRQ](https://hcup-us.ahrq.gov/db/publishing.jsp), the [NCI](https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html), and the [CDC](https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html) — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks similarly enforce these standards: [PCORnet®](https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf) and [PEDSnet](https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf) both require a minimum cell-size threshold of 11 across all distributed data queries under their respective data sharing agreements.
 
-For studies spanning multiple reporting dimensions — such as stratified demographic breakdowns or multi-site analyses — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. `countmaskr` automates this workflow end-to-end, enabling analysts to meet their DUA obligations consistently and reproducible manner across institutional data sharing pipelines.
+For studies spanning multiple reporting dimensions — such as stratified demographic breakdowns or multi-site analyses — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. `countmaskr` automates this workflow end-to-end, enabling patient privacy as well as asists end-users to meet their DUA obligations consistently and in a reproducible manner across institutional data sharing pipelines.
 
 
 ### Definitions of small and secondary cells in one dimensional frequency table

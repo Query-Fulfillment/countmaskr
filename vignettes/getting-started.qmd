@@ -16,8 +16,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(countmaskr)
-library(dplyr)
-library(tidyr)
 library(knitr)
 ```
 
@@ -26,6 +24,8 @@ library(knitr)
 ## Code logic plot
 
 ![](logic_plot.png)
+
+&nbsp;
 
 ## One dimensional frequency table
 
@@ -42,7 +42,11 @@ aggregate_table <- countmaskr_data %>%
   ungroup()
 ```
 
-### A1
+&nbsp;
+
+::: {.panel-tabset}
+
+### Algorithm 1
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
@@ -51,7 +55,11 @@ aggregate_table %>%
   kable()
 ```
 
-### A2
+&nbsp;
+
+:::
+
+### Algorithm 2
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
@@ -60,7 +68,9 @@ aggregate_table %>%
   kable()
 ```
 
-### A3
+&nbsp;
+
+### Algorithm 3
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
@@ -69,18 +79,24 @@ aggregate_table %>%
   kable()
 ```
 
+
+:::
+
+&nbsp;
+
 ### Using `mask_table()`
 
 mask_table() is a multi-tasking function which allows for masking, obtaining original and masked percentages on an aggregated table.
 
-#### Simple one-dimensional masking on the original column.
+#### One-dimensional masking on the original column.
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
   kable()
 ```
 
-#### Simple one-dimensional masking while preserving original column and creating new masked columns
+
+#### One-way masking while preserving original column and creating new masked columns
 
 Naming convention for the masked columns follow {col}_N_masked pattern.
 
@@ -94,7 +110,7 @@ mask_table(
   kable()
 ```
 
-#### Simple one-dimensional masking with computing original and masked percentages
+#### Owo-way  masking with computing original and masked percentages
 
 Naming convention for the original and masked percentages follow {col}_perc and {col}_perc_masked pattern.
 
@@ -129,9 +145,3 @@ mask_table(
 ) %>%
   kable()
 ```
-
-# Grants and funding
-
-This package was developed to support activities of the PCORnet® Query Fulfillment team as well as to support research conducted within PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query Fulfillment is funded through Patient-Centered Outcomes Research Institute (PCORI®) award RI-CHOP-01-PS2. PEDSnet has been developed with funding from the PCORI®; PEDSnet’s participation in PCORnet® is funded through PCORI® award RI-CHOP-01-PS1. 
- 
-The package and its documentation do not necessarily represent the opinions of PCORI® or other organizations participating in, collaborating with, or funding PCORnet®.

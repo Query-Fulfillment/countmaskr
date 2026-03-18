@@ -6,7 +6,9 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=for-the-badge)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+
+[![R-hub](https://img.shields.io/github/actions/workflow/status/query-fulfillment/countmaskr/rhub.yaml?style=for-the-badge&label=R-hub&logo=r)](https://github.com/query-fulfillment/countmaskr/actions/workflows/rhub.yaml)
 
 <!-- badges: end -->
 

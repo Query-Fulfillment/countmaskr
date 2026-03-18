@@ -1,4 +1,24 @@
 url: https://query-fulfillment.github.io/countmaskr/
 template:
   bootstrap: 5
+  light-switch: true
+  
+home:
+  links:
+  - text: Browse Source Code
+    href: https://github.com/query-fulfillment/countmaskr
+  - text: Report a Bug
+    href: https://github.com/query-fulfillment/countmaskr/issues
 
+navbar:
+  left:
+  - text: 'Home'
+    href: index.html
+  - text: 'Getting Started'
+    href: articles/getting-started.html
+  - text: 'Reference'
+    href: reference/index.html
+  - text: 'PEDSpace'
+    href: https://hdl.handle.net/20.500.14642/1196
+  - text: 'Funding'
+    href: articles/funding.html
