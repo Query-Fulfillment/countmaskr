@@ -2,4 +2,5 @@
 
 ### All vignettes
 
-- [getting-started](https://query-fulfillment.github.io/countmaskr/articles/getting-started.md):
+- [Getting
+  Started](https://query-fulfillment.github.io/countmaskr/articles/getting-started.md):
