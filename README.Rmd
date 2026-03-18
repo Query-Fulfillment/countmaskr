@@ -17,8 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![CRAN status](https://www.r-pkg.org/badges/version/countmaskr)](https://CRAN.R-project.org/package=countmaskr)
-[![Codecov test coverage](https://codecov.io/gh/Query-Fulfillment/countmaskr/graph/badge.svg)](https://app.codecov.io/gh/Query-Fulfillment/countmaskr)
+
 <!-- badges: end -->
 
 ## Motivation
