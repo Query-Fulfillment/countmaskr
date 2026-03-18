@@ -9,7 +9,7 @@
 
 - **Allison Zelinski**. Author.
 
-- **Qiwei Shen**. Author.
+- **Qiwei Shen**. Author. [](https://orcid.org/0009-0003-0631-0026)
 
 - **Nicole Marchesani**. Contributor.
   [](https://orcid.org/0009-0006-0683-7575)
