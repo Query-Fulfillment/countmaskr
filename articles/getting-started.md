@@ -13,18 +13,18 @@ library(countmaskr)
 #>     intersect, setdiff, setequal, union
 #> Loading required package: tibble
 #> Loading required package: tidyr
-library(dplyr)
-library(tidyr)
 library(knitr)
 ```
 
  
 
-### Code logic plot
+## Code logic plot
 
 ![](logic_plot.png)
 
-### One dimensional frequency table
+ 
+
+## One dimensional frequency table
 
 ``` r
 data("countmaskr_data")
@@ -37,14 +37,9 @@ aggregate_table <- countmaskr_data %>%
   ungroup()
 ```
 
-#### A1
+ 
 
-``` r
-aggregate_table %>%
-  group_by(block) %>%
-  mutate(N_masked = mask_counts(N)) %>%
-  kable()
-```
+### Algorithm 1
 
 | block     | Characteristics                   |    N | N_masked |
 |:----------|:----------------------------------|-----:|:---------|
@@ -65,7 +60,11 @@ aggregate_table %>%
 | race      | Other                             |    6 | \<11     |
 | race      | White                             |  760 | 760      |
 
-#### A2
+ 
+
+- `aggregate_table`` `[`%>%`](https://magrittr.tidyverse.org/reference/pipe.html)` `` `[`group_by`](https://dplyr.tidyverse.org/reference/group_by.html)`(``block``)`` `[`%>%`](https://magrittr.tidyverse.org/reference/pipe.html)` `` `[`mutate`](https://dplyr.tidyverse.org/reference/mutate.html)`(``N_masked ``=`` `[`mask_counts`](https://query-fulfillment.github.io/countmaskr/reference/mask_counts.md)`(``N``)``)`` `[`%>%`](https://magrittr.tidyverse.org/reference/pipe.html)` `` `[`kable`](https://rdrr.io/pkg/knitr/man/kable.html)`(``)`
+
+### Algorithm 2
 
 ``` r
 aggregate_table %>%
@@ -93,7 +92,9 @@ aggregate_table %>%
 | race      | Other                             |    6 | \<11     |
 | race      | White                             |  760 | \>755    |
 
-#### A3
+ 
+
+### Algorithm 3
 
 ``` r
 aggregate_table %>%
@@ -121,12 +122,16 @@ aggregate_table %>%
 | race      | Other                             |    6 | 10       |
 | race      | White                             |  760 | 758      |
 
-#### Using `mask_table()`
+:::
+
+ 
+
+### Using `mask_table()`
 
 mask_table() is a multi-tasking function which allows for masking,
 obtaining original and masked percentages on an aggregated table.
 
-##### Simple one-dimensional masking on the original column.
+#### One-dimensional masking on the original column.
 
 ``` r
 mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
@@ -152,7 +157,7 @@ mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
 | race      | Other                             | \<11  |
 | race      | White                             | 760   |
 
-##### Simple one-dimensional masking while preserving original column and creating new masked columns
+#### One-way masking while preserving original column and creating new masked columns
 
 Naming convention for the masked columns follow {col}\_N_masked pattern.
 
@@ -185,7 +190,7 @@ mask_table(
 | race      | Other                             |    6 | \<11     |
 | race      | White                             |  760 | 760      |
 
-##### Simple one-dimensional masking with computing original and masked percentages
+#### Owo-way masking with computing original and masked percentages
 
 Naming convention for the original and masked percentages follow
 {col}\_perc and {col}\_perc_masked pattern.
@@ -220,7 +225,7 @@ mask_table(
 | race      | Other                             |    6 | \<11     | 0 %    | masked cell   |
 | race      | White                             |  760 | 760      | 51 %   | 51 %          |
 
-### Two-way frequency table
+## Two-way frequency table
 
 ``` r
 two_way_freq_table <- countmaskr_data %>%
@@ -248,17 +253,3 @@ mask_table(
 | Black                             | 453     | \<225  | 228   | \<11  |
 | Other                             | \<11    | 0      | \<11  | 0     |
 | White                             | 760     | 379    | \<375 | \<11  |
-
-## Grants and funding
-
-This package was developed to support activities of the PCORnet® Query
-Fulfillment team as well as to support research conducted within
-PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query
-Fulfillment is funded through Patient-Centered Outcomes Research
-Institute (PCORI®) award RI-CHOP-01-PS2. PEDSnet has been developed with
-funding from the PCORI®; PEDSnet’s participation in PCORnet® is funded
-through PCORI® award RI-CHOP-01-PS1.
-
-The package and its documentation do not necessarily represent the
-opinions of PCORI® or other organizations participating in,
-collaborating with, or funding PCORnet®.

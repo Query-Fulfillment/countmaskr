@@ -31,9 +31,9 @@ For studies spanning multiple reporting dimensions — such as stratified
 demographic breakdowns or multi-site analyses — manually identifying and
 suppressing all qualifying primary and complementary cells across large
 tables is a cumbersome and error-prone process. `countmaskr` automates
-this workflow end-to-end, enabling analysts to meet their DUA
-obligations consistently and reproducible manner across institutional
-data sharing pipelines.
+this workflow end-to-end, enabling patient privacy as well as asists
+end-users to meet their DUA obligations consistently and in a
+reproducible manner across institutional data sharing pipelines.
 
 ### Definitions of small and secondary cells in one dimensional frequency table
 

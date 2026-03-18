@@ -6,19 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Small Cell Masking Tool for One- &amp; Two-Way Tabular Reports • countmaskr</title>
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Small Cell Masking Tool for One- &amp; Two-Way Tabular Reports">
 <meta name="description" content="Provides automated small-cell suppression for one- and two-way frequency tables. Cells falling below a user-defined frequency threshold are masked, with suppression propagated to secondary cells to prevent indirect disclosure. Designed for clinical and health administrative data, the package supports a range of tabular structures and fits into reproducible reporting pipelines, reducing manual review while applying consistent suppression rules across data sharing workflows.">
 <meta property="og:description" content="Provides automated small-cell suppression for one- and two-way frequency tables. Cells falling below a user-defined frequency threshold are masked, with suppression propagated to secondary cells to prevent indirect disclosure. Designed for clinical and health administrative data, the package supports a range of tabular structures and fits into reproducible reporting pipelines, reducing manual review while applying consistent suppression rules across data sharing workflows.">
+<meta property="og:image" content="https://query-fulfillment.github.io/countmaskr/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="index.html">countmaskr</a>
 
@@ -31,18 +32,24 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="active nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/getting-started.html">Getting Started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/getting-started.html">Getting Started</a></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="external-link nav-link" href="https://hdl.handle.net/20.500.14642/1196">PEDSpace</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/funding.html">Funding</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -51,9 +58,13 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="countmaskr">countmaskr<a class="anchor" aria-label="anchor" href="#countmaskr"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="countmaskr-">countmaskr 
+<a class="anchor" aria-label="anchor" href="#countmaskr-"></a>
+</h1>
+</div>
 <!-- badges: start -->
+
 
 <!-- badges: end -->
 <div class="section level2">
@@ -61,7 +72,7 @@
 </h2>
 <p>The dissemination of aggregate health statistics derived from clinical and administrative data carries an inherent tension between analytic utility and patient confidentiality. When reported frequencies are sufficiently small, individuals within a subgroup may be vulnerable to re-identification — particularly in stratified or cross-tabulated outputs where demographic, geographic, or clinical covariates intersect. Such vulnerabilities have prompted formal regulatory responses, culminating in data use agreement (DUA) obligations codified by federal agencies and clinical research networks alike.</p>
 <p>Federal agencies — including the <a href="https://resdac.org/articles/cms-cell-size-suppression-policy" class="external-link">CMS</a>, the <a href="https://hcup-us.ahrq.gov/db/publishing.jsp" class="external-link">AHRQ</a>, the <a href="https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html" class="external-link">NCI</a>, and the <a href="https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html" class="external-link">CDC</a> — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks similarly enforce these standards: <a href="https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf" class="external-link">PCORnet®</a> and <a href="https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf" class="external-link">PEDSnet</a> both require a minimum cell-size threshold of 11 across all distributed data queries under their respective data sharing agreements.</p>
-<p>For studies spanning multiple reporting dimensions — such as stratified demographic breakdowns or multi-site analyses — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. <code>countmaskr</code> automates this workflow end-to-end, enabling analysts to meet their DUA obligations consistently and reproducible manner across institutional data sharing pipelines.</p>
+<p>For studies spanning multiple reporting dimensions — such as stratified demographic breakdowns or multi-site analyses — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. <code>countmaskr</code> automates this workflow end-to-end, enabling patient privacy as well as asists end-users to meet their DUA obligations consistently and in a reproducible manner across institutional data sharing pipelines.</p>
 <div class="section level3">
 <h3 id="definitions-of-small-and-secondary-cells-in-one-dimensional-frequency-table">Definitions of small and secondary cells in one dimensional frequency table<a class="anchor" aria-label="anchor" href="#definitions-of-small-and-secondary-cells-in-one-dimensional-frequency-table"></a>
 </h3>
@@ -153,10 +164,18 @@
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"Query-Fulfillment/countmaskr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/query-fulfillment/countmaskr" class="external-link">Browse Source Code</a></li>
+<li><a href="https://github.com/query-fulfillment/countmaskr/issues" class="external-link">Report a Bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li>Mozilla Public License Version 2.0</li>
+<li><a href="https://www.mozilla.org/en-US/MPL/2.0/" class="external-link">MPL-2.0</a></li>
 </ul>
 </div>
 
@@ -182,7 +201,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=for-the-badge" alt="Lifecycle: stable"></a></li>
+<li><a href="https://github.com/query-fulfillment/countmaskr/actions/workflows/rhub.yaml" class="external-link"><img src="https://img.shields.io/github/actions/workflow/status/query-fulfillment/countmaskr/rhub.yaml?style=for-the-badge&amp;label=R-hub&amp;logo=r" alt="R-hub"></a></li>
 </ul>
 </div>
 
