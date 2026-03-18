@@ -1,17 +1,12 @@
 # countmaskr: Small Cell Masking Tool for One- & Two-Way Tabular Reports
 
-A tool that provides a principled framework for automated small-cell
-suppression in one- and two-way frequency tabulations, enabling analysts
-to disseminate aggregate statistical results while mitigating
-re-identification risk inherent in clinical and health administrative
-data. The package implements threshold-based masking algorithms that
-systematically identify and suppress primary cells falling below a
-defined frequency threshold, with propagation to secondary cells to
-prevent residual disclosure through arithmetic inference. Designed for
-integration into reproducible reporting pipelines, countmaskr supports a
-broad range of tabular structures, substantially reducing manual review
-burden while enforcing consistent, auditable privacy-protection
-standards across institutional data sharing workflows.
+Provides automated small-cell suppression for one- and two-way frequency
+tables. Cells falling below a user-defined frequency threshold are
+masked, with suppression propagated to secondary cells to prevent
+indirect disclosure. Designed for clinical and health administrative
+data, the package supports a range of tabular structures and fits into
+reproducible reporting pipelines, reducing manual review while applying
+consistent suppression rules across data sharing workflows.
 
 ## See also
 
@@ -31,6 +26,7 @@ Authors:
 - Allison Zelinski <zelinskia@chop.edu>
 
 - Qiwei Shen <shenq@chop.edu>
+  ([ORCID](https://orcid.org/0009-0003-0631-0026))
 
 Other contributors:
 
