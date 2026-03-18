@@ -17,3 +17,5 @@ docs/
 >>>>>>> Stashed changes
 revdep/
 prep-for-cran.R
+
+/.quarto/

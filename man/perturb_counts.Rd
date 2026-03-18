@@ -18,8 +18,6 @@ A character vector with perturbed counts formatted with digit precision and thou
 The \code{perturb_counts} function perturbs counts in a numeric vector containing small cells, specifically when only one primary cell is present and secondary cells need to be masked, following Algorithm 3 (A3). The function adjusts the counts by distributing noise to non-primary cells while preserving the overall distribution as much as possible.
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 \strong{Perturbation Process Overview:}
 
 The function performs perturbation through the following steps:

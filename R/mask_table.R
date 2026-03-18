@@ -12,7 +12,7 @@
 #' @param group_by An optional character string specifying a column name in `data` to group the data by before masking.
 #' @param overwrite_columns Logical; if `TRUE`, the original columns are overwritten with masked counts. If `FALSE`, new columns are added with masked counts. Default is `TRUE`.
 #' @param percentages Logical; if `TRUE`, percentages are calculated and masked accordingly. Default is `FALSE`.
-#' @param  perc_decimal = A positive numeric value specifying the decimals for percentages. Default is 0.
+#' @param perc_decimal = A positive numeric value specifying the decimals for percentages. Default is 0.
 #' @param zero_masking Logical; if `TRUE`, zeros can be masked as secondary cells when present. Passed to `mask_counts`. Default is `FALSE`.
 #' @param secondary_cell Character string specifying the method for selecting secondary cells when necessary. Options are `"min"`, `"max"`, or `"random"`. Passed to `mask_counts`. Default is `"min"`.
 #' @param .verbose Logical; if `TRUE`, progress messages are printed during masking. Default is `FALSE`.
@@ -99,6 +99,11 @@ mask_table <- function(data,
     if (!is.character(group_by) || length(group_by) != 1 || !group_by %in% names(data)) {
       stop("Argument 'group_by' must be a single column name present in 'data'.")
     }
+  }
+
+ # Requesting percentages will always return both original and masked percentages
+  if (percentages) {
+    overwrite_columns <- FALSE
   }
 
   # Ensure col_groups is a list of vectors of column names
@@ -252,6 +257,8 @@ mask_table <- function(data,
 
         # Calculate original percentages
         original_percentages <- sweep(original_counts_numeric, 2, original_totals, FUN = "/") * 100
+        # Keep unrounded copy for boundary comparisons (0% / 100% edge-case checks)
+        original_percentages_unrounded <- original_percentages
         original_percentages <- round(original_percentages, digits = perc_decimal)
 
         # Create original percentages data frame with suffix '_perc'
@@ -276,7 +283,7 @@ mask_table <- function(data,
 
         # Create logical matrices for conditions
         is_masked_sec_cell <- as.matrix(apply(masked_counts, 2, function(col) grepl("<", col) & !grepl(paste0("<", threshold), col)))
-        is_small_cell <- as.matrix(apply(masked_counts, 2, function(col) grepl(paste0("<", threshold), col)))
+        is_small_cell <- as.matrix(apply(masked_counts, 2, function(col) grepl(paste0("^<", threshold, "$"), col)))
         
         # Ensure is_na_cell has the same dimensions as other logical matrices
         is_na_cell <- as.matrix(is.na(masked_counts_numeric))
@@ -294,13 +301,65 @@ mask_table <- function(data,
           colnames(is_na_cell) <- colnames(masked_counts)
         }
 
-        # Assign masked percentages
-        masked_percentages_char[is_masked_sec_cell] <- paste0("<", masked_percentages[is_masked_sec_cell], " %")
+        # Compute dynamic percentage boundary labels based on perc_decimal.
+        # These apply for any perc_decimal value (0, 1, 2, …):
+        #   min_perc = 1 / 10^perc_decimal  (e.g. 1 % for 0, 0.1 % for 1, 0.01 % for 2)
+        #   max_perc = 100 - min_perc        (e.g. 99 % for 0, 99.9 % for 1, 99.99 % for 2)
+        min_perc       <- 10^(-perc_decimal)
+        max_perc       <- 100 - min_perc
+        min_perc_label <- format(min_perc, nsmall = perc_decimal, trim = TRUE)
+        max_perc_label <- format(max_perc, nsmall = perc_decimal, trim = TRUE)
+
+        # Flag: rounded masked percentage is exactly 0 but the underlying count is > 0.
+        # This catches values too small to display at the chosen decimal precision.
+        # Applies regardless of masking status (primary, secondary, or unmasked).
+        is_zero_perc_nonzero_count <- as.matrix(
+          masked_percentages == 0 & !is.na(masked_percentages) & masked_counts_numeric > 0
+        )
+
+        # Flag: rounded masked percentage is exactly 100 but the TRUE (unrounded) original
+        # percentage was not 100 – i.e. rounding inflated the display to 100 %.
+        is_hundred_perc_not_original <- as.matrix(
+          masked_percentages == 100 & !is.na(masked_percentages) & original_percentages_unrounded != 100
+        )
+
+        # Ensure new flag matrices share dimensions in the single-row edge case
+        if (nrow(masked_counts_numeric) == 1) {
+          is_zero_perc_nonzero_count <- matrix(is_zero_perc_nonzero_count, nrow = 1)
+          colnames(is_zero_perc_nonzero_count) <- colnames(masked_counts)
+          is_hundred_perc_not_original <- matrix(is_hundred_perc_not_original, nrow = 1)
+          colnames(is_hundred_perc_not_original) <- colnames(masked_counts)
+        }
+
+        # Assign percentages with priority order:
+        # 1. Small cells (primary masked cells) -> "masked cell"
         masked_percentages_char[is_small_cell] <- "masked cell"
 
-        # Assign unmasked percentages
-        masked_percentages_char[!is_masked_sec_cell & !is_na_cell & !is_small_cell] <- paste0(masked_percentages[!is_masked_sec_cell & !is_na_cell & !is_small_cell], " %")
+        # 2. Secondary masked cells (excluding boundary overrides below) -> "<percentage %"
+        is_sec_normal <- is_masked_sec_cell & !is_small_cell &
+          !is_zero_perc_nonzero_count & !is_hundred_perc_not_original
+        masked_percentages_char[is_sec_normal] <-
+          paste0("<", masked_percentages[is_sec_normal], " %")
+
+        # 3. Unmasked percentages (excluding boundary overrides below) -> "percentage %"
+        is_unmasked_normal <- !is_masked_sec_cell & !is_na_cell & !is_small_cell &
+          !is_zero_perc_nonzero_count & !is_hundred_perc_not_original
+        masked_percentages_char[is_unmasked_normal] <-
+          paste0(masked_percentages[is_unmasked_normal], " %")
+
         masked_percentages_char[!is_masked_sec_cell & !is_small_cell & is_na_cell] <- NA_character_
+
+        # 4. Override – rounded 0 % with non-zero count -> "<min_perc %"
+        #    Applied AFTER steps 1-3 so it overrides "masked cell" too, as the count
+        #    is genuinely present but the magnitude is below the displayable resolution.
+        masked_percentages_char[is_zero_perc_nonzero_count] <-
+          paste0("<", min_perc_label, " %")
+
+        # 5. Override – rounded 100 % but true original is not 100 % -> ">max_perc %"
+        #    Prevents rounding artefacts from implying complete coverage.
+        masked_percentages_char[is_hundred_perc_not_original] <-
+          paste0("<", max_perc_label, " %")
+
         # Convert to data frame
         masked_percentages_df <- as.data.frame(masked_percentages_char, check.names = FALSE)
 

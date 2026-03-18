@@ -6,7 +6,7 @@
 \alias{countmaskr-package}
 \title{countmaskr: Small Cell Masking Tool for One- & Two-Way Tabular Reports}
 \description{
-This is an R package designed to address patient privacy concerns by automating the masking of cell counts in aggregated tabular reports. This user-friendly and versatile tool applies threshold-based masking to primary, secondary, and tertiary cells, replacing true counts with masked values. It can handle various report types, saving significant time and reducing privacy risks. This package ensures the protection of patient data while retaining accurate counts in complex tabular reports, making it a valuable addition to data sharing and privacy protection workflows.
+A tool that provides a principled framework for automated small-cell suppression in one- and two-way frequency tabulations, enabling analysts to disseminate aggregate statistical results while mitigating re-identification risk inherent in clinical and health administrative data. The package implements threshold-based masking algorithms that systematically identify and suppress primary cells falling below a defined frequency threshold, with propagation to secondary cells to prevent residual disclosure through arithmetic inference. Designed for integration into reproducible reporting pipelines, countmaskr supports a broad range of tabular structures, substantially reducing manual review burden while enforcing consistent, auditable privacy-protection standards across institutional data sharing workflows.
 }
 \author{
 \strong{Maintainer}: Sahal Master \email{sahalmaster@outlook.com} (\href{https://orcid.org/0000-0002-8518-8107}{ORCID})
@@ -14,8 +14,15 @@ This is an R package designed to address patient privacy concerns by automating 
 Authors:
 \itemize{
   \item Amy Goodwin Davies \email{goodwindaa@chop.edu}
-  \item Ally Zelinski \email{zelinskia@chop.edu}
+  \item Allison Zelinski \email{zelinskia@chop.edu}
   \item Qiwei Shen \email{shenq@chop.edu}
+}
+
+Other contributors:
+\itemize{
+  \item Nicole Marchesani \email{MARCHESANN@chop.edu} (\href{https://orcid.org/0009-0006-0683-7575}{ORCID}) [contributor]
+  \item Aqsa Khan \email{khana8@chop.edu} [contributor]
+  \item Rhonda DeCook \email{rhonda-decook@uiowa.edu} [contributor]
 }
 
 }

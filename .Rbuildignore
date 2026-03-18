@@ -4,7 +4,7 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^data-raw$
-^Artistic_license$
+^LICENSE
 ^logic_plot.png$
 ^_pkgdown\.yml$
 ^docs$

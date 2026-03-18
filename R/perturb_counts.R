@@ -1,6 +1,5 @@
 #' Perturb Counts in a Vector with Small Cells
 #'
-#' `r lifecycle::badge("experimental")`
 #'
 #' @description
 #' The `perturb_counts` function perturbs counts in a numeric vector containing small cells, specifically when only one primary cell is present and secondary cells need to be masked, following Algorithm 3 (A3). The function adjusts the counts by distributing noise to non-primary cells while preserving the overall distribution as much as possible.

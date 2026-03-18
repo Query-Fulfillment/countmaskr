@@ -15,17 +15,18 @@ knitr::opts_chunk$set(
 
 # countmaskr
 
-## Development Status
-
-**Beta Version**: Please be aware that this version is under active development, and some features may be incomplete or subject to change.
-
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
-## Overview
+## Motivation
 
-The goal of countmaskr is to automate small cell suppression in tabular reports to reduce privacy risk.
+The dissemination of aggregate health statistics derived from clinical and administrative data carries an inherent tension between analytic utility and patient confidentiality. When reported frequencies are sufficiently small, individuals within a subgroup may be vulnerable to re-identification — particularly in stratified or cross-tabulated outputs where demographic, geographic, or clinical covariates intersect. Such vulnerabilities have prompted formal regulatory responses, culminating in data use agreement (DUA) obligations codified by federal agencies and clinical research networks alike.
+
+Federal agencies — including the [CMS](https://resdac.org/articles/cms-cell-size-suppression-policy), the [AHRQ](https://hcup-us.ahrq.gov/db/publishing.jsp), the [NCI](https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html), and the [CDC](https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html) — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks similarly enforce these standards: [PCORnet](https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf) and PEDSnet both require a minimum cell-size threshold of 11 across all distributed data queries under their respective data sharing agreements.
+
+For studies spanning multiple reporting dimensions — such as stratified demographic breakdowns or multi-site analyses — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. `countmaskr` automates this workflow end-to-end, enabling analysts to meet their DUA obligations consistently and reproducible manner across institutional data sharing pipelines.
+
 
 ### Definitions of small and secondary cells in one dimensional frequency table
 
@@ -60,11 +61,16 @@ The goal of countmaskr is to automate small cell suppression in tabular reports 
 
 ## Installation
 
-You can install the **beta** version of countmaskr from [GitHub](https://github.com/) with:
+You can install countmaskr from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("Query-Fulfillment/countmaskr")
+```
+or using [pak] (https://pak.r-lib.org/)
+``` r
+# install.packages("pak")
+pak::pkg_install("Query-Fulfillment/countmaskr")
 ```
 
 &nbsp;
@@ -131,10 +137,7 @@ mask_table() is a multi-tasking function which allows for masking, obtaining ori
 #### Simple one-dimensional masking on the original column.
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-mask_table(aggregate_table,
-  group_by = "block",
-  col_groups = list("N")
-) %>%
+mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
   kable()
 ```
 
@@ -143,7 +146,8 @@ mask_table(aggregate_table,
 Naming convention for the masked columns follow {col}_N_masked pattern.
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-mask_table(aggregate_table,
+mask_table(
+  aggregate_table,
   group_by = "block",
   col_groups = list("N"),
   overwrite_columns = FALSE
@@ -156,7 +160,8 @@ mask_table(aggregate_table,
 Naming convention for the original and masked percentages follow {col}_perc and {col}_perc_masked pattern.
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
-mask_table(aggregate_table,
+mask_table(
+  aggregate_table,
   group_by = "block",
   col_groups = list("N"),
   overwrite_columns = TRUE,
@@ -171,11 +176,14 @@ mask_table(aggregate_table,
 two_way_freq_table <- countmaskr_data %>%
   count(race, gender) %>%
   pivot_wider(names_from = gender, values_from = n) %>%
-  mutate(across(all_of(c("Female", "Male", "Other")), ~ ifelse(is.na(.), 0, .)),
-    Overall = Female + Male + Other, .after = 1
+  mutate(
+    across(all_of(c("Female", "Male", "Other")), ~ ifelse(is.na(.), 0, .)),
+    Overall = Female + Male + Other,
+    .after = 1
   )
 
-mask_table(two_way_freq_table,
+mask_table(
+  two_way_freq_table,
   col_groups = list(c("Overall", "Female", "Male", "Other")),
   overwrite_columns = TRUE,
   percentages = FALSE
@@ -183,34 +191,8 @@ mask_table(two_way_freq_table,
   kable()
 ```
 
-## Wrapper around [gtsummary](https://www.danieldsjoberg.com/gtsummary/)[^1] package's `tbl_summary()` function to obtain presentation-ready masked tables
-
-## One dimensional frequency table
-
-```{r message=FALSE,error=FALSE,warning=FALSE}
-aggregated_gtsummary_tbl_one_way <- countmaskr_data %>%
-  select(-id) %>%
-  gtsummary::tbl_summary()
-
-mask_tbl_summary(aggregated_gtsummary_tbl_one_way)
-```
-
-## Two-way frequency table
-
-```{r message=FALSE,error=FALSE,warning=FALSE}
-aggregated_gtsummary_tbl_two_way <- countmaskr_data %>%
-  select(-id) %>%
-  gtsummary::tbl_summary(by = "race") %>%
-  add_overall()
-
-mask_tbl_summary(aggregated_gtsummary_tbl_two_way)
-```
-
 # Grants and funding
 
 This package was developed to support activities of the PCORnet® Query Fulfillment team as well as to support research conducted within PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query Fulfillment is funded through Patient-Centered Outcomes Research Institute (PCORI®) award RI-CHOP-01-PS2. PEDSnet has been developed with funding from the PCORI®; PEDSnet’s participation in PCORnet® is funded through PCORI® award RI-CHOP-01-PS1. 
  
 The package and its documentation do not necessarily represent the opinions of PCORI® or other organizations participating in, collaborating with, or funding PCORnet®.
-
-# References
-[^1]: Sjoberg DD, Whiting K, Curry M, Lavery JA, Larmarange J. Reproducible summary tables with the gtsummary package. The R Journal 2021;13:570–80. https://doi.org/10.32614/RJ-2021-053.
