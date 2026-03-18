@@ -1,6 +1,6 @@
 Package: countmaskr
 Title: Small Cell Masking Tool for One- & Two-Way Tabular Reports
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Sahal", "Master", , "sahalmaster@outlook.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-8518-8107")),
