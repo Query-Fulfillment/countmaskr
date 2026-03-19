@@ -21,13 +21,13 @@ library(knitr)
 
 &nbsp;
 
-## Code logic plot
+# Code logic plot
 
 ![](logic_plot.png)
 
 &nbsp;
 
-## One dimensional frequency table
+# One dimensional frequency table
 
 
 
@@ -44,9 +44,8 @@ aggregate_table <- countmaskr_data %>%
 
 &nbsp;
 
-::: {.panel-tabset}
 
-### Algorithm 1
+## Algorithm 1
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
@@ -57,9 +56,8 @@ aggregate_table %>%
 
 &nbsp;
 
-:::
 
-### Algorithm 2
+## Algorithm 2
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
@@ -70,7 +68,7 @@ aggregate_table %>%
 
 &nbsp;
 
-### Algorithm 3
+## Algorithm 3
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 aggregate_table %>%
@@ -79,24 +77,25 @@ aggregate_table %>%
   kable()
 ```
 
-
-:::
-
 &nbsp;
 
-### Using `mask_table()`
+
+# Using `mask_table()`
 
 mask_table() is a multi-tasking function which allows for masking, obtaining original and masked percentages on an aggregated table.
 
-#### One-dimensional masking on the original column.
+&nbsp;
+
+## One-way masking on the original column.
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
   kable()
 ```
 
+&nbsp;
 
-#### One-way masking while preserving original column and creating new masked columns
+## One-way masking while preserving original column and creating new masked columns
 
 Naming convention for the masked columns follow {col}_N_masked pattern.
 
@@ -110,7 +109,10 @@ mask_table(
   kable()
 ```
 
-#### Owo-way  masking with computing original and masked percentages
+
+&nbsp;
+
+## Owo-way  masking with computing original and masked percentages
 
 Naming convention for the original and masked percentages follow {col}_perc and {col}_perc_masked pattern.
 
@@ -125,7 +127,10 @@ mask_table(
   kable()
 ```
 
-## Two-way frequency table
+
+&nbsp;
+
+# Two-way frequency table
 
 ```{r message=FALSE,error=FALSE,warning=FALSE}
 two_way_freq_table <- countmaskr_data %>%
