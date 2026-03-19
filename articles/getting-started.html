@@ -102,10 +102,14 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p> </p>
-<div class="section level3 panel-tabset">
+<div class="section level3">
 <h3 id="algorithm-1">Algorithm 1<a class="anchor" aria-label="anchor" href="#algorithm-1"></a>
 </h3>
-
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">aggregate_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">block</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>N_masked <span class="op">=</span> <span class="fu"><a href="../reference/mask_counts.html">mask_counts</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">block</th>
@@ -213,12 +217,6 @@
 </tbody>
 </table>
 <p> </p>
-<ul class="nav nav-tabs" id="algorithm-1" role="tablist"><li role="presentation" class="nav-item"><button data-bs-toggle="tab" data-bs-target="#NA" id="NA-tab" type="button" role="tab" aria-controls="NA" aria-selected="true" class="active nav-link">
-<code class="sourceCode R"><span><span class="va">aggregate_table</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">block</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>N_masked <span class="op">=</span> <span class="fu"><a href="../reference/mask_counts.html">mask_counts</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></button></li></ul>
-<div class="tab-content"><div class="active  tab-pane" id="NA" role="tabpanel" aria-labelledby="NA-tab"></div></div>
 </div>
 <div class="section level3">
 <h3 id="algorithm-2">Algorithm 2<a class="anchor" aria-label="anchor" href="#algorithm-2"></a>
@@ -450,17 +448,18 @@
 </tr>
 </tbody>
 </table>
-<p>:::</p>
 <p> </p>
 </div>
-<div class="section level3">
-<h3 id="using-mask_table">Using <code>mask_table()</code><a class="anchor" aria-label="anchor" href="#using-mask_table"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="using-mask_table">Using <code>mask_table()</code><a class="anchor" aria-label="anchor" href="#using-mask_table"></a>
+</h2>
 <p>mask_table() is a multi-tasking function which allows for masking,
 obtaining original and masked percentages on an aggregated table.</p>
-<div class="section level4">
-<h4 id="one-dimensional-masking-on-the-original-column-">One-dimensional masking on the original column.<a class="anchor" aria-label="anchor" href="#one-dimensional-masking-on-the-original-column-"></a>
-</h4>
+<p> </p>
+<div class="section level3">
+<h3 id="one-way-masking-on-the-original-column-">One-way masking on the original column.<a class="anchor" aria-label="anchor" href="#one-way-masking-on-the-original-column-"></a>
+</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mask_table.html">mask_table</a></span><span class="op">(</span><span class="va">aggregate_table</span>, group_by <span class="op">=</span> <span class="st">"block"</span>, col_groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"N"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -553,11 +552,12 @@ obtaining original and masked percentages on an aggregated table.</p>
 </tr>
 </tbody>
 </table>
+<p> </p>
 </div>
-<div class="section level4">
-<h4 id="one-way-masking-while-preserving-original-column-and-creating-new-masked-columns">One-way masking while preserving original column and creating new
+<div class="section level3">
+<h3 id="one-way-masking-while-preserving-original-column-and-creating-new-masked-columns">One-way masking while preserving original column and creating new
 masked columns<a class="anchor" aria-label="anchor" href="#one-way-masking-while-preserving-original-column-and-creating-new-masked-columns"></a>
-</h4>
+</h3>
 <p>Naming convention for the masked columns follow {col}_N_masked
 pattern.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -674,10 +674,11 @@ pattern.</p>
 </tr>
 </tbody>
 </table>
+<p> </p>
 </div>
-<div class="section level4">
-<h4 id="owo-way-masking-with-computing-original-and-masked-percentages">Owo-way masking with computing original and masked percentages<a class="anchor" aria-label="anchor" href="#owo-way-masking-with-computing-original-and-masked-percentages"></a>
-</h4>
+<div class="section level3">
+<h3 id="owo-way-masking-with-computing-original-and-masked-percentages">Owo-way masking with computing original and masked percentages<a class="anchor" aria-label="anchor" href="#owo-way-masking-with-computing-original-and-masked-percentages"></a>
+</h3>
 <p>Naming convention for the original and masked percentages follow
 {col}_perc and {col}_perc_masked pattern.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -837,7 +838,7 @@ pattern.</p>
 </tr>
 </tbody>
 </table>
-</div>
+<p> </p>
 </div>
 </div>
 <div class="section level2">

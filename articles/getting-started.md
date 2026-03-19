@@ -41,6 +41,13 @@ aggregate_table <- countmaskr_data %>%
 
 ### Algorithm 1
 
+``` r
+aggregate_table %>%
+  group_by(block) %>%
+  mutate(N_masked = mask_counts(N)) %>%
+  kable()
+```
+
 | block     | Characteristics                   |    N | N_masked |
 |:----------|:----------------------------------|-----:|:---------|
 | age_group | 18-29                             |  243 | 243      |
@@ -61,8 +68,6 @@ aggregate_table <- countmaskr_data %>%
 | race      | White                             |  760 | 760      |
 
  
-
-- `aggregate_table`` `[`%>%`](https://magrittr.tidyverse.org/reference/pipe.html)` `` `[`group_by`](https://dplyr.tidyverse.org/reference/group_by.html)`(``block``)`` `[`%>%`](https://magrittr.tidyverse.org/reference/pipe.html)` `` `[`mutate`](https://dplyr.tidyverse.org/reference/mutate.html)`(``N_masked ``=`` `[`mask_counts`](https://query-fulfillment.github.io/countmaskr/reference/mask_counts.md)`(``N``)``)`` `[`%>%`](https://magrittr.tidyverse.org/reference/pipe.html)` `` `[`kable`](https://rdrr.io/pkg/knitr/man/kable.html)`(``)`
 
 ### Algorithm 2
 
@@ -122,16 +127,16 @@ aggregate_table %>%
 | race      | Other                             |    6 | 10       |
 | race      | White                             |  760 | 758      |
 
-:::
-
  
 
-### Using `mask_table()`
+## Using `mask_table()`
 
 mask_table() is a multi-tasking function which allows for masking,
 obtaining original and masked percentages on an aggregated table.
 
-#### One-dimensional masking on the original column.
+ 
+
+### One-way masking on the original column.
 
 ``` r
 mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
@@ -157,7 +162,9 @@ mask_table(aggregate_table, group_by = "block", col_groups = list("N")) %>%
 | race      | Other                             | \<11  |
 | race      | White                             | 760   |
 
-#### One-way masking while preserving original column and creating new masked columns
+ 
+
+### One-way masking while preserving original column and creating new masked columns
 
 Naming convention for the masked columns follow {col}\_N_masked pattern.
 
@@ -190,7 +197,9 @@ mask_table(
 | race      | Other                             |    6 | \<11     |
 | race      | White                             |  760 | 760      |
 
-#### Owo-way masking with computing original and masked percentages
+ 
+
+### Owo-way masking with computing original and masked percentages
 
 Naming convention for the original and masked percentages follow
 {col}\_perc and {col}\_perc_masked pattern.
@@ -224,6 +233,8 @@ mask_table(
 | race      | Black                             |  453 | 453      | 30 %   | 30 %          |
 | race      | Other                             |    6 | \<11     | 0 %    | masked cell   |
 | race      | White                             |  760 | 760      | 51 %   | 51 %          |
+
+ 
 
 ## Two-way frequency table
 

@@ -1,7 +1,5 @@
 # Funding
 
-## Grants and funding
-
 This package was developed to support activities of the PCORnet® Query
 Fulfillment team as well as to support research conducted within
 PEDSnet, A Pediatric Clinical Research Network. PCORnet® Query

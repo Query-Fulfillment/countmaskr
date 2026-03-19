@@ -35,7 +35,7 @@ this workflow end-to-end, enabling patient privacy as well as asists
 end-users to meet their DUA obligations consistently and in a
 reproducible manner across institutional data sharing pipelines.
 
-### Definitions of small and secondary cells in one dimensional frequency table
+## Definitions of small and secondary cells in one dimensional frequency table
 
 ### Original
 
