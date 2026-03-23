@@ -78,7 +78,7 @@ test_that("perc_decimal=0: primary masked cell whose threshold-% rounds to 0 sho
   expect_equal(result$A_perc_masked[1], "<1 %")
 })
 
-test_that("perc_decimal=0: secondary masked cell whose threshold-% rounds to 100 shows <99 %", {
+test_that("perc_decimal=0: secondary masked cell whose threshold-% rounds to 100 shows >99 %", {
   # A = c(5, 15), total = 20
   # A[1]=5  -> primary masked <11 -> "masked cell"
   # A[2]=15 -> secondary masked <20 (5*ceil(16/5)=20)
@@ -87,7 +87,7 @@ test_that("perc_decimal=0: secondary masked cell whose threshold-% rounds to 100
   result <- mask_table(data, threshold = 11, col_groups = "A",
                        percentages = TRUE, perc_decimal = 0)
   expect_equal(result$A_perc_masked[1], "masked cell")
-  expect_equal(result$A_perc_masked[2], "<99 %")
+  expect_equal(result$A_perc_masked[2], ">99 %")
 })
 
 test_that("perc_decimal=0: cell that is genuinely 100% stays as 100 %", {
@@ -106,12 +106,12 @@ test_that("perc_decimal=1: threshold-% rounding to 0.0 shows <0.1 %", {
   expect_equal(result$A_perc_masked[1], "<0.1 %")
 })
 
-test_that("perc_decimal=1: secondary-masked percentage rounding to 100.0 shows <99.9 %", {
+test_that("perc_decimal=1: secondary-masked percentage rounding to 100.0 shows >99.9 %", {
   # Same c(5,15) scenario; unrounded original 75% is still not 100%
   data <- tibble(A = c(5, 15))
   result <- mask_table(data, threshold = 11, col_groups = "A",
                        percentages = TRUE, perc_decimal = 1)
-  expect_equal(result$A_perc_masked[2], "<99.9 %")
+  expect_equal(result$A_perc_masked[2], ">99.9 %")
 })
 
 test_that("perc_decimal=2: threshold-% rounding to 0.00 shows <0.01 %", {
@@ -122,15 +122,15 @@ test_that("perc_decimal=2: threshold-% rounding to 0.00 shows <0.01 %", {
   expect_equal(result$A_perc_masked[1], "<0.01 %")
 })
 
-test_that("perc_decimal=2: secondary-masked percentage rounding to 100.00 shows <99.99 %", {
+test_that("perc_decimal=2: secondary-masked percentage rounding to 100.00 shows >99.99 %", {
   data <- tibble(A = c(5, 15))
   result <- mask_table(data, threshold = 11, col_groups = "A",
                        percentages = TRUE, perc_decimal = 2)
-  expect_equal(result$A_perc_masked[2], "<99.99 %")
+  expect_equal(result$A_perc_masked[2], ">99.99 %")
 
   result2 <- mask_table(data, threshold = 11, col_groups = "A",
                        percentages = TRUE, perc_decimal = 0)
-  expect_equal(result2$A_perc_masked[2], "<99 %")
+  expect_equal(result2$A_perc_masked[2], ">99 %")
 })
 
 test_that("mask_table basic functionality without grouping", {

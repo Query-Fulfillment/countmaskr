@@ -358,7 +358,7 @@ mask_table <- function(data,
         # 5. Override – rounded 100 % but true original is not 100 % -> ">max_perc %"
         #    Prevents rounding artefacts from implying complete coverage.
         masked_percentages_char[is_hundred_perc_not_original] <-
-          paste0("<", max_perc_label, " %")
+          paste0(">", max_perc_label, " %")
 
         # Convert to data frame
         masked_percentages_df <- as.data.frame(masked_percentages_char, check.names = FALSE)

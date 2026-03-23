@@ -6,6 +6,8 @@
 \alias{countmaskr-package}
 \title{countmaskr: Small Cell Masking Tool for One- & Two-Way Tabular Reports}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Provides automated small-cell suppression for one- and two-way frequency tables. Cells falling below a user-defined frequency threshold are masked, with suppression propagated to secondary cells to prevent indirect disclosure. Designed for clinical and health administrative data, the package supports a range of tabular structures and fits into reproducible reporting pipelines, reducing manual review while applying consistent suppression rules across data sharing workflows.
 }
 \seealso{
