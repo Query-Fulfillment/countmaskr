@@ -2,6 +2,7 @@ url: https://query-fulfillment.github.io/countmaskr/
 template:
   bootstrap: 5
   light-switch: true
+  math-rendering: katex
   
 home:
   links:
