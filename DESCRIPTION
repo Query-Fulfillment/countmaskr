@@ -8,6 +8,8 @@ Authors@R: c(
     person("Allison", "Zelinski", , "zelinskia@chop.edu", role = "aut"),
     person("Qiwei", "Shen", , "shenq@chop.edu", 
             comment = c(ORCID = "0009-0003-0631-0026"), role = "aut"),
+    person("Charles", "Bailey", , "BAILEYC@chop.edu", 
+            comment = c(ORCID = "0000-0002-8967-0662"), role = "aut"),  
     person("Nicole", "Marchesani", , "MARCHESANN@chop.edu", 
            comment = c(ORCID = "0009-0006-0683-7575"),role = "ctb"),
     person("Aqsa", "Khan", , "khana8@chop.edu",
