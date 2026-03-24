@@ -36,8 +36,9 @@ similarly enforce these standards:
 [PCORnet®](https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf)
 and
 [PEDSnet](https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf)
-both require a minimum cell-size threshold of 11 across all distributed
-data queries under their respective data sharing agreements.
+both require a minimum cell-size threshold of 11 and 5 respectively
+across all distributed data queries under their respective data sharing
+agreements.
 
 For studies spanning multiple reporting dimensions — such as stratified
 demographic breakdowns or multi-site analyses — manually identifying and
