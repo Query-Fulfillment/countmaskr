@@ -140,8 +140,13 @@ mask_counts <- function(x, threshold = 11, zero_masking = FALSE, secondary_cell 
         }
 
         # Calculate the masking threshold for the selected value
-        mask_value <- 5 * ceiling((selected_value + 1) / 5)
-        mask_label <- paste0("<", format(mask_value, big.mark = ",", trim = TRUE))
+        # Compute group total from the original input vector
+        group_total <- sum(extract_digits(x), na.rm = TRUE)
+              
+        # Calculate the masking threshold for the selected value
+        mask_value  <- 5 * ceiling((selected_value + 1) / 5)
+        mask_value  <- min(mask_value, group_total)          # ← NEW: cap at total
+        mask_label  <- paste0("<", format(mask_value, big.mark = ",", trim = TRUE))
 
         # Apply secondary masking to the first occurrence of the selected value
         index_to_mask <- which(

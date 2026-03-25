@@ -22,9 +22,10 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Amy Goodwin Davies \email{goodwindaa@chop.edu}
+  \item Amy Goodwin Davies \email{goodwindaa@chop.edu} (\href{https://orcid.org/0000-0002-2942-4654}{ORCID})
   \item Allison Zelinski \email{zelinskia@chop.edu}
   \item Qiwei Shen \email{shenq@chop.edu} (\href{https://orcid.org/0009-0003-0631-0026}{ORCID})
+  \item Charles Bailey \email{BAILEYC@chop.edu} (\href{https://orcid.org/0000-0002-8967-0662}{ORCID})
 }
 
 Other contributors:
