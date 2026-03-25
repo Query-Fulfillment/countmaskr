@@ -22,11 +22,15 @@ Useful links:
 Authors:
 
 - Amy Goodwin Davies <goodwindaa@chop.edu>
+  ([ORCID](https://orcid.org/0000-0002-2942-4654))
 
 - Allison Zelinski <zelinskia@chop.edu>
 
 - Qiwei Shen <shenq@chop.edu>
   ([ORCID](https://orcid.org/0009-0003-0631-0026))
+
+- Charles Bailey <BAILEYC@chop.edu>
+  ([ORCID](https://orcid.org/0000-0002-8967-0662))
 
 Other contributors:
 
