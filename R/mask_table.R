@@ -320,7 +320,9 @@ mask_table <- function(data,
         # Flag: rounded masked percentage is exactly 100 but the TRUE (unrounded) original
         # percentage was not 100 – i.e. rounding inflated the display to 100 %.
         is_hundred_perc_not_original <- as.matrix(
-          masked_percentages == 100 & !is.na(masked_percentages) & original_percentages_unrounded != 100
+          masked_percentages >= 100 &
+            !is.na(masked_percentages) &
+            original_percentages_unrounded != 100
         )
 
         # Ensure new flag matrices share dimensions in the single-row edge case
