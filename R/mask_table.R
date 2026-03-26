@@ -354,7 +354,7 @@ mask_table <- function(data,
         # 4. Override – rounded 0 % with non-zero count -> "<min_perc %"
         #    Applied AFTER steps 1-3 so it overrides "masked cell" too, as the count
         #    is genuinely present but the magnitude is below the displayable resolution.
-        masked_percentages_char[is_zero_perc_nonzero_count] <-
+        masked_percentages_char[is_zero_perc_nonzero_count & !is_small_cell] <-
           paste0("<", min_perc_label, " %")
 
         # 5. Override – rounded 100 % but true original is not 100 % -> ">max_perc %"
