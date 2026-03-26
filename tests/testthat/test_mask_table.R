@@ -72,10 +72,11 @@ test_that("mask_table respects overwrite_columns parameter", {
 test_that("perc_decimal=0: primary masked cell whose threshold-% rounds to 0 shows <1 %", {
   # count=3, total=3000 -> masked threshold=11 -> 11/3000*100=0.37% -> rounds to 0%
   # Overrides "masked cell" because the underlying count is non-zero
-  data <- tibble(A = c(3, 2997))
+  data <- tibble(A = c(3,13, 2997))
   result <- mask_table(data, threshold = 11, col_groups = "A",
                        percentages = TRUE, perc_decimal = 0)
-  expect_equal(result$A_perc_masked[1], "<1 %")
+  expect_equal(result$A_perc_masked[2], "<1 %")
+  expect_equal(result$A_perc_masked[1], "masked cell")
 })
 
 test_that("perc_decimal=0: secondary masked cell whose threshold-% rounds to 100 shows >99 %", {
@@ -100,10 +101,11 @@ test_that("perc_decimal=0: cell that is genuinely 100% stays as 100 %", {
 
 test_that("perc_decimal=1: threshold-% rounding to 0.0 shows <0.1 %", {
   # count=3, total=30000 -> threshold=11 -> 11/30000*100=0.037% -> rounds to 0.0%
-  data <- tibble(A = c(3, 29997))
+  data <- tibble(A = c(4, 13, 29997))
   result <- mask_table(data, threshold = 11, col_groups = "A",
                        percentages = TRUE, perc_decimal = 1)
-  expect_equal(result$A_perc_masked[1], "<0.1 %")
+  expect_equal(result$A_perc_masked[2], "<0.1 %")
+  expect_equal(result$A_perc_masked[1], "masked cell")
 })
 
 test_that("perc_decimal=1: secondary-masked percentage rounding to 100.0 shows >99.9 %", {
@@ -116,10 +118,11 @@ test_that("perc_decimal=1: secondary-masked percentage rounding to 100.0 shows >
 
 test_that("perc_decimal=2: threshold-% rounding to 0.00 shows <0.01 %", {
   # count=3, total=3000000 -> 11/3000000*100=0.00037% -> rounds to 0.00%
-  data <- tibble(A = c(3, 2999997))
+  data <- tibble(A = c(3, 13, 2999997))
   result <- mask_table(data, threshold = 11, col_groups = "A",
                        percentages = TRUE, perc_decimal = 2)
-  expect_equal(result$A_perc_masked[1], "<0.01 %")
+  expect_equal(result$A_perc_masked[2], "<0.01 %")
+  expect_equal(result$A_perc_masked[1], "masked cell")
 })
 
 test_that("perc_decimal=2: secondary-masked percentage rounding to 100.00 shows >99.99 %", {
