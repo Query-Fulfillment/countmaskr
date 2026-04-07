@@ -92,8 +92,66 @@
 <div class="section level2">
 <h2 id="code-logic-plot">Code logic plot<a class="anchor" aria-label="anchor" href="#code-logic-plot"></a>
 </h2>
-<p><img src="logic_plot.png"></p>
-<p> </p>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script><div class="mermaid">
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontSize": "20px",
+    "primaryColor": "#bbdefb",
+    "primaryTextColor": "#0d47a1",
+    "primaryBorderColor": "#1976d2",
+    "lineColor": "#5a5957"
+  },
+  "flowchart": { "nodeSpacing": 50, "rankSpacing": 60, "curve": "basis" }
+}}%%
+flowchart TD
+    A([frequency table
+for a variable]):::gray --&gt; B{is a primary
+cell present?}:::decision
+
+    B -- No --&gt; T([terminate]):::terminal
+    B -- Yes --&gt; C[mask values of primary cells
+as &lt; threshold]:::pc
+
+    C --&gt; D{are there 2 or more primary
+cells in the same column?}:::decision
+
+    D -- Yes --&gt; E[mask a column-wise secondary
+cell in the same column
+in a different row]:::csc
+    D -- No --&gt; F{one-way table?}:::decision
+
+    E --&gt; F
+
+    F -- Yes --&gt; T
+    F -- No --&gt; G{can any masked cells be calculated
+from the same row across
+different columns?}:::decision
+
+    G -- No --&gt; T
+    G -- Yes --&gt; H[mask a row-wise secondary cell
+in a different column
+in the same row]:::rsc
+
+    H --&gt; I{can this cell be calculated in
+the same column from
+a different row?}:::decision
+
+    I -- No --&gt; T
+    I -- Yes --&gt; J[mask a column-wise secondary cell
+in the same column
+in a different row]:::csc
+
+    J --&gt; G
+
+    classDef gray     fill:#e8e7e3,stroke:#aaa,color:#333,font-weight:500
+    classDef terminal fill:#c8e6c9,stroke:#4caf50,color:#1b5e20,font-weight:600
+    classDef decision fill:#bbdefb,stroke:#1976d2,color:#0d47a1,font-weight:600
+    classDef pc       fill:#fff9c4,stroke:#f9a825,color:#7a3000,font-weight:600
+    classDef csc      fill:#ffe0b2,stroke:#fb8c00,color:#4e342e,font-weight:600
+    classDef rsc      fill:#dcedc8,stroke:#8bc34a,color:#33691e,font-weight:600
+</div>
+<script>mermaid.initialize({ startOnLoad: true, securityLevel: 'loose' });</script><p> </p>
 </div>
 <div class="section level2">
 <h2 id="one-dimensional-frequency-table">One dimensional frequency table<a class="anchor" aria-label="anchor" href="#one-dimensional-frequency-table"></a>
