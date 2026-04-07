@@ -20,3 +20,5 @@ prep-for-cran.R
 
 /.quarto/
 inst/doc
+
+CRAN-SUBMISSION

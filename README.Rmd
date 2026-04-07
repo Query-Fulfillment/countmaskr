@@ -24,41 +24,88 @@ knitr::opts_chunk$set(
 
 ## Motivation
 
-The dissemination of aggregate health statistics derived from clinical and administrative data carries an inherent tension between analytic utility and patient confidentiality. When reported frequencies are sufficiently small, individuals within a subgroup may be vulnerable to re-identification — particularly in stratified or cross-tabulated outputs where demographic, geographic, or clinical covariates intersect. Such vulnerabilities have prompted formal regulatory responses, culminating in data use agreement (DUA) obligations codified by federal agencies and clinical research networks alike.
+The dissemination of aggregate health statistics derived from clinical and administrative data carries an inherent tension between analytic utility and patient confidentiality. When reported frequencies are sufficiently small, individuals within a subgroup may be vulnerable to re-identification — particularly in stratified or cross-tabulated outputs where demographic, geographic, or clinical covariates intersect. Such vulnerabilities have prompted data use agreement (DUA) obligations by federal agencies and clinical research networks alike.
 
-Federal agencies — including the [CMS](https://resdac.org/articles/cms-cell-size-suppression-policy), the [AHRQ](https://hcup-us.ahrq.gov/db/publishing.jsp), the [NCI](https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html), and the [CDC](https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html) — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks similarly enforce these standards: [PCORnet®](https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf) and [PEDSnet](https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf) both require a minimum cell-size threshold of 11 and 5 respectively across all distributed data queries under their respective data sharing agreements.
+Federal agencies — including [CMS](https://resdac.org/articles/cms-cell-size-suppression-policy), [AHRQ](https://hcup-us.ahrq.gov/db/publishing.jsp), [NCI](https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html), and [CDC](https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html) — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks and large-scale real-world data platforms similarly enforce these standards: [PCORnet®](https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf) and [PEDSnet](https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf) both require a minimum cell-size threshold of 11 and 5 respectively across all distributed data queries under their respective data sharing agreements. [All of Us Research Program](https://support.researchallofus.org/hc/en-us/articles/22346276580372-Data-and-Statistics-Dissemination-Policy) prohibits the dissemination of any participant count between 1 and 20 under its Data and Statistics Dissemination Policy; [Epic Cosmos](https://www.jscdm.org/article/id/246/), [N3C Data Enclave](https://ncats.nih.gov/research/research-activities/n3c/faqs) and TriNetX each adopt the CMS standard, requiring that cells with counts of 10 or fewer be masked as `<11`. Furthermore, studies utilizing the [CPRD](https://www.cprd.com/sites/default/files/2024-10/CPRD%20Safe%20Outputs%20Guidance.pdf) in the United Kingdom requires masking of cells with counts fewer than 5.
 
-For studies spanning multiple reporting dimensions — such as stratified demographic breakdowns or multi-site analyses — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. `countmaskr` automates this workflow end-to-end, enabling patient privacy as well as asists end-users to meet their DUA obligations consistently and in a reproducible manner across institutional data sharing pipelines.
+In any aggregated tabular output — whether produced for a formal research publication, an institutional report, a regulatory submission, or an operational dashboard — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. `countmaskr` automates this workflow end-to-end, improving participant privacy as well as assisting end-users to meet their DUA obligations consistently and in a reproducible manner across institutional data sharing pipelines.
 
+## Definitions of small and secondary cells in one-dimensional frequency table
 
-## Definitions of small and secondary cells in one dimensional frequency table
+### Original
 
-### Original 
-
-|Age | N |
-| :-- | :- |
-| 0 - 1 | <span style="color:red"> **4** </span> |
-| 2 - 9 |<span style="color:purple"> **71** </span> |
-|10 - 19| 925|
-|20 - 29| 0|
-|30 - 39| 0|
+| Age     | N                                          |
+| :------ | :----------------------------------------- |
+| 0 - 1   | <span style="color:red">**4**</span>       |
+| 2 - 9   | <span style="color:purple">**71**</span>   |
+| 10 - 19 | 925                                        |
+| 20 - 29 | 0                                          |
+| 30 - 39 | 0                                          |
 
 &nbsp;
 
--   <span style="color:red"> **small cell** </span> : A cell with a value below defined threshold which requires a suppression. Aka, a primary cell
--   <span style="color:purple"> **secondary cell** </span> : A cell within the contingency table that would suppression to prevent reverse engineering of small(primary) cell through arithmetic operations
+- <span style="color:red">**small cell (primary cell)**</span> : A cell with a value below the defined threshold which requires suppression.
+- <span style="color:purple">**secondary cell**</span> : A cell that must also be suppressed to prevent reverse-engineering of the primary cell through arithmetic operations.
 
 &nbsp;
 
 ### Solution
 
-|Age | N |
-| :-- | :- |
-| 0 - 1 | <span style="color:red"> **<11** </span> |
-| 2 - 9 |<span style="color:purple"> **<80** </span> |
-|10 - 19| 925|
-|20 - 29| 0|
-|30 - 39| 0|
+| Age     | N                                             |
+| :------ | :-------------------------------------------- |
+| 0 - 1   | <span style="color:red">**\<11**</span>       |
+| 2 - 9   | <span style="color:purple">**\<80**</span>    |
+| 10 - 19 | 925                                           |
+| 20 - 29 | 0                                             |
+| 30 - 39 | 0                                             |
+
+&nbsp;
+
+---
+
+## Definitions of small and secondary cells in two-dimensional frequency table
+
+### Original (Sex × Ethnicity)
+
+|            | Totals | Male  | Female | Other |
+| ---------- | -----: | ----: | -----: | ----: |
+| **Totals** | 1,678  | 1,377 | 296    | 5     |
+| **Male**   | 931    | 923   | 8      | 0     |
+| **Female** | 740    | 452   | 283    | 5     |
+| **Other**  | 7      | 2     | 5      | 0     |
+
+&nbsp;
+
+### Cell-type definitions
+
+In two-dimensional tables, suppression propagates iteratively across rows and columns until no cell value can be recovered via arithmetic. The cascade follows this order:
+
+1. **<span style="color:red">Primary Cell (PC)</span>** — Any cell whose value falls below the defined threshold. These are identified and suppressed first.
+
+2. **<span style="color:darkorange">Column-wise Secondary Cell (CSC)</span>** — For each PC, a cell in the same column is suppressed so that column arithmetic (e.g. `col_total − other_cells = PC`) cannot recover the PC.
+
+3. **<span style="color:purple">Row-wise Secondary Cell (RSC)</span>** — Suppressing a PC and CSC creates a new vulnerability: row arithmetic (e.g. `row_total − other_cells = CSC`) may now recover the masked CSC. A cell in the same row is therefore suppressed to break this path.
+
+> The newly suppressed RSC is itself now a masked value that may be recoverable via column arithmetic, requiring a further CSC. Steps 3–4 repeat — alternating between row-wise and column-wise checks — until no remaining combination of visible values and suppressed upper bounds can recover any masked cell. At convergence, the table is safe to release.
+
+|            | Totals | Male | Female | Other |
+| ---------- | -----: | ---: | -----: | ----: |
+| **Totals** | 1,678 | 1,377 | <span style="color:purple">**RSC**</span> | <span style="color:red">**PC**</span> |
+| **Male**   | 931 | <span style="color:purple">**RSC**</span> | <span style="color:red">**PC**</span> | 0 |
+| **Female** | <span style="color:darkorange">**CSC**</span> | <span style="color:darkorange">**CSC**</span> | 283 | <span style="color:red">**PC**</span> |
+| **Other**  | <span style="color:red">**PC**</span> | <span style="color:red">**PC**</span> | <span style="color:red">**PC**</span> | 0 |
+
+
+&nbsp;
+
+### Masked version (threshold = 11)
+
+|            | Totals | Male | Female | Other |
+| ---------- | -----: | ---: | -----: | ----: |
+| **Totals** | 1,678 | 1,377 | <span style="color:purple">**\<300**</span> | <span style="color:red">**\<11**</span> |
+| **Male**   | 931 | <span style="color:purple">**\<930**</span> | <span style="color:red">**\<11**</span> | 0 |
+| **Female** | <span style="color:darkorange">**\<750**</span> | <span style="color:darkorange">**\<460**</span> | 283 | <span style="color:red">**\<11**</span> |
+| **Other**  | <span style="color:red">**\<11**</span> | <span style="color:red">**\<11**</span> | <span style="color:red">**\<11**</span> | 0 |
 
 &nbsp;
 
