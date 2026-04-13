@@ -43,6 +43,7 @@
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://hdl.handle.net/20.500.14642/1196">PEDSpace</a></li>
 <li class="nav-item"><a class="nav-link" href="articles/funding.html">Funding</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -72,16 +73,17 @@
 <!-- badges: start -->
 
 
+
 <!-- badges: end -->
 <div class="section level2">
 <h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
 </h2>
-<p>The dissemination of aggregate health statistics derived from clinical and administrative data carries an inherent tension between analytic utility and patient confidentiality. When reported frequencies are sufficiently small, individuals within a subgroup may be vulnerable to re-identification — particularly in stratified or cross-tabulated outputs where demographic, geographic, or clinical covariates intersect. Such vulnerabilities have prompted formal regulatory responses, culminating in data use agreement (DUA) obligations codified by federal agencies and clinical research networks alike.</p>
-<p>Federal agencies — including the <a href="https://resdac.org/articles/cms-cell-size-suppression-policy" class="external-link">CMS</a>, the <a href="https://hcup-us.ahrq.gov/db/publishing.jsp" class="external-link">AHRQ</a>, the <a href="https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html" class="external-link">NCI</a>, and the <a href="https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html" class="external-link">CDC</a> — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks similarly enforce these standards: <a href="https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf" class="external-link">PCORnet®</a> and <a href="https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf" class="external-link">PEDSnet</a> both require a minimum cell-size threshold of 11 and 5 respectively across all distributed data queries under their respective data sharing agreements.</p>
-<p>For studies spanning multiple reporting dimensions — such as stratified demographic breakdowns or multi-site analyses — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. <code>countmaskr</code> automates this workflow end-to-end, enabling patient privacy as well as asists end-users to meet their DUA obligations consistently and in a reproducible manner across institutional data sharing pipelines.</p>
+<p>The dissemination of aggregate health statistics derived from clinical and administrative data carries an inherent tension between analytic utility and patient confidentiality. When reported frequencies are sufficiently small, individuals within a subgroup may be vulnerable to re-identification — particularly in stratified or cross-tabulated outputs where demographic, geographic, or clinical covariates intersect. Such vulnerabilities have prompted data use agreement (DUA) obligations by federal agencies and clinical research networks alike.</p>
+<p>Federal agencies — including <a href="https://resdac.org/articles/cms-cell-size-suppression-policy" class="external-link">CMS</a>, <a href="https://hcup-us.ahrq.gov/db/publishing.jsp" class="external-link">AHRQ</a>, <a href="https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html" class="external-link">NCI</a>, and <a href="https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html" class="external-link">CDC</a> — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks and large-scale real-world data platforms similarly enforce these standards: <a href="https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf" class="external-link">PCORnet®</a> and <a href="https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf" class="external-link">PEDSnet</a> both require a minimum cell-size threshold of 11 and 5 respectively across all distributed data queries under their respective data sharing agreements. <a href="https://support.researchallofus.org/hc/en-us/articles/22346276580372-Data-and-Statistics-Dissemination-Policy" class="external-link">All of Us Research Program</a> and <a href="https://zenodo.org/record/7942069" class="external-link">N3C Data Enclave</a> prohibits the dissemination of any participant count between 1 and 20; <a href="https://www.jscdm.org/article/id/246/" class="external-link">Epic Cosmos</a>, and TriNetX each adopt the CMS standard, requiring that cells with counts of 10 or fewer be masked as <code>&lt;11</code>. Furthermore, studies utilizing the <a href="https://www.cprd.com/sites/default/files/2024-10/CPRD%20Safe%20Outputs%20Guidance.pdf" class="external-link">CPRD</a> in the United Kingdom requires masking of cells with counts fewer than 5.</p>
+<p>In any aggregated tabular output — whether produced for a formal research publication, an institutional report, a regulatory submission, or an operational dashboard — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. <code>countmaskr</code> automates this workflow end-to-end, improving participant privacy as well as assisting end-users to meet their DUA obligations consistently and in a reproducible manner across institutional data sharing pipelines.</p>
 </div>
 <div class="section level2">
-<h2 id="definitions-of-small-and-secondary-cells-in-one-dimensional-frequency-table">Definitions of small and secondary cells in one dimensional frequency table<a class="anchor" aria-label="anchor" href="#definitions-of-small-and-secondary-cells-in-one-dimensional-frequency-table"></a>
+<h2 id="definitions-of-small-and-secondary-cells-in-one-dimensional-frequency-table">Definitions of small and secondary cells in one-dimensional frequency table<a class="anchor" aria-label="anchor" href="#definitions-of-small-and-secondary-cells-in-one-dimensional-frequency-table"></a>
 </h2>
 <div class="section level3">
 <h3 id="original">Original<a class="anchor" aria-label="anchor" href="#original"></a>
@@ -94,11 +96,11 @@
 <tbody>
 <tr class="odd">
 <td align="left">0 - 1</td>
-<td align="left"><span style="color:red"> <strong>4</strong> </span></td>
+<td align="left"><span style="color:red"><strong>4</strong></span></td>
 </tr>
 <tr class="even">
 <td align="left">2 - 9</td>
-<td align="left"><span style="color:purple"> <strong>71</strong> </span></td>
+<td align="left"><span style="color:purple"><strong>71</strong></span></td>
 </tr>
 <tr class="odd">
 <td align="left">10 - 19</td>
@@ -117,9 +119,9 @@
 <p> </p>
 <ul>
 <li>
-<span style="color:red"> <strong>small cell</strong> </span> : A cell with a value below defined threshold which requires a suppression. Aka, a primary cell</li>
+<span style="color:red"><strong>small cell (primary cell)</strong></span> : A cell with a value below the defined threshold which requires suppression.</li>
 <li>
-<span style="color:purple"> <strong>secondary cell</strong> </span> : A cell within the contingency table that would suppression to prevent reverse engineering of small(primary) cell through arithmetic operations</li>
+<span style="color:purple"><strong>secondary cell</strong></span> : A cell that must also be suppressed to prevent reverse-engineering of the primary cell through arithmetic operations.</li>
 </ul>
 <p> </p>
 </div>
@@ -134,11 +136,11 @@
 <tbody>
 <tr class="odd">
 <td align="left">0 - 1</td>
-<td align="left"><span style="color:red"> <strong>&lt;11</strong> </span></td>
+<td align="left"><span style="color:red"><strong>&lt;11</strong></span></td>
 </tr>
 <tr class="even">
 <td align="left">2 - 9</td>
-<td align="left"><span style="color:purple"> <strong>&lt;80</strong> </span></td>
+<td align="left"><span style="color:purple"><strong>&lt;80</strong></span></td>
 </tr>
 <tr class="odd">
 <td align="left">10 - 19</td>
@@ -155,19 +157,187 @@
 </tbody>
 </table>
 <p> </p>
+<hr>
+</div>
+</div>
+<div class="section level2">
+<h2 id="definitions-of-small-and-secondary-cells-in-two-dimensional-frequency-table">Definitions of small and secondary cells in two-dimensional frequency table<a class="anchor" aria-label="anchor" href="#definitions-of-small-and-secondary-cells-in-two-dimensional-frequency-table"></a>
+</h2>
+<div class="section level3">
+<h3 id="original-sex--ethnicity">Original (Sex × Ethnicity)<a class="anchor" aria-label="anchor" href="#original-sex--ethnicity"></a>
+</h3>
+<table class="table">
+<thead><tr class="header">
+<th></th>
+<th align="right">Totals</th>
+<th align="right">Male</th>
+<th align="right">Female</th>
+<th align="right">Other</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Totals</strong></td>
+<td align="right">1,678</td>
+<td align="right">1,377</td>
+<td align="right">296</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td><strong>Male</strong></td>
+<td align="right">931</td>
+<td align="right">923</td>
+<td align="right">8</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td><strong>Female</strong></td>
+<td align="right">740</td>
+<td align="right">452</td>
+<td align="right">283</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td><strong>Other</strong></td>
+<td align="right">7</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+</div>
+<div class="section level3">
+<h3 id="cell-type-definitions">Cell-type definitions<a class="anchor" aria-label="anchor" href="#cell-type-definitions"></a>
+</h3>
+<p>In two-dimensional tables, suppression propagates iteratively across rows and columns until no cell value can be recovered via arithmetic. The cascade follows this order:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong><span style="color:red">Primary Cell (PC)</span></strong> — Any cell whose value falls below the defined threshold. These are identified and suppressed first.</p></li>
+<li><p><strong><span style="color:darkorange">Column-wise Secondary Cell (CSC)</span></strong> — For each PC, a cell in the same column is suppressed so that column arithmetic (e.g. <code>col_total − other_cells = PC</code>) cannot recover the PC.</p></li>
+<li><p><strong><span style="color:purple">Row-wise Secondary Cell (RSC)</span></strong> — Suppressing a PC and CSC creates a new vulnerability: row arithmetic (e.g. <code>row_total − other_cells = CSC</code>) may now recover the masked CSC. A cell in the same row is therefore suppressed to break this path.</p></li>
+</ol>
+<blockquote>
+<p>The newly suppressed RSC is itself now a masked value that may be recoverable via column arithmetic, requiring a further CSC. Steps 3–4 repeat — alternating between row-wise and column-wise checks — until no remaining combination of visible values and suppressed upper bounds can recover any masked cell. At convergence, the table is safe to release.</p>
+</blockquote>
+<table class="table">
+<colgroup>
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+</colgroup>
+<thead><tr class="header">
+<th></th>
+<th align="right">Totals</th>
+<th align="right">Male</th>
+<th align="right">Female</th>
+<th align="right">Other</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Totals</strong></td>
+<td align="right">1,678</td>
+<td align="right">1,377</td>
+<td align="right"><span style="color:purple"><strong>RSC</strong></span></td>
+<td align="right"><span style="color:red"><strong>PC</strong></span></td>
+</tr>
+<tr class="even">
+<td><strong>Male</strong></td>
+<td align="right">931</td>
+<td align="right"><span style="color:purple"><strong>RSC</strong></span></td>
+<td align="right"><span style="color:red"><strong>PC</strong></span></td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td><strong>Female</strong></td>
+<td align="right"><span style="color:darkorange"><strong>CSC</strong></span></td>
+<td align="right"><span style="color:darkorange"><strong>CSC</strong></span></td>
+<td align="right">283</td>
+<td align="right"><span style="color:red"><strong>PC</strong></span></td>
+</tr>
+<tr class="even">
+<td><strong>Other</strong></td>
+<td align="right"><span style="color:red"><strong>PC</strong></span></td>
+<td align="right"><span style="color:red"><strong>PC</strong></span></td>
+<td align="right"><span style="color:red"><strong>PC</strong></span></td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+</div>
+<div class="section level3">
+<h3 id="masked-version-threshold--11">Masked version (threshold = 11)<a class="anchor" aria-label="anchor" href="#masked-version-threshold--11"></a>
+</h3>
+<table class="table">
+<colgroup>
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+</colgroup>
+<thead><tr class="header">
+<th></th>
+<th align="right">Totals</th>
+<th align="right">Male</th>
+<th align="right">Female</th>
+<th align="right">Other</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Totals</strong></td>
+<td align="right">1,678</td>
+<td align="right">1,377</td>
+<td align="right"><span style="color:purple"><strong>&lt;300</strong></span></td>
+<td align="right"><span style="color:red"><strong>&lt;11</strong></span></td>
+</tr>
+<tr class="even">
+<td><strong>Male</strong></td>
+<td align="right">931</td>
+<td align="right"><span style="color:purple"><strong>&lt;930</strong></span></td>
+<td align="right"><span style="color:red"><strong>&lt;11</strong></span></td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td><strong>Female</strong></td>
+<td align="right"><span style="color:darkorange"><strong>&lt;750</strong></span></td>
+<td align="right"><span style="color:darkorange"><strong>&lt;460</strong></span></td>
+<td align="right">283</td>
+<td align="right"><span style="color:red"><strong>&lt;11</strong></span></td>
+</tr>
+<tr class="even">
+<td><strong>Other</strong></td>
+<td align="right"><span style="color:red"><strong>&lt;11</strong></span></td>
+<td align="right"><span style="color:red"><strong>&lt;11</strong></span></td>
+<td align="right"><span style="color:red"><strong>&lt;11</strong></span></td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install countmaskr from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>Install <code>countmaskr</code> from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Query-Fulfillment/countmaskr"</span><span class="op">)</span></span></code></pre></div>
-<p>or using <a href="https://pak.r-lib.org/" class="external-link">pak</a></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"countmaskr"</span><span class="op">)</span></span></code></pre></div>
+<p>You can also install it using <a href="https://pak.r-lib.org/" class="external-link">pak</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"Query-Fulfillment/countmaskr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"countmaskr"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>
+</h2>
+<p>Install the development version from GitHub with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Query-Fulfillment/countmaskr"</span><span class="op">)</span></span></code></pre></div>
+<p>Or use <a href="https://pak.r-lib.org/" class="external-link">pak</a>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"Query-Fulfillment/countmaskr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -211,6 +381,7 @@
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=for-the-badge" alt="Lifecycle: stable"></a></li>
 <li><a href="https://github.com/query-fulfillment/countmaskr/actions/workflows/rhub.yaml" class="external-link"><img src="https://img.shields.io/github/actions/workflow/status/query-fulfillment/countmaskr/rhub.yaml?style=for-the-badge&amp;label=R-hub&amp;logo=r" alt="R-hub"></a></li>
+<li><a href="https://cran.r-project.org/package=countmaskr" class="external-link"><img src="https://img.shields.io/cran/v/countmaskr?style=for-the-badge&amp;label=CRAN&amp;logo=r&amp;color=brightgreen" alt="CRAN"></a></li>
 </ul>
 </div>
 
