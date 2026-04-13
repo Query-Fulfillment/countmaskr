@@ -1,5 +1,7 @@
 url: https://query-fulfillment.github.io/countmaskr/
 template:
+  includes:
+    - assets/custom.css
   bootstrap: 5
   light-switch: true
   math-rendering: katex
@@ -23,4 +25,10 @@ navbar:
     href: https://hdl.handle.net/20.500.14642/1196
   - text: 'Funding'
     href: articles/funding.html
-    
+  - text: 'News'
+    href: news/index.html
+
+news:
+  releases:
+  - text: "Version 0.1.1"
+    href: news/index.html

@@ -16,9 +16,12 @@ knitr::opts_chunk$set(
 # countmaskr <a href="https://query-fulfillment.github.io/countmaskr/"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
+
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=for-the-badge)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 
 [![R-hub](https://img.shields.io/github/actions/workflow/status/query-fulfillment/countmaskr/rhub.yaml?style=for-the-badge&label=R-hub&logo=r)](https://github.com/query-fulfillment/countmaskr/actions/workflows/rhub.yaml)
+
+[![CRAN](https://img.shields.io/cran/v/countmaskr?style=for-the-badge&label=CRAN&logo=r&color=brightgreen)](https://cran.r-project.org/package=countmaskr)
 
 <!-- badges: end -->
 
@@ -26,7 +29,7 @@ knitr::opts_chunk$set(
 
 The dissemination of aggregate health statistics derived from clinical and administrative data carries an inherent tension between analytic utility and patient confidentiality. When reported frequencies are sufficiently small, individuals within a subgroup may be vulnerable to re-identification — particularly in stratified or cross-tabulated outputs where demographic, geographic, or clinical covariates intersect. Such vulnerabilities have prompted data use agreement (DUA) obligations by federal agencies and clinical research networks alike.
 
-Federal agencies — including [CMS](https://resdac.org/articles/cms-cell-size-suppression-policy), [AHRQ](https://hcup-us.ahrq.gov/db/publishing.jsp), [NCI](https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html), and [CDC](https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html) — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks and large-scale real-world data platforms similarly enforce these standards: [PCORnet®](https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf) and [PEDSnet](https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf) both require a minimum cell-size threshold of 11 and 5 respectively across all distributed data queries under their respective data sharing agreements. [All of Us Research Program](https://support.researchallofus.org/hc/en-us/articles/22346276580372-Data-and-Statistics-Dissemination-Policy) prohibits the dissemination of any participant count between 1 and 20 under its Data and Statistics Dissemination Policy; [Epic Cosmos](https://www.jscdm.org/article/id/246/), [N3C Data Enclave](https://ncats.nih.gov/research/research-activities/n3c/faqs) and TriNetX each adopt the CMS standard, requiring that cells with counts of 10 or fewer be masked as `<11`. Furthermore, studies utilizing the [CPRD](https://www.cprd.com/sites/default/files/2024-10/CPRD%20Safe%20Outputs%20Guidance.pdf) in the United Kingdom requires masking of cells with counts fewer than 5.
+Federal agencies — including [CMS](https://resdac.org/articles/cms-cell-size-suppression-policy), [AHRQ](https://hcup-us.ahrq.gov/db/publishing.jsp), [NCI](https://healthcaredelivery.cancer.gov/seermedicare/obtain/use.html), and [CDC](https://www.cdc.gov/united-states-cancer-statistics/technical-notes/suppression.html) — each maintain formal small-cell suppression requirements as a condition of data access and publication. Clinical research networks and large-scale real-world data platforms similarly enforce these standards: [PCORnet®](https://pcornet.org/wp-content/uploads/2022/01/PCORnet-Statement-on-Protecting-Patient-Privacy-2021-10-06-.pdf) and [PEDSnet](https://pedsnet.org/wp-content/uploads/2025/07/PEDSnet-Policies-v2025_Final-June-2025_06.09.2025.pdf) both require a minimum cell-size threshold of 11 and 5 respectively across all distributed data queries under their respective data sharing agreements. [All of Us Research Program](https://support.researchallofus.org/hc/en-us/articles/22346276580372-Data-and-Statistics-Dissemination-Policy)  and [N3C Data Enclave](https://zenodo.org/record/7942069) prohibits the dissemination of any participant count between 1 and 20; [Epic Cosmos](https://www.jscdm.org/article/id/246/), and TriNetX each adopt the CMS standard, requiring that cells with counts of 10 or fewer be masked as `<11`. Furthermore, studies utilizing the [CPRD](https://www.cprd.com/sites/default/files/2024-10/CPRD%20Safe%20Outputs%20Guidance.pdf) in the United Kingdom requires masking of cells with counts fewer than 5.
 
 In any aggregated tabular output — whether produced for a formal research publication, an institutional report, a regulatory submission, or an operational dashboard — manually identifying and suppressing all qualifying primary and complementary cells across large tables is a cumbersome and error-prone process. `countmaskr` automates this workflow end-to-end, improving participant privacy as well as assisting end-users to meet their DUA obligations consistently and in a reproducible manner across institutional data sharing pipelines.
 
@@ -111,14 +114,28 @@ In two-dimensional tables, suppression propagates iteratively across rows and co
 
 ## Installation
 
-You can install countmaskr from [GitHub](https://github.com/) with:
+Install `countmaskr` from CRAN with:
 
-``` r
-# install.packages("devtools")
+```r
+install.packages("countmaskr")
+```
+
+You can also install it using [pak](https://pak.r-lib.org/):
+
+```r
+pak::pkg_install("countmaskr")
+```
+
+## Development version
+
+Install the development version from GitHub with:
+
+```r
 devtools::install_github("Query-Fulfillment/countmaskr")
 ```
-or using [pak](https://pak.r-lib.org/)
-``` r
-# install.packages("pak")
+
+Or use [pak](https://pak.r-lib.org/):
+
+```r
 pak::pkg_install("Query-Fulfillment/countmaskr")
 ```

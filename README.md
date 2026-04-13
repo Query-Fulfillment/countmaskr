@@ -10,6 +10,8 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg?style=for-
 
 [![R-hub](https://img.shields.io/github/actions/workflow/status/query-fulfillment/countmaskr/rhub.yaml?style=for-the-badge&label=R-hub&logo=r)](https://github.com/query-fulfillment/countmaskr/actions/workflows/rhub.yaml)
 
+[![CRAN](https://img.shields.io/cran/v/countmaskr?style=for-the-badge&label=CRAN&logo=r&color=brightgreen)](https://cran.r-project.org/package=countmaskr)
+
 <!-- badges: end -->
 
 ## Motivation
@@ -39,13 +41,11 @@ both require a minimum cell-size threshold of 11 and 5 respectively
 across all distributed data queries under their respective data sharing
 agreements. [All of Us Research
 Program](https://support.researchallofus.org/hc/en-us/articles/22346276580372-Data-and-Statistics-Dissemination-Policy)
-prohibits the dissemination of any participant count between 1 and 20
-under its Data and Statistics Dissemination Policy; [Epic
-Cosmos](https://www.jscdm.org/article/id/246/), [N3C Data
-Enclave](https://ncats.nih.gov/research/research-activities/n3c/faqs)
-and TriNetX each adopt the CMS standard, requiring that cells with
-counts of 10 or fewer be masked as `<11`. Furthermore, studies utilizing
-the
+and [N3C Data Enclave](https://zenodo.org/record/7942069) prohibits the
+dissemination of any participant count between 1 and 20; [Epic
+Cosmos](https://www.jscdm.org/article/id/246/), and TriNetX each adopt
+the CMS standard, requiring that cells with counts of 10 or fewer be
+masked as `<11`. Furthermore, studies utilizing the
 [CPRD](https://www.cprd.com/sites/default/files/2024-10/CPRD%20Safe%20Outputs%20Guidance.pdf)
 in the United Kingdom requires masking of cells with counts fewer than
 5.
@@ -158,16 +158,28 @@ The cascade follows this order:
 
 ## Installation
 
-You can install countmaskr from [GitHub](https://github.com/) with:
+Install `countmaskr` from CRAN with:
 
 ``` r
-# install.packages("devtools")
+install.packages("countmaskr")
+```
+
+You can also install it using [pak](https://pak.r-lib.org/):
+
+``` r
+pak::pkg_install("countmaskr")
+```
+
+## Development version
+
+Install the development version from GitHub with:
+
+``` r
 devtools::install_github("Query-Fulfillment/countmaskr")
 ```
 
-or using [pak](https://pak.r-lib.org/)
+Or use [pak](https://pak.r-lib.org/):
 
 ``` r
-# install.packages("pak")
 pak::pkg_install("Query-Fulfillment/countmaskr")
 ```

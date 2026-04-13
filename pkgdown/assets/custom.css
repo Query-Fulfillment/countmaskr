@@ -1,0 +1,12 @@
+/* Keep large “for-the-badge” images on one line inside the dev-status box */
+.pkgdown-dev-status img {
+  display: inline-block;      /* force inline layout */
+  vertical-align: middle;    /* align with the text */
+  margin-right: 6px;         /* small gap between badges */
+  max-height: 36px;          /* keep the height reasonable (optional) */
+}
+
+/* Prevent the badges from wrapping onto a new line */
+.pkgdown-dev-status {
+  white-space: nowrap;
+}
