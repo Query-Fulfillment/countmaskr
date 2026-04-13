@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   funding: funding.html
   getting-started: getting-started.html
-last_built: 2026-04-07T16:59Z
+last_built: 2026-04-13T13:41Z
 urls:
   reference: https://query-fulfillment.github.io/countmaskr/reference
   article: https://query-fulfillment.github.io/countmaskr/articles
