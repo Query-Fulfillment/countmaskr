@@ -20,30 +20,7 @@ library(knitr)
 
 ## Code logic plot
 
-%%{init: { "theme": "base", "themeVariables": { "fontSize": "20px",
-"primaryColor": "#bbdefb", "primaryTextColor": "#0d47a1",
-"primaryBorderColor": "#1976d2", "lineColor": "#5a5957" }, "flowchart":
-{ "nodeSpacing": 50, "rankSpacing": 60, "curve": "basis" } }}%%
-flowchart TD A(\[frequency table for a variable\]):::gray --\> B{is a
-primary cell present?}:::decision B -- No --\>
-T(\[terminate\]):::terminal B -- Yes --\> C\[mask values of primary
-cells as \< threshold\]:::pc C --\> D{are there 2 or more primary cells
-in the same column?}:::decision D -- Yes --\> E\[mask a column-wise
-secondary cell in the same column in a different row\]:::csc D -- No
---\> F{one-way table?}:::decision E --\> F F -- Yes --\> T F -- No --\>
-G{can any masked cells be calculated from the same row across different
-columns?}:::decision G -- No --\> T G -- Yes --\> H\[mask a row-wise
-secondary cell in a different column in the same row\]:::rsc H --\>
-I{can this cell be calculated in the same column from a different
-row?}:::decision I -- No --\> T I -- Yes --\> J\[mask a column-wise
-secondary cell in the same column in a different row\]:::csc J --\> G
-classDef gray fill:#e8e7e3,stroke:#aaa,color:#333,font-weight:500
-classDef terminal
-fill:#c8e6c9,stroke:#4caf50,color:#1b5e20,font-weight:600 classDef
-decision fill:#bbdefb,stroke:#1976d2,color:#0d47a1,font-weight:600
-classDef pc fill:#fff9c4,stroke:#f9a825,color:#7a3000,font-weight:600
-classDef csc fill:#ffe0b2,stroke:#fb8c00,color:#4e342e,font-weight:600
-classDef rsc fill:#dcedc8,stroke:#8bc34a,color:#33691e,font-weight:600
+![](logic_plot.png)
 
  
 
