@@ -84,12 +84,12 @@ across institutional data sharing pipelines.
 
 ### Original (Sex × Ethnicity)
 
-|            | Totals |  Male | Female | Other |
-|------------|-------:|------:|-------:|------:|
-| **Totals** |  1,678 | 1,377 |    296 |     5 |
-| **Male**   |    931 |   923 |      8 |     0 |
-| **Female** |    740 |   452 |    283 |     5 |
-| **Other**  |      7 |     2 |      5 |     0 |
+|            | Totals | Not Hispanic | Hispanic | Other |
+|------------|-------:|-------------:|---------:|------:|
+| **Totals** |  1,678 |        1,377 |      296 |     5 |
+| **Male**   |    931 |          923 |        8 |     0 |
+| **Female** |    740 |          452 |      283 |     5 |
+| **Other**  |      7 |            2 |        5 |     0 |
 
  
 
@@ -119,23 +119,23 @@ The cascade follows this order:
 > can recover any masked cell. At convergence, the table is safe to
 > release.
 
-|            |  Totals |    Male |  Female |  Other |
-|------------|--------:|--------:|--------:|-------:|
-| **Totals** |   1,678 |   1,377 | **RSC** | **PC** |
-| **Male**   |     931 | **RSC** |  **PC** |      0 |
-| **Female** | **CSC** | **CSC** |     283 | **PC** |
-| **Other**  |  **PC** |  **PC** |  **PC** |      0 |
+|            |  Totals | Not Hispanic | Hispanic |  Other |
+|------------|--------:|-------------:|---------:|-------:|
+| **Totals** |   1,678 |        1,377 |  **RSC** | **PC** |
+| **Male**   |     931 |      **RSC** |   **PC** |      0 |
+| **Female** | **CSC** |      **CSC** |      283 | **PC** |
+| **Other**  |  **PC** |       **PC** |   **PC** |      0 |
 
  
 
 ### Masked version (threshold = 11)
 
-|            |    Totals |      Male |    Female |    Other |
-|------------|----------:|----------:|----------:|---------:|
-| **Totals** |     1,678 |     1,377 | **\<300** | **\<11** |
-| **Male**   |       931 | **\<930** |  **\<11** |        0 |
-| **Female** | **\<750** | **\<460** |       283 | **\<11** |
-| **Other**  |  **\<11** |  **\<11** |  **\<11** |        0 |
+|            |    Totals | Not Hispanic |  Hispanic |    Other |
+|------------|----------:|-------------:|----------:|---------:|
+| **Totals** |     1,678 |        1,377 | **\<300** | **\<11** |
+| **Male**   |       931 |    **\<930** |  **\<11** |        0 |
+| **Female** | **\<750** |    **\<460** |       283 | **\<11** |
+| **Other**  |  **\<11** |     **\<11** |  **\<11** |        0 |
 
  
 
