@@ -99,12 +99,12 @@ across institutional data sharing pipelines.
 
 ### Original (Sex × Ethnicity)
 
-|            | Totals |  Male | Female | Other |
-|------------|-------:|------:|-------:|------:|
-| **Totals** |  1,678 | 1,377 |    296 |     5 |
-| **Male**   |    931 |   923 |      8 |     0 |
-| **Female** |    740 |   452 |    283 |     5 |
-| **Other**  |      7 |     2 |      5 |     0 |
+|            | Totals | Not Hispanic | Hispanic | Other |
+|------------|-------:|-------------:|---------:|------:|
+| **Totals** |  1,678 |        1,377 |      296 |     5 |
+| **Male**   |    931 |          923 |        8 |     0 |
+| **Female** |    740 |          452 |      283 |     5 |
+| **Other**  |      7 |            2 |        5 |     0 |
 
  
 
@@ -136,7 +136,7 @@ The cascade follows this order:
 > can recover any masked cell. At convergence, the table is safe to
 > release.
 
-|  | Totals | Male | Female | Other |
+|  | Totals | Not Hispanic | Hispanic | Other |
 |----|---:|---:|---:|---:|
 | **Totals** | 1,678 | 1,377 | <span style="color:purple">**RSC**</span> | <span style="color:red">**PC**</span> |
 | **Male** | 931 | <span style="color:purple">**RSC**</span> | <span style="color:red">**PC**</span> | 0 |
@@ -147,7 +147,7 @@ The cascade follows this order:
 
 ### Masked version (threshold = 11)
 
-|  | Totals | Male | Female | Other |
+|  | Totals | Not Hispanic | Hispanic | Other |
 |----|---:|---:|---:|---:|
 | **Totals** | 1,678 | 1,377 | <span style="color:purple">**\<300**</span> | <span style="color:red">**\<11**</span> |
 | **Male** | 931 | <span style="color:purple">**\<930**</span> | <span style="color:red">**\<11**</span> | 0 |

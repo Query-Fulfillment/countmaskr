@@ -70,7 +70,7 @@ In any aggregated tabular output — whether produced for a formal research publ
 
 ### Original (Sex × Ethnicity)
 
-|            | Totals | Male  | Female | Other |
+|            | Totals | Not Hispanic  | Hispanic | Other |
 | ---------- | -----: | ----: | -----: | ----: |
 | **Totals** | 1,678  | 1,377 | 296    | 5     |
 | **Male**   | 931    | 923   | 8      | 0     |
@@ -91,7 +91,7 @@ In two-dimensional tables, suppression propagates iteratively across rows and co
 
 > The newly suppressed RSC is itself now a masked value that may be recoverable via column arithmetic, requiring a further CSC. Steps 3–4 repeat — alternating between row-wise and column-wise checks — until no remaining combination of visible values and suppressed upper bounds can recover any masked cell. At convergence, the table is safe to release.
 
-|            | Totals | Male | Female | Other |
+|            | Totals | Not Hispanic | Hispanic | Other |
 | ---------- | -----: | ---: | -----: | ----: |
 | **Totals** | 1,678 | 1,377 | <span style="color:purple">**RSC**</span> | <span style="color:red">**PC**</span> |
 | **Male**   | 931 | <span style="color:purple">**RSC**</span> | <span style="color:red">**PC**</span> | 0 |
@@ -103,7 +103,7 @@ In two-dimensional tables, suppression propagates iteratively across rows and co
 
 ### Masked version (threshold = 11)
 
-|            | Totals | Male | Female | Other |
+|            | Totals | Not Hispanic | Hispanic | Other |
 | ---------- | -----: | ---: | -----: | ----: |
 | **Totals** | 1,678 | 1,377 | <span style="color:purple">**\<300**</span> | <span style="color:red">**\<11**</span> |
 | **Male**   | 931 | <span style="color:purple">**\<930**</span> | <span style="color:red">**\<11**</span> | 0 |
